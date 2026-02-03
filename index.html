@@ -3,21 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <title>Lorcana Proxy Card Generator</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-    }
-    pre {
-      max-height: 80vh;
-      overflow: auto;
-      background: #f4f4f4;
-      padding: 12px;
-      border: 1px solid #ccc;
-    }
+    
   </style>
 </head>
 <body>
   <h1>Lorcana Card Tool</h1>
+  
+<h2>Add Cards</h2>
+
+<input
+  id="cardSearch"
+  type="text"
+  placeholder="Search for a card..."
+  autocomplete="off"
+/>
+
+<div id="searchResults"></div>
+
+<h2>Selected Cards</h2>
+<div id="selectedCards"></div>
+
+  <script>
+let cards = [];
+const selected = new Map();
+
+fetch("cards.json")
+  .then(r => r.json())
+  .then(data => {
+    cards = data;
+  });
+
+const searchInput = document.getElementById("cardSearch");
+const resultsDiv = document.getElementById("searchResults");
+const selectedDiv = document.getElementById("selectedCards");
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase();
+  resultsDiv.innerHTML = "";
+
+  if (!query) return;
+
+  cards
+    .filter(c =>
+      `${c.name} - ${c.version}`.toLowerCase().includes(query)
+    )
+    .slice(0, 20)
+    .forEach(card => {
+      const div = document.createElement("div");
+      div.textContent = `${card.name} - ${card.version}`;
+      div.onclick = () => addCard(card);
+      resultsDiv.appendChild(div);
+    });
+});
+
+function addCard(card) {
+  const key = `${card.name} - ${card.version}`;
+
+  if (selected.has(key)) {
+    selected.set(key, selected.get(key) + 1);
+  } else {
+    selected.set(key, 1);
+  }
+
+  renderSelected();
+  resultsDiv.innerHTML = "";
+  searchInput.value = "";
+}
+
+function renderSelected() {
+  selectedDiv.innerHTML = "";
+
+  for (const [key, qty] of selected.entries()) {
+    const row = document.createElement("div");
+    row.className = "selected-card";
+
+    const name = document.createElement("span");
+    name.textContent = key;
+
+    const minus = document.createElement("button");
+    minus.textContent = "−";
+    minus.className = "circle-btn";
+    minus.onclick = () => updateQty(key, qty - 1);
+
+    const input = document.createElement("input");
+    input.type = "number";
+    input.min = "0";
+    input.value = qty;
+    input.className = "qty-input";
+    input.onchange = () =>
+      updateQty(key, parseInt(input.value || 0, 10));
+
+    const plus = document.createElement("button");
+    plus.textContent = "+";
+    plus.className = "circle-btn";
+    plus.onclick = () => updateQty(key, qty + 1);
+
+    row.append(name, minus, input, plus);
+    selectedDiv.appendChild(row);
+  }
+}
+
+function updateQty(key, qty) {
+  if (qty <= 0) {
+    selected.delete(key);
+  } else {
+    selected.set(key, qty);
+  }
+  renderSelected();
+}
+</script>
+  
 <!--
   <p>Loaded contents of <code>cards.json</code>:</p>
 
@@ -39,6 +136,9 @@
       });
   </script>
 -->
+
+  
 </body>
 </html>
+
 
