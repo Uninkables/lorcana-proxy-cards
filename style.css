@@ -48,3 +48,25 @@ pre {
   width: 20px;
   text-align: center;
 }
+
+#searchResults {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+#searchResults div {
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+#searchResults div:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+#searchResults div:hover {
+  background: #f2f2f2;
+}
