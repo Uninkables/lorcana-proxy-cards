@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Lorcana Proxy Card Generator</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+    }
+    pre {
+      max-height: 80vh;
+      overflow: auto;
+      background: #f4f4f4;
+      padding: 12px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lorcana Card Tool</h1>
+
+  <p>Loaded contents of <code>cards.json</code>:</p>
+
+  <pre id="output">Loading...</pre>
+
+  <script>
+    fetch("cards.json")
+      .then(res => {
+        if (!res.ok) throw new Error("cards.json not found");
+        return res.json();
+      })
+      .then(cards => {
+        document.getElementById("output").textContent =
+          JSON.stringify(cards, null, 2);
+      })
+      .catch(err => {
+        document.getElementById("output").textContent =
+          "Error: " + err.message;
+      });
+  </script>
+</body>
+</html>
