@@ -11,7 +11,7 @@ pre {
 }
 
 #cardSearch {
-  width: 40%;
+  width: 30%;
   padding: 8px;
   font-size: 16px;
   margin-bottom: 8px;
@@ -46,7 +46,7 @@ pre {
   overflow-y: auto;
   background: #fff;
   position: absolute;
-  width: 75%;
+  width: 30%;
   z-index: 10;
 }
 
