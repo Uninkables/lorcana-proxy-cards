@@ -1,42 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Lorcana Proxy Card Generator</title>
+  <title>Lorcana Tool</title>
   <style>
     body {
       font-family: system-ui, sans-serif;
-    }
-    pre {
-      max-height: 80vh;
-      overflow: auto;
-      background: #f4f4f4;
-      padding: 12px;
-      border: 1px solid #ccc;
+      padding: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Lorcana Card Tool</h1>
 
-  <p>Loaded contents of <code>cards.json</code>:</p>
+<h1>Lorcana Card Tool</h1>
+<p>If you can read this, GitHub Pages is working.</p>
 
-  <pre id="output">Loading...</pre>
+<script>
+  console.log("JavaScript is running");
+</script>
 
-  <script>
-    fetch("cards.json")
-      .then(res => {
-        if (!res.ok) throw new Error("cards.json not found");
-        return res.json();
-      })
-      .then(cards => {
-        document.getElementById("output").textContent =
-          JSON.stringify(cards, null, 2);
-      })
-      .catch(err => {
-        document.getElementById("output").textContent =
-          "Error: " + err.message;
-      });
-  </script>
 </body>
 </html>
