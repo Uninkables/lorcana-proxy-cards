@@ -1,0 +1,38 @@
+#cardSearch {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+#searchResults div {
+  padding: 6px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+#searchResults div:hover {
+  background: #f0f0f0;
+}
+
+.selected-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.circle-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  background: #fff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.qty-input {
+  width: 40px;
+  text-align: center;
+}
