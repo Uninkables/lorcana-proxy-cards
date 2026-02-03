@@ -55,6 +55,9 @@ pre {
   max-height: 240px;
   overflow-y: auto;
   background: #fff;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
 }
 
 #searchResults div {
@@ -69,4 +72,8 @@ pre {
 
 #searchResults div:hover {
   background: #f2f2f2;
+}
+
+#searchResults:empty {
+  display: none;
 }
