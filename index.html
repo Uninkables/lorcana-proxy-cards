@@ -49,14 +49,23 @@ searchInput.addEventListener("input", () => {
     .slice(0, 20)
     .forEach(card => {
       const div = document.createElement("div");
-      div.textContent = `${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
+
+      const img = document.createElement("img");
+      img.src = card.image_uris.digital.small;
+      img.alt = `${card.name} - ${card.version}`;
+      
+      const label = document.createElement("span");
+      label.textContent = `${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
+      
+      div.append(img, label);
+      
       div.onclick = () => addCard(card);
       resultsDiv.appendChild(div);
     });
 });
 
 function addCard(card) {
-  const key = `${card.name} - ${card.version}`;
+  const key = `${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
 
   if (selected.has(key)) {
     selected.set(key, selected.get(key) + 1);
@@ -137,6 +146,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
