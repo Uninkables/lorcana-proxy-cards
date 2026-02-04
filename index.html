@@ -55,9 +55,9 @@ searchInput.addEventListener("input", () => {
       img.alt = `${card.name} - ${card.version}`;
       
       const label = document.createElement("span");
-      label.textContent = `${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
+      label.textContent = `</br>${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
       
-      div.append(img,`<br>`,label);
+      div.append(img,label);
       
       div.onclick = () => addCard(card);
       resultsDiv.appendChild(div);
@@ -146,6 +146,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
