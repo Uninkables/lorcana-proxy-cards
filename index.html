@@ -55,7 +55,7 @@ searchInput.addEventListener("input", () => {
       img.alt = `${card.name} - ${card.version}`;
       
       const label = document.createElement("span");
-      label.textContent = `\n${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
+      label.textContent = `\n\n${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
       
       div.append(img,label);
       
@@ -146,6 +146,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
