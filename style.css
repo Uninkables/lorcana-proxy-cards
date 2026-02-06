@@ -121,3 +121,11 @@ pre {
   display: flex;
   flex-direction: column;
 }
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
