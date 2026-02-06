@@ -102,6 +102,7 @@ pre {
   object-fit: cover;      /* THIS crops the image */
   object-position: top;   /* crops bottom off */
   border-radius: 4px;
+  transform: scale(1.2);
 }
 
 .card-info {
