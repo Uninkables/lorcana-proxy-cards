@@ -60,7 +60,7 @@ showHighRarityCheckbox.addEventListener("change", () => {
       
       const showHighRarity = showHighRarityCheckbox.checked;
   
-      if (!showHighRarity && isFilteredRarity) return false;
+      if (!showHighRarity && isBlocked) return false;
   
       return matchesSearch;
     })
@@ -180,6 +180,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
