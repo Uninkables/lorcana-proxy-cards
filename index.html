@@ -99,12 +99,12 @@ showHighRarityCheckbox.addEventListener("change", () => {
 });
 
 function addCard(card) {
-  const key = `${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
+  const key = card.id;
 
   if (selected.has(key)) {
-    selected.set(key, selected.get(key) + 1);
+    selected.get(key).quantity += 1;
   } else {
-    selected.set(key, 1);
+    selected.set(key, { card, quantity: 1 });
   }
 
   renderSelected();
@@ -115,71 +115,79 @@ function addCard(card) {
 function renderSelected() {
   selectedDiv.innerHTML = "";
 
-  for (const [key, qty] of selected.entries()) {
+  for (const [key, data] of selected.entries()) {
+    const { card, quantity } = data;
+
     const row = document.createElement("div");
     row.className = "selected-card";
 
-    const name = document.createElement("span");
-    name.textContent = key;
+    // Thumbnail
+    const thumbWrapper = document.createElement("div");
+    thumbWrapper.className = "thumb-wrapper";
+
+    const img = document.createElement("img");
+    img.src = card.image_uris.digital.small;
+    img.className = "search-thumb";
+
+    thumbWrapper.appendChild(img);
+
+    // Info
+    const info = document.createElement("div");
+    info.className = "card-info";
+
+    const title = document.createElement("div");
+    title.className = "card-title";
+    title.textContent = `${card.name} - ${card.version}`;
+
+    const sub = document.createElement("div");
+    sub.className = "card-sub";
+    sub.textContent = `${card.collector_number}/204 EN·${card.set.code}`;
+
+    info.append(title, sub);
+
+    // Quantity controls
+    const qtyWrapper = document.createElement("div");
+    qtyWrapper.className = "quantity-wrapper";
 
     const minus = document.createElement("button");
     minus.textContent = "−";
-    minus.className = "circle-btn";
-    minus.onclick = () => updateQty(key, qty - 1);
+    minus.className = "qty-btn";
+    minus.onclick = () => updateQty(key, quantity - 1);
 
     const input = document.createElement("input");
     input.type = "number";
     input.min = "0";
-    input.value = qty;
-    input.className = "qty-input";
+    input.value = quantity;
+    input.className = "quantity-input";
     input.onchange = () =>
       updateQty(key, parseInt(input.value || 0, 10));
 
     const plus = document.createElement("button");
     plus.textContent = "+";
-    plus.className = "circle-btn";
-    plus.onclick = () => updateQty(key, qty + 1);
+    plus.className = "qty-btn";
+    plus.onclick = () => updateQty(key, quantity + 1);
 
-    row.append(name, minus, input, plus);
+    qtyWrapper.append(minus, input, plus);
+
+    row.append(thumbWrapper, info, qtyWrapper);
     selectedDiv.appendChild(row);
   }
 }
 
-function updateQty(key, qty) {
-  if (qty <= 0) {
+function updateQty(key, newQty) {
+  if (newQty <= 0) {
     selected.delete(key);
   } else {
-    selected.set(key, qty);
+    selected.get(key).quantity = newQty;
   }
+
   renderSelected();
 }
-</script>
   
-<!--
-  <p>Loaded contents of <code>cards.json</code>:</p>
-
-  <pre id="output">Loading...</pre>
-
-  <script>
-    fetch("cards.json")
-      .then(res => {
-        if (!res.ok) throw new Error("cards.json not found");
-        return res.json();
-      })
-      .then(cards => {
-        document.getElementById("output").textContent =
-          JSON.stringify(cards, null, 2);
-      })
-      .catch(err => {
-        document.getElementById("output").textContent =
-          "Error: " + err.message;
-      });
-  </script>
--->
-
-  
+</script>  
 </body>
 </html>
+
 
 
 
