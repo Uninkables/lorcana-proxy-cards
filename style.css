@@ -122,8 +122,14 @@ pre {
   flex-direction: column;
 }
 
+.search-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .rarity-toggle {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
