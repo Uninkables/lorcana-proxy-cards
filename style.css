@@ -35,7 +35,7 @@ pre {
   background: #fff;
   cursor: pointer;
   font-weight: bold;
-  padding: 2px;
+  margin: 2px;
 }
 
 .qty-input {
