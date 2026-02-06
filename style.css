@@ -37,6 +37,7 @@ pre {
 .qty-input {
   width: 35px;
   text-align: center;
+  -moz-appearance: textfield;
 }
 
 .qty-input::-webkit-outer-spin-button,
