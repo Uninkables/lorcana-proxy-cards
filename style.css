@@ -175,3 +175,10 @@ pre {
 .rarity-toggle input:checked + .slider::before {
   transform: translateX(18px);
 }
+
+#printSheetBtn {
+  margin-top: 15px;
+  padding: 8px 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
