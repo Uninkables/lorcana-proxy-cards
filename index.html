@@ -22,7 +22,7 @@
 <h2>Selected Cards</h2>
 <div id="selectedCards"></div>
 
-  <script>
+<script>
 let cards = [];
 const selected = new Map();
 
@@ -49,17 +49,29 @@ searchInput.addEventListener("input", () => {
     .slice(0, 20)
     .forEach(card => {
       const div = document.createElement("div");
-
+      div.className = "search-result";
+    
       const img = document.createElement("img");
       img.src = card.image_uris.digital.small;
       img.alt = `${card.name} - ${card.version}`;
-      
-      const label = document.createElement("span");
-      label.textContent = `\n\n${card.name} - ${card.version} (${card.collector_number}/204 EN·${card.set.code})`;
-      
-      div.append(img,label);
-      
+      img.className = "search-thumb";
+    
+      const info = document.createElement("div");
+      info.className = "card-info";
+    
+      const title = document.createElement("div");
+      title.className = "card-title";
+      title.textContent = `${card.name} - ${card.version}`;
+    
+      const sub = document.createElement("div");
+      sub.className = "card-sub";
+      sub.textContent = `${card.collector_number}/204 EN·${card.set.code}`;
+    
+      info.append(title, sub);
+      div.append(img, info);
+    
       div.onclick = () => addCard(card);
+    
       resultsDiv.appendChild(div);
     });
 });
@@ -146,6 +158,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
