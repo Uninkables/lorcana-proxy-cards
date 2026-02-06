@@ -122,62 +122,55 @@ pre {
   flex-direction: column;
 }
 
-.checkbox-apple {
+/* The switch - the box around the slider */
+.switch {
+  font-size: 17px;
   position: relative;
-  width: 50px;
-  height: 25px;
-  margin: 20px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  display: inline-block;
+  width: 3.5em;
+  height: 2em;
 }
 
-.checkbox-apple label {
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 25px;
-  border-radius: 50px;
-  background: linear-gradient(to bottom, #b3b3b3, #e6e6e6);
   cursor: pointer;
-  transition: all 0.3s ease;
+  inset: 0;
+  background: #9fccfa;
+  border-radius: 50px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.checkbox-apple label:after {
-  content: '';
+.slider:before {
   position: absolute;
-  top: 1px;
-  left: 1px;
-  width: 23px;
-  height: 23px;
-  border-radius: 50%;
-  background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
+  content: "";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2em;
+  width: 2em;
+  inset: 0;
+  background-color: white;
+  border-radius: 50px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.checkbox-apple input[type="checkbox"]:checked + label {
-  background: linear-gradient(to bottom, #4cd964, #5de24e);
+.switch input:checked + .slider {
+  background: #0974f1;
 }
 
-.checkbox-apple input[type="checkbox"]:checked + label:after {
-  transform: translateX(25px);
+.switch input:focus + .slider {
+  box-shadow: 0 0 1px #0974f1;
 }
 
-.checkbox-apple label:hover {
-  background: linear-gradient(to bottom, #b3b3b3, #e6e6e6);
-}
-
-.checkbox-apple label:hover:after {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.yep {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 25px;
+.switch input:checked + .slider:before {
+  transform: translateX(1.6em);
 }
