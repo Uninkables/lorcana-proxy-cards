@@ -10,10 +10,10 @@
   
 <h2>Search Cards to Add</h2>
 
-<label class="switch">
-  <input type="checkbox" id="showHighRarity" />
+<label class="rarity-toggle">
+  <span>Show Epic & Enchanted</span>
+  <input type="checkbox" id="showHighRarity">
   <span class="slider"></span>
-  Show Epics & Enchanteds
 </label>
   
 <input
@@ -47,7 +47,7 @@ searchInput.addEventListener("input", () => {
   const query = searchInput.value.toLowerCase();
   resultsDiv.innerHTML = "";
 
-hideHighRarityCheckbox.addEventListener("change", () => {
+showHighRarityCheckbox.addEventListener("change", () => {
   searchInput.dispatchEvent(new Event("input"));
 });
   
@@ -57,13 +57,13 @@ hideHighRarityCheckbox.addEventListener("change", () => {
     .filter(c => {
       const matchesSearch =
         `${c.name} - ${c.version}`.toLowerCase().includes(query);
+
+      const blockedRarities = ["Epic", "Enchanted"];
+      const isBlocked = blockedRarities.includes(c.rarity);
+      
+      const showHighRarity = showHighRarityCheckbox.checked;
   
-      const hideHighRarity = hideHighRarityCheckbox.checked;
-  
-      const isFilteredRarity =
-        c.rarity === "Epic" || c.rarity === "Enchanted";
-  
-      if (hideHighRarity && isFilteredRarity) return true;
+      if (!showHighRarity && isFilteredRarity) return false;
   
       return matchesSearch;
     })
@@ -183,6 +183,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
