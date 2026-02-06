@@ -11,7 +11,7 @@
 <h2>Search Cards to Add</h2>
 
 <label class="switch">
-  <input type="checkbox" id="hideHighRarity" />
+  <input type="checkbox" id="showHighRarity" />
   <span class="slider"></span>
 </label>
   
@@ -40,7 +40,7 @@ fetch("cards.json")
 const searchInput = document.getElementById("cardSearch");
 const resultsDiv = document.getElementById("searchResults");
 const selectedDiv = document.getElementById("selectedCards");
-const hideHighRarityCheckbox = document.getElementById("hideHighRarity");
+const hideHighRarityCheckbox = document.getElementById("showHighRarity");
 
 searchInput.addEventListener("input", () => {
   const query = searchInput.value.toLowerCase();
@@ -62,7 +62,7 @@ hideHighRarityCheckbox.addEventListener("change", () => {
       const isFilteredRarity =
         c.rarity === "Epic" || c.rarity === "Enchanted";
   
-      if (hideHighRarity && isFilteredRarity) return false;
+      if (hideHighRarity && isFilteredRarity) return true;
   
       return matchesSearch;
     })
@@ -182,6 +182,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
