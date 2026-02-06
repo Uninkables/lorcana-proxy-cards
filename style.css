@@ -96,7 +96,7 @@ pre {
 }
 
 .thumb-wrapper {
-  width: 50px;
+  width: 36px;
   height: 50px;
   overflow: hidden;
   border-radius: 4px;
@@ -108,7 +108,6 @@ pre {
   height: 100%;
   object-fit: cover;
   object-position: top;
-  transform: scale(1.1);
 }
 
 .card-info {
