@@ -24,6 +24,7 @@ pre {
   width: 35%;
   gap: 10px;
   padding: 8px 10px;
+  border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 }
 
