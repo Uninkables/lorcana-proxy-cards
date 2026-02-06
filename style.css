@@ -70,14 +70,6 @@ pre {
   display: none;
 }
 
-#searchResults img {
-  width: 40px;
-  height: 56px;
-  object-fit: cover;
-  object-position: center top;
-  border-radius: 4px;
-}
-
 .search-result {
   display: flex;
   align-items: center;
@@ -93,14 +85,6 @@ pre {
 
 .search-result:hover {
   background: #f2f2f2;
-}
-
-.search-result img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  object-position: top;
-  border-radius: 4px;
 }
 
 .card-title {
