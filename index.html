@@ -10,18 +10,15 @@
   
 <h2>Search Cards to Add</h2>
 
-<label class="rarity-toggle">
-  <input type="checkbox" id="showHighRarity">
-  <span class="slider"></span>
-  <span class="toggle-text">Show Epic & Enchanted</span>
-</label>
-  
-<input
-  id="cardSearch"
-  type="text"
-  placeholder="Search for a card..."
-  autocomplete="off"
-/>
+<div class="search-controls">
+  <label class="rarity-toggle">
+    <input type="checkbox" id="showHighRarity">
+    <span class="slider"></span>
+    <span class="toggle-text">Show Epic & Enchanted</span>
+  </label>
+
+  <input type="text" id="searchInput" placeholder="Search for card..." />
+</div>
 
 <div id="searchResults"></div>
 
@@ -183,6 +180,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
