@@ -262,15 +262,9 @@ async function generatePrintSheet() {
         const x = startX + col * cardWidth;
         const y = startY + row * cardHeight;
         
-        console.log(card.image_uris.digital.normal);
-        
         try {
-          const imgData = await loadImageAsDataURL(
-            card.image_uris.digital.normal
-          );
-
           doc.addImage(
-            imgData,
+            card.image_uris.digital.normal,
             "JPEG",
             x,
             y,
@@ -304,8 +298,3 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
-
-
-
-
-
