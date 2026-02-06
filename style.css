@@ -122,15 +122,18 @@ pre {
   flex-direction: column;
 }
 
-.filter-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
+.checkbox-apple {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  margin: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.filter-toggle label {
+.checkbox-apple label {
   position: absolute;
   top: 0;
   left: 0;
@@ -142,7 +145,7 @@ pre {
   transition: all 0.3s ease;
 }
 
-.filter-toggle label:after {
+.checkbox-apple label:after {
   content: '';
   position: absolute;
   top: 1px;
@@ -155,23 +158,23 @@ pre {
   transition: all 0.3s ease;
 }
 
-.filter-toggle input[type="checkbox"]:checked + label {
+.checkbox-apple input[type="checkbox"]:checked + label {
   background: linear-gradient(to bottom, #4cd964, #5de24e);
 }
 
-.filter-toggle input[type="checkbox"]:checked + label:after {
+.checkbox-apple input[type="checkbox"]:checked + label:after {
   transform: translateX(25px);
 }
 
-.filter-toggle label:hover {
+.checkbox-apple label:hover {
   background: linear-gradient(to bottom, #b3b3b3, #e6e6e6);
 }
 
-.filter-toggle label:hover:after {
+.checkbox-apple label:hover:after {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.toggleCheck {
+.yep {
   position: absolute;
   top: 0;
   left: 0;
