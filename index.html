@@ -184,10 +184,83 @@ function updateQty(key, newQty) {
 
   renderSelected();
 }
-  
+
+document.getElementById("printSheetBtn")
+  .addEventListener("click", generatePrintSheet);
+
+function generatePrintSheet() {
+  // Expand cards by quantity
+  const expandedCards = [];
+
+  for (const { card, quantity } of selected.values()) {
+    for (let i = 0; i < quantity; i++) {
+      expandedCards.push(card);
+    }
+  }
+
+  if (expandedCards.length === 0) {
+    alert("No cards selected.");
+    return;
+  }
+
+  const printWindow = window.open("", "_blank");
+
+  printWindow.document.write(`
+    <html>
+    <head>
+      <title>Print Sheet</title>
+      <style>
+        @page {
+          size: 8.5in 11in;
+          margin: 0.5in;
+        }
+
+        body {
+          margin: 0;
+          padding: 0;
+        }
+
+        .page {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+
+        .card {
+          width: 100%;
+        }
+
+        .card img {
+          width: 100%;
+          height: auto;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="page">
+        ${expandedCards.map(card => `
+          <div class="card">
+            <img src="${card.image_uris.digital.normal}">
+          </div>
+        `).join("")}
+      </div>
+
+      <script>
+        window.onload = function() {
+          window.print();
+        }
+      </script>
+    </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+}
+
 </script>  
 </body>
 </html>
+
 
 
 
