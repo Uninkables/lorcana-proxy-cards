@@ -46,11 +46,10 @@ pre {
   overflow-y: auto;
   background: #fff;
   position: absolute;
-  width: 30%;
+  width: 100%;
   z-index: 10;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
 }
 
 #searchResults div {
@@ -77,4 +76,21 @@ pre {
   object-fit: cover;
   object-position: center top;
   border-radius: 4px;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.search-result:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+.search-result:hover {
+  background: #f2f2f2;
 }
