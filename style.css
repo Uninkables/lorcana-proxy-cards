@@ -42,7 +42,7 @@ pre {
 #searchResults {
   border: 1px solid #ccc;
   border-radius: 6px;
-  max-height: 240px;
+  max-height: 50%;
   overflow-y: auto;
   background: #fff;
   position: absolute;
