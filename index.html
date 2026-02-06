@@ -68,7 +68,11 @@ searchInput.addEventListener("input", () => {
       sub.textContent = `${card.collector_number}/204 EN·${card.set.code}`;
     
       info.append(title, sub);
-      div.append(img, info);
+      const thumbWrapper = document.createElement("div");
+      thumbWrapper.className = "thumb-wrapper";
+      thumbWrapper.appendChild(img);
+      
+      div.append(thumbWrapper, info);
     
       div.onclick = () => addCard(card);
     
@@ -158,6 +162,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
