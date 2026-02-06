@@ -152,7 +152,7 @@ function renderSelected() {
 
     const minus = document.createElement("button");
     minus.textContent = "−";
-    minus.className = "qty-btn";
+    minus.className = "circle-btn";
     minus.onclick = () => updateQty(key, quantity - 1);
 
     const input = document.createElement("input");
@@ -165,7 +165,7 @@ function renderSelected() {
 
     const plus = document.createElement("button");
     plus.textContent = "+";
-    plus.className = "qty-btn";
+    plus.className = "circle-btn";
     plus.onclick = () => updateQty(key, quantity + 1);
 
     qtyWrapper.append(minus, input, plus);
@@ -188,6 +188,7 @@ function updateQty(key, newQty) {
 </script>  
 </body>
 </html>
+
 
 
 
