@@ -261,7 +261,9 @@ async function generatePrintSheet() {
 
         const x = startX + col * cardWidth;
         const y = startY + row * cardHeight;
-
+        
+        console.log(card.image_uris.digital.normal);
+        
         try {
           const imgData = await loadImageAsDataURL(
             card.image_uris.digital.normal
@@ -287,30 +289,22 @@ async function generatePrintSheet() {
   doc.save("card-sheet.pdf");
 }
 
-function loadImageAsDataURL(url) {
+async function loadImageAsDataURL(url) {
+  const response = await fetch(url);
+  const blob = await response.blob();
+
   return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-
-      resolve(canvas.toDataURL("image/jpeg"));
-    };
-
-    img.onerror = reject;
-    img.src = url;
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
   });
 }
   
 </script>  
 </body>
 </html>
+
 
 
 
