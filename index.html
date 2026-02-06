@@ -247,18 +247,10 @@ function generatePrintSheet() {
   printWindow.document.close();
 
   printWindow.onload = function () {
-    printWindow.print();
+    setTimeout(() => printWindow.print(), 250);
   };
 }
 
 </script>  
 </body>
 </html>
-
-
-
-
-
-
-
-
