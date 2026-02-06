@@ -38,7 +38,7 @@ fetch("cards.json")
 const searchInput = document.getElementById("cardSearch");
 const resultsDiv = document.getElementById("searchResults");
 const selectedDiv = document.getElementById("selectedCards");
-const hideHighRarityCheckbox = document.getElementById("showHighRarity");
+const showHighRarityCheckbox = document.getElementById("showHighRarity");
 
 searchInput.addEventListener("input", () => {
   const query = searchInput.value.toLowerCase();
@@ -180,6 +180,7 @@ function updateQty(key, qty) {
   
 </body>
 </html>
+
 
 
 
