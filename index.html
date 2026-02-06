@@ -189,7 +189,6 @@ document.getElementById("printSheetBtn")
   .addEventListener("click", generatePrintSheet);
 
 function generatePrintSheet() {
-  // Expand cards by quantity
   const expandedCards = [];
 
   for (const { card, quantity } of selected.values()) {
@@ -205,7 +204,7 @@ function generatePrintSheet() {
 
   const printWindow = window.open("", "_blank");
 
-  printWindow.document.write(`
+  const htmlContent = `
     <html>
     <head>
       <title>Print Sheet</title>
@@ -226,10 +225,6 @@ function generatePrintSheet() {
           gap: 10px;
         }
 
-        .card {
-          width: 100%;
-        }
-
         .card img {
           width: 100%;
           height: auto;
@@ -244,22 +239,22 @@ function generatePrintSheet() {
           </div>
         `).join("")}
       </div>
-
-      <script>
-        window.onload = function() {
-          window.print();
-        }
-      </script>
     </body>
     </html>
-  `);
+  `;
 
+  printWindow.document.write(htmlContent);
   printWindow.document.close();
+
+  printWindow.onload = function () {
+    printWindow.print();
+  };
 }
 
 </script>  
 </body>
 </html>
+
 
 
 
