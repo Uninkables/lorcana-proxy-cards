@@ -176,7 +176,7 @@ pre {
   transform: translateX(18px);
 }
 
-#printSheetBtn {
+.btnPrimary {
   margin-top: 15px;
   padding: 8px 14px;
   font-weight: bold;
