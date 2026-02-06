@@ -26,6 +26,8 @@
 <button class="btnPrimary" id="printSheetBtn">Generate Sheet</button>
 <div id="selectedCards"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
 <script>
 let cards = [];
 const selected = new Map();
@@ -188,7 +190,9 @@ function updateQty(key, newQty) {
 document.getElementById("printSheetBtn")
   .addEventListener("click", generatePrintSheet);
 
-function generatePrintSheet() {
+async function generatePrintSheet() {
+  const { jsPDF } = window.jspdf;
+
   const expandedCards = [];
 
   for (const { card, quantity } of selected.values()) {
@@ -202,55 +206,64 @@ function generatePrintSheet() {
     return;
   }
 
-  const printWindow = window.open("", "_blank");
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "in",
+    format: "letter"
+  });
 
-  const htmlContent = `
-    <html>
-    <head>
-      <title>Print Sheet</title>
-      <style>
-        @page {
-          size: 8.5in 11in;
-          margin: 0.5in;
+  const pageWidth = 8.5;
+  const pageHeight = 11;
+
+  const margin = 0.5;
+  const usableWidth = pageWidth - margin * 2;
+  const usableHeight = pageHeight - margin * 2;
+
+  const cols = 3;
+  const rows = 3;
+
+  const cellWidth = usableWidth / cols;
+  const cellHeight = usableHeight / rows;
+
+  let cardIndex = 0;
+
+  // Always render full 3x3 grid
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+
+      const x = margin + col * cellWidth;
+      const y = margin + row * cellHeight;
+
+      // Draw black border cell
+      doc.rect(x, y, cellWidth, cellHeight);
+
+      if (cardIndex < expandedCards.length) {
+        const card = expandedCards[cardIndex];
+
+        try {
+          const imgData = await loadImageAsDataURL(card.image_uris.digital.normal);
+
+          doc.addImage(
+            imgData,
+            "JPEG",
+            x + 0.05,
+            y + 0.05,
+            cellWidth - 0.1,
+            cellHeight - 0.1
+          );
+        } catch (e) {
+          console.error("Image failed to load:", e);
         }
 
-        body {
-          margin: 0;
-          padding: 0;
-        }
+        cardIndex++;
+      }
+    }
+  }
 
-        .page {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 10px;
-        }
-
-        .card img {
-          width: 100%;
-          height: auto;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="page">
-        ${expandedCards.map(card => `
-          <div class="card">
-            <img src="${card.image_uris.digital.normal}">
-          </div>
-        `).join("")}
-      </div>
-    </body>
-    </html>
-  `;
-
-  printWindow.document.write(htmlContent);
-  printWindow.document.close();
-
-  printWindow.onload = function () {
-    setTimeout(() => printWindow.print(), 250);
-  };
+  doc.save("card-sheet.pdf");
 }
 
 </script>  
 </body>
 </html>
+
