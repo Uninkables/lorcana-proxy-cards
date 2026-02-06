@@ -147,7 +147,7 @@ function renderSelected() {
 
     // Quantity controls
     const qtyWrapper = document.createElement("div");
-    qtyWrapper.className = "quantity-wrapper";
+    qtyWrapper.className = "qty-wrapper";
 
     const minus = document.createElement("button");
     minus.textContent = "−";
@@ -158,7 +158,7 @@ function renderSelected() {
     input.type = "number";
     input.min = "0";
     input.value = quantity;
-    input.className = "quantity-input";
+    input.className = "qty-input";
     input.onchange = () =>
       updateQty(key, parseInt(input.value || 0, 10));
 
@@ -187,15 +187,3 @@ function updateQty(key, newQty) {
 </script>  
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
