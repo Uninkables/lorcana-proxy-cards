@@ -20,8 +20,10 @@ pre {
 .selected-card {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
 }
 
 .circle-btn {
