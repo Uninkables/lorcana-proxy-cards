@@ -263,8 +263,14 @@ async function generatePrintSheet() {
         const y = startY + row * cardHeight;
         
         try {
+          const proxiedUrl =
+            "https://lorcana-image-proxy.jtb2854.workers.dev/?url=" +
+            encodeURIComponent(card.image_uris.digital.large);
+        
+          const imgData = await loadImageAsDataURL(proxiedUrl);
+        
           doc.addImage(
-            card.image_uris.digital.normal,
+            imgData,
             "JPEG",
             x,
             y,
@@ -274,7 +280,6 @@ async function generatePrintSheet() {
         } catch (e) {
           console.error("Image failed:", e);
         }
-
         cardIndex++;
       }
     }
