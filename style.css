@@ -198,7 +198,14 @@ pre {
   font-family: 'Brandon Grotesque Condensed';
   src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
   font-weight: normal;
-  font-style: normal;
+  font-style: bold;
+}
+
+@font-face {
+  font-family: 'Brandon Grotesque Condensed';
+  src: url('fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf') format('opentype');
+  font-weight: normal;
+  font-style: bold italic;
 }
 
 @font-face {
@@ -213,4 +220,33 @@ pre {
   src: url('fonts/AvenirNextCyr-BoldItalic.ttf') format('truetype');
   font-weight: normal;
   font-style: bold italic;
+}
+
+#name {
+  font-family: 'The Bystander Collection';
+}
+
+#version {
+  font-family: 'Brandon Grotesque Condensed';
+  font-style: bold;
+}
+
+#ink-color-test {
+  font-family: 'Avenir Next Cyr';
+  font-style: bold italic;
+}
+
+#classifications {
+  font-family: 'Brandon Grotesque Condensed';
+  font-style: bold italic;
+}
+
+#artist {
+  font-family: 'Avenir Next Cyr';
+  font-style: bold;
+}
+
+#card-and-set-text {
+  font-family: 'Avenir Next Cyr';
+  font-style: bold;
 }
