@@ -186,3 +186,31 @@ pre {
   cursor: pointer;
   margin-bottom: 0.83em;
 }
+
+@font-face {
+  font-family: 'The Bystander Collection';
+  src: url('fonts/BystanderSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Brandon Grotesque Condensed';
+  src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next Cyr';
+  src: url('fonts/AvenirNextCyr-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: bold;
+}
+
+@font-face {
+  font-family: 'Avenir Next Cyr';
+  src: url('fonts/AvenirNextCyr-BoldItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: bold italic;
+}
