@@ -196,53 +196,51 @@ pre {
 @font-face {
   font-family: 'Brandon Grotesque Condensed';
   src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
-  font-style: bold;
+  font-weight: bold;
 }
 
 @font-face {
   font-family: 'Brandon Grotesque Condensed';
   src: url('fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf') format('opentype');
-  font-style: bold italic;
+  font-weight: bold;
+  font-style: italic;
 }
 
 @font-face {
   font-family: 'Avenir Next Cyr';
   src: url('fonts/AvenirNextCyr-Bold.ttf') format('truetype');
-  font-style: bold;
+  font-weight: bold;
 }
 
 @font-face {
   font-family: 'Avenir Next Cyr';
   src: url('fonts/AvenirNextCyr-BoldItalic.ttf') format('truetype');
-  font-style: bold italic;
+  font-weight: bold;
+  font-style: italic;
 }
 
 #name {
   font-family: 'The Bystander Collection';
-  font-style: bold;
 }
 
 #version {
   font-family: 'Brandon Grotesque Condensed';
-  font-style: bold;
 }
 
 #ink-color-test {
   font-family: 'Avenir Next Cyr';
-  font-style: bold italic;
+  font-style: italic;
 }
 
 #classifications {
   font-family: 'Brandon Grotesque Condensed';
-  font-style: bold italic;
+  font-style: italic;
 }
 
 #artist {
   font-family: 'Avenir Next Cyr';
-  font-style: bold;
 }
 
 #card-and-set-text {
   font-family: 'Avenir Next Cyr';
-  font-style: bold;
 }
