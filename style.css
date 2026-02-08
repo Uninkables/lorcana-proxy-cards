@@ -190,7 +190,6 @@ pre {
 @font-face {
   font-family: 'The Bystander Collection';
   src: url('fonts/BystanderSans-Bold.ttf') format('truetype');
-  font-weight: normal;
   font-style: bold;
 }
 
@@ -203,21 +202,18 @@ pre {
 @font-face {
   font-family: 'Brandon Grotesque Condensed';
   src: url('fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf') format('opentype');
-  font-weight: normal;
   font-style: bold italic;
 }
 
 @font-face {
   font-family: 'Avenir Next Cyr';
   src: url('fonts/AvenirNextCyr-Bold.ttf') format('truetype');
-  font-weight: normal;
   font-style: bold;
 }
 
 @font-face {
   font-family: 'Avenir Next Cyr';
   src: url('fonts/AvenirNextCyr-BoldItalic.ttf') format('truetype');
-  font-weight: normal;
   font-style: bold italic;
 }
 
