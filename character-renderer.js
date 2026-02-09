@@ -23,6 +23,9 @@ async function loadCard(cardData) {
 function updateCharacterCard(svgDoc, card) {
   const get = (id) => svgDoc.getElementById(id);
 
+  console.log("Updating: ", card.name);
+  console.log("Name element: ", get("name"));
+  
   // -----------------------------
   // TEXT
   // -----------------------------
