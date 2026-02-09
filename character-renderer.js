@@ -112,17 +112,17 @@ function updateCharacterCard(svgRoot, card) {
 const testCard = {
   name: "Ariel",
   version: "On Human Legs",
-  ink: "Amber",
-  cost: 4,
+  ink: "Amethyst",
+  cost: 10,
   inkwell: true,
-  strength: 3,
-  willpower: 4,
+  strength: 10,
+  willpower: 10,
   rarity: "Uncommon",
   classifications: ["Storyborn", "Hero", "Princess"],
   illustrators: ["Matthew Robert Davies"],
-  collector_number: "1",
+  collector_number: "104",
   lang: "en",
-  set: { code: "1" }
+  set: { code: "11" }
 };
 
 loadCard(testCard);
