@@ -15,16 +15,18 @@ async function loadCard(cardData) {
   const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
 
   const svgElement = svgDoc.documentElement;
-  document.getElementById("card-container").appendChild(svgElement);
 
-  updateCharacterCard(svgDoc, cardData);
+  document.getElementById("card-container")
+    .appendChild(svgElement);
+
+  updateCharacterCard(svgElement, cardData);
 }
 
-function updateCharacterCard(svgDoc, card) {
-  const get = (id) => svgDoc.getElementById(id);
+function updateCharacterCard(svgRoot, card) {
+  const get = (id) => svgRoot.querySelector(`#${id}`);
 
-  console.log("Updating: ", card.name);
-  console.log("Name element: ", get("name"));
+  console.log("Updating v2: ", card.name);
+  console.log("Name element v2: ", get("name"));
   
   // -----------------------------
   // TEXT
