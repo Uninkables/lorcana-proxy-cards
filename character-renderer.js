@@ -142,8 +142,17 @@ function updateCharacterCard(svgRoot, card) {
     const textEl = svgRoot.querySelector("#card-text");
     if (!textEl) return;
   
-    textEl.textContent = "HELLO WORLD";
-
+    const rulesText = card.text || "";
+    const flavorText = card.flavor_text || "";
+  
+    let combinedText = rulesText;
+  
+    if (flavorText) {
+      combinedText += "\n\n" + flavorText;
+    }
+  
+    textEl.textContent = combinedText;
+  
     const bbox = textEl.getBBox();
     const y = parseFloat(textEl.getAttribute("y"));
     textEl.setAttribute("y", y + bbox.height);
@@ -207,10 +216,12 @@ const testCard = {
   lore: 2,
   rarity: "Uncommon",
   classifications: ["Storyborn", "Hero", "Princess"],
+  text: "VOICELESS This character can't {E} to sing songs.",
+  flavor_text: "\"...\"",
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "2" }
+  set: { code: "1" }
 };
 
 loadCard(testCard);
