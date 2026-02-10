@@ -85,21 +85,25 @@ function updateCharacterCard(svgRoot, card) {
   // RARITY
   // -----------------------------
 
-  const rarityIds = [
-    "rarity-common",
-    "rarity-uncommon",
-    "rarity-rare",
-    "rarity-superrare",
-    "rarity-legendary"
-  ];
-
+  const rarityMap = {
+  Common: "rarity-common",
+  Uncommon: "rarity-uncommon",
+  Rare: "rarity-rare",
+  Super_Rare: "rarity-superrare",
+  Legendary: "rarity-legendary"
+  };
+  
+  const rarityIds = Object.values(rarityMap);
+  
+  // Hide all first
   rarityIds.forEach(id => {
     const el = get(id);
     if (el) el.style.display = "none";
   });
-
-  if (card.rarity) {
-    const rarityId = `rarity-${card.rarity.toLowerCase()}`;
+  
+  // Show correct one
+  const rarityId = rarityMap[card.rarity];
+  if (rarityId) {
     const el = get(rarityId);
     if (el) el.style.display = "inline";
   }
