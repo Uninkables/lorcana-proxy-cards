@@ -86,11 +86,11 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
 
   const rarityMap = {
-  Common: "rarity-common",
-  Uncommon: "rarity-uncommon",
-  Rare: "rarity-rare",
+  "Common": "rarity-common",
+  "Uncommon": "rarity-uncommon",
+  "Rare": "rarity-rare",
   "Super Rare": "rarity-superrare",
-  Legendary: "rarity-legendary"
+  "Legendary": "rarity-legendary"
   };
   
   const rarityIds = Object.values(rarityMap);
