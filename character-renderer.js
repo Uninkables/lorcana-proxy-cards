@@ -138,9 +138,9 @@ const testCard = {
   rarity: "Uncommon",
   classifications: ["Storyborn", "Hero", "Princess"],
   illustrators: ["Matthew Robert Davies"],
-  collector_number: "101",
+  collector_number: "1",
   lang: "en",
-  set: { code: "11" }
+  set: { code: "1" }
 };
 
 loadCard(testCard);
