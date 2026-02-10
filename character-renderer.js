@@ -7,6 +7,16 @@ const inkColors = {
   Steel: "#cfd5ddff"
 };
 
+async function loadSymbols() {
+  const response = await fetch("symbols.svg");
+  const svgText = await response.text();
+
+  const parser = new DOMParser();
+  const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+
+  document.body.appendChild(svgDoc.documentElement);
+}
+
 async function loadCard(cardData) {
   const response = await fetch("CharacterFrame.svg");
   const svgText = await response.text();
@@ -48,6 +58,12 @@ function updateCharacterCard(svgRoot, card) {
     + `/204`
     + ` · ${card.lang?.toUpperCase() || "EN"}`
     + ` · ${card.set?.code || "1"}`;
+
+  // -----------------------------
+  // RULES + FLAVOR TEXT (RAW)
+  // -----------------------------
+  
+  renderCardText(svgRoot, card);
 
   // -----------------------------
   // INK COLOR
@@ -120,6 +136,89 @@ function updateCharacterCard(svgRoot, card) {
   
     el.style.display = (i === loreValue) ? "inline" : "none";
   }
+
+  // -----------------------------
+  // RULES + FLAVOR TEXT
+  // -----------------------------
+
+  function renderCardText(svgRoot, card) {
+    const textEl = svgRoot.querySelector("#rules-text");
+    if (!textEl) return;
+  
+    // Clear existing content
+    textEl.innerHTML = "";
+  
+    const rules = card.text || "";
+    const flavor = card.flavor_text || "";
+  
+    let combinedText = rules;
+  
+    if (flavor) {
+      combinedText += "\n———\n" + flavor;
+    }
+  
+    // Replace literal \n with real newlines
+    combinedText = combinedText.replace(/\\n/g, "\n");
+  
+    const lines = combinedText.split("\n");
+  
+    let dy = 0;
+  
+    lines.forEach((line, index) => {
+      const tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+  
+      tspan.setAttribute("x", textEl.getAttribute("x"));
+      tspan.setAttribute("dy", index === 0 ? "0" : "1.2em");
+  
+      processLineWithSymbols(tspan, line, svgRoot);
+  
+      textEl.appendChild(tspan);
+    });
+  
+    autoScaleText(textEl, svgRoot, 0.26); // 160px height limit (adjust to your box)
+  }
+
+  function processLineWithSymbols(tspan, line, svgRoot) {
+    const symbolMap = {
+      "{E}": "#symbol-exert",
+      "{IW}": "#symbol-inkwell",
+      "{I}": "#symbol-ink",
+      "{L}": "#symbol-lore",
+      "{S}": "#symbol-strength",
+      "{W}": "#symbol-willpower"
+    };
+
+    const parts = line.split(/(\{[^}]+\})/g);
+
+    parts.forEach(part => {
+      if (symbolMap[part]) {
+        const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+        use.setAttributeNS("http://www.w3.org/1999/xlink", "href", symbolMap[part]);
+        use.setAttribute("width", "16");
+        use.setAttribute("height", "16");
+        use.setAttribute("y", "-3"); // adjust baseline alignment
+        tspan.appendChild(use);
+      } else {
+        tspan.appendChild(document.createTextNode(part));
+      }
+    });
+  }
+
+  function autoScaleText(textEl, svgRoot, percentage) {
+    const viewBox = svgRoot.viewBox.baseVal;
+    const maxHeight = viewBox.height * percentage;
+  
+    let fontSize = 18;
+    textEl.setAttribute("font-size", fontSize);
+  
+    requestAnimationFrame(() => {
+      while (textEl.getBBox().height > maxHeight && fontSize > 8) {
+        fontSize -= 0.5;
+        textEl.setAttribute("font-size", fontSize);
+      }
+    });
+  }
+  
 }
 
 // -----------------------------
