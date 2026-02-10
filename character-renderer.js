@@ -140,7 +140,7 @@ function updateCharacterCard(svgRoot, card) {
 
   function renderCardText(svgRoot, card) {
     const textEl = svgRoot.querySelector("#card-text");
-    textEl.textContent = "TEXT TEST";
+    console.log("card-text element:", textEl);
     
     if (!textEl) return;
   
