@@ -89,7 +89,7 @@ function updateCharacterCard(svgRoot, card) {
   "Common": "rarity-common",
   "Uncommon": "rarity-uncommon",
   "Rare": "rarity-rare",
-  "Super Rare": "rarity-superrare",
+  "Super_rare": "rarity-superrare",
   "Legendary": "rarity-legendary"
   };
   
@@ -140,7 +140,7 @@ const testCard = {
   illustrators: ["Idk, Probably Holly"],
   collector_number: "205",
   lang: "en",
-  set: { code: "12" }
+  set: { code: "11" }
 };
 
 loadCard(testCard);
