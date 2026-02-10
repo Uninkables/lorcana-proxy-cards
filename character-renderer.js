@@ -123,20 +123,20 @@ function updateCharacterCard(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-  name: "Ariel",
-  version: "On Human Legs",
-  ink: "Amethyst",
-  cost: 10,
-  inkwell: false,
-  strength: 10,
-  willpower: 10,
-  lore: 5,
+  name: "Chris",
+  version: "ElitistScrub",
+  ink: "Sapphire",
+  cost: 4,
+  inkwell: true,
+  strength: 3,
+  willpower: 6,
+  lore: 2,
   rarity: "Legendary",
-  classifications: ["Storyborn", "Hero", "Princess"],
-  illustrators: ["Matthew Robert Davies"],
-  collector_number: "104",
+  classifications: ["Storyborn", "Villain", "Prince"],
+  illustrators: ["Idk, Probably Holly"],
+  collector_number: "205",
   lang: "en",
-  set: { code: "11" }
+  set: { code: "12" }
 };
 
 loadCard(testCard);
