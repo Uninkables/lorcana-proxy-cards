@@ -134,7 +134,7 @@ const testCard = {
   inkwell: true,
   strength: 3,
   willpower: 4,
-  lore: 4,
+  lore: 2,
   rarity: "Uncommon",
   classifications: ["Storyborn", "Hero", "Princess"],
   illustrators: ["Matthew Robert Davies"],
