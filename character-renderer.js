@@ -137,47 +137,18 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
   // RULES + FLAVOR TEXT
   // -----------------------------
-/*
+
   function renderCardText(svgRoot, card) {
     const textEl = svgRoot.querySelector("#card-text");
-    textEl.textContent = "TEST TEXT";
-    
     if (!textEl) return;
   
-    // Clear existing content
-    textEl.innerHTML = "";
-  
-    const rules = card.text || "";
-    const flavor = card.flavor_text || "";
-  
-    let combinedText = rules;
-  
-    if (flavor) {
-      combinedText += "\n———\n" + flavor;
-    }
-  
-    // Replace literal \n with real newlines
-    combinedText = combinedText.replace(/\\n/g, "\n");
-  
-    const lines = combinedText.split("\n");
-  
-    let dy = 0;
-  
-    lines.forEach((line, index) => {
-      const tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
-  
-      tspan.setAttribute("x", textEl.getAttribute("x"));
-      tspan.setAttribute("dy", index === 0 ? "0" : "1.2em");
-  
-      processLineWithSymbols(tspan, line, svgRoot);
-  
-      textEl.appendChild(tspan);
-    });
-  
-    autoScaleText(textEl, svgRoot, 0.26); // 160px height limit (adjust to your box)
-  }
-  */
+    textEl.textContent = "HELLO WORLD";
 
+    const bbox = textEl.getBBox();
+    const y = parseFloat(textEl.getAttribute("y"));
+    textEl.setAttribute("y", y - bbox.height);
+  }
+  
   function processLineWithSymbols(tspan, line, svgRoot) {
     const symbolMap = {
       "{E}": "#symbol-exert",
@@ -218,13 +189,6 @@ function updateCharacterCard(svgRoot, card) {
       }
     });
   }
-
-  function renderCardText(svgRoot, card) {
-    const textEl = svgRoot.querySelector("#card-text");
-    if (!textEl) return;
-  
-    textEl.textContent = "HELLO WORLD";
-  }
   
 }
 
@@ -246,7 +210,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "2" }
+  set: { code: "1" }
 };
 
 loadCard(testCard);
