@@ -8,7 +8,7 @@ const inkColors = {
 };
 
 async function loadCard(cardData) {
-  const response = await fetch("CharacterFrame_Test.svg");
+  const response = await fetch("CharacterFrame.svg");
   const svgText = await response.text();
 
   const parser = new DOMParser();
