@@ -103,6 +103,19 @@ function updateCharacterCard(svgRoot, card) {
     const el = get(rarityId);
     if (el) el.style.display = "inline";
   }
+
+  // -----------------------------
+  // LORE
+  // -----------------------------
+  
+  const loreValue = Number(card.lore) || 0;
+
+  for (let i = 1; i <= 5; i++) {
+    const el = get(`lore-${i}`);
+    if (!el) continue;
+  
+    el.style.display = (i === loreValue) ? "inline" : "none";
+  }
 }
 
 // -----------------------------
@@ -117,6 +130,7 @@ const testCard = {
   inkwell: false,
   strength: 10,
   willpower: 10,
+  lore: 2,
   rarity: "Legendary",
   classifications: ["Storyborn", "Hero", "Princess"],
   illustrators: ["Matthew Robert Davies"],
