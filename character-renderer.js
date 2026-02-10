@@ -143,6 +143,8 @@ function updateCharacterCard(svgRoot, card) {
 
   function renderCardText(svgRoot, card) {
     const textEl = svgRoot.querySelector("#rules-text");
+    textEl.textContent = "TEXT TEST";
+    /*
     if (!textEl) return;
   
     // Clear existing content
@@ -176,6 +178,7 @@ function updateCharacterCard(svgRoot, card) {
     });
   
     autoScaleText(textEl, svgRoot, 0.26); // 160px height limit (adjust to your box)
+    */
   }
 
   function processLineWithSymbols(tspan, line, svgRoot) {
@@ -239,7 +242,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "1" }
+  set: { code: "2" }
 };
 
 loadCard(testCard);
