@@ -34,9 +34,6 @@ async function loadCard(cardData) {
 
 function updateCharacterCard(svgRoot, card) {
   const get = (id) => svgRoot.querySelector(`#${id}`);
-
-  console.log("Updating v2: ", card.name);
-  console.log("Name element v2: ", get("name"));
   
   // -----------------------------
   // TEXT
@@ -142,8 +139,8 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
 
   function renderCardText(svgRoot, card) {
-    const textEl = svgRoot.querySelector("#rules-text");
-    //textEl.textContent = "TEXT TEST";
+    const textEl = svgRoot.querySelector("#card-text");
+    textEl.textContent = "TEXT TEST";
     
     if (!textEl) return;
   
@@ -241,7 +238,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "1" }
+  set: { code: "2" }
 };
 
 loadCard(testCard);
