@@ -129,7 +129,7 @@ function updateCharacterCard(svgRoot, card) {
 const testCard = {
   name: "Sam Berube",
   version: "Former JKG Employee",
-  ink: "Sapphire",
+  ink: "Emerald",
   cost: 7,
   inkwell: true,
   strength: 6,
