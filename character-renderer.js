@@ -127,20 +127,20 @@ function updateCharacterCard(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-  name: "Chris",
-  version: "ElitistScrub",
+  name: "Sam Berube",
+  version: "Former JKG Employee",
   ink: "Sapphire",
-  cost: 4,
+  cost: 7,
   inkwell: true,
-  strength: 3,
-  willpower: 6,
-  lore: 2,
+  strength: 6,
+  willpower: 7,
+  lore: 3,
   rarity: "Super_rare",
-  classifications: ["Storyborn", "Villain", "Prince"],
-  illustrators: ["Idk, Probably Holly"],
-  collector_number: "205",
+  classifications: ["Storyborn", "Fairy", "Illusion", "Inventor"],
+  illustrators: ["His Mom"],
+  collector_number: "67",
   lang: "en",
-  set: { code: "12" }
+  set: { code: "67" }
 };
 
 loadCard(testCard);
