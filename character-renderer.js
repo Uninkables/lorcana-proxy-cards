@@ -137,7 +137,7 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
   // RULES + FLAVOR TEXT
   // -----------------------------
-
+/*
   function renderCardText(svgRoot, card) {
     const textEl = svgRoot.querySelector("#card-text");
     textEl.textContent = "TEST TEXT";
@@ -176,6 +176,7 @@ function updateCharacterCard(svgRoot, card) {
   
     autoScaleText(textEl, svgRoot, 0.26); // 160px height limit (adjust to your box)
   }
+  */
 
   function processLineWithSymbols(tspan, line, svgRoot) {
     const symbolMap = {
@@ -217,6 +218,13 @@ function updateCharacterCard(svgRoot, card) {
       }
     });
   }
+
+  function renderCardText(svgRoot, card) {
+    const textEl = svgRoot.querySelector("#card-text");
+    if (!textEl) return;
+  
+    textEl.textContent = "HELLO WORLD";
+  }
   
 }
 
@@ -238,7 +246,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "1" }
+  set: { code: "2" }
 };
 
 loadCard(testCard);
