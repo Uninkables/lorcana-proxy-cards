@@ -9,8 +9,33 @@
    id="svg1"
    xml:space="preserve"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><defs
-     id="defs1"><style
+   xmlns:svg="http://www.w3.org/2000/svg">
+      <defs>
+      <symbol id="symbol-exert" viewBox="0 0 24 24">
+         <!-- exert art -->
+      </symbol>
+
+      <symbol id="symbol-ink" viewBox="0 0 24 24">
+      <!-- exert art -->
+      </symbol>
+
+      <symbol id="symbol-inkwell" viewBox="0 0 24 24">
+      <!-- exert art -->
+      </symbol>
+
+      <symbol id="symbol-strength" viewBox="0 0 24 24">
+      <!-- exert art -->
+      </symbol>
+
+      <symbol id="symbol-willpower" viewBox="0 0 24 24">
+      <!-- exert art -->
+      </symbol>
+
+      <symbol id="symbol-lore" viewBox="0 0 24 24">
+      <!-- exert art -->
+      </symbol>
+         
+      <style
        id="style1">
       .cls-1 {
         stroke-width: 0px;
