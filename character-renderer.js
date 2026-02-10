@@ -140,7 +140,7 @@ const testCard = {
   illustrators: ["Idk, Probably Holly"],
   collector_number: "205",
   lang: "en",
-  set: { code: "11" }
+  set: { code: "12" }
 };
 
 loadCard(testCard);
