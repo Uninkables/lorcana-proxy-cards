@@ -131,7 +131,7 @@ const testCard = {
   strength: 3,
   willpower: 6,
   lore: 2,
-  rarity: "super_rare",
+  rarity: "superrare",
   classifications: ["Storyborn", "Villain", "Prince"],
   illustrators: ["Idk, Probably Holly"],
   collector_number: "205",
