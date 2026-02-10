@@ -140,7 +140,7 @@ function updateCharacterCard(svgRoot, card) {
 
   function renderCardText(svgRoot, card) {
     const textEl = svgRoot.querySelector("#card-text");
-    console.log("card-text element:", textEl);
+    textEl.textContent = "TEST TEXT";
     
     if (!textEl) return;
   
@@ -238,7 +238,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "1" }
+  set: { code: "2" }
 };
 
 loadCard(testCard);
