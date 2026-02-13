@@ -139,24 +139,41 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
 
   function renderCardText(svgRoot, card) {
-    const textEl = svgRoot.querySelector("#card-text");
-    if (!textEl) return;
-  
-    const rulesText = card.text || "";
-    const flavorText = card.flavor_text || "";
-  
-    let combinedText = rulesText;
-  
-    if (flavorText) {
-      combinedText += "\n\n" + flavorText;
-    }
-  
-    textEl.textContent = combinedText;
-  
-    const bbox = textEl.getBBox();
-    const y = parseFloat(textEl.getAttribute("y"));
-    textEl.setAttribute("y", y + bbox.height);
+  const textEl = svgRoot.querySelector("#card-text");
+  if (!textEl) return;
+
+  const rulesText = card.text || "";
+  const flavorText = card.flavor_text || "";
+
+  let combinedText = rulesText;
+
+  if (flavorText) {
+    combinedText += "\n\n" + flavorText;
   }
+
+  // Clear existing content
+  textEl.textContent = "";
+
+  const lines = combinedText.split("\n");
+
+  const baseX = parseFloat(textEl.getAttribute("x"));
+  const baseY = parseFloat(textEl.getAttribute("y"));
+
+  const lineHeight = 1.2; // relative multiplier
+
+  lines.forEach((line, index) => {
+    const tspan = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "tspan"
+    );
+
+    tspan.setAttribute("x", baseX);
+    tspan.setAttribute("dy", index === 0 ? 0 : `${lineHeight}em`);
+    tspan.textContent = line;
+
+    textEl.appendChild(tspan);
+  });
+}
   
   function processLineWithSymbols(tspan, line, svgRoot) {
     const symbolMap = {
