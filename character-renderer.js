@@ -253,10 +253,10 @@ function updateCharacterCard(svgRoot, card) {
       );
 
       const lineHeight = lastRuleBox.height;
-      const dividerY = lastRuleBox.y + lineHeight * 1.2;
+      const dividerY = lastRuleBox.y + lineHeight * 1.25;
     
       divider.setAttribute("x1", areaBox.x );
-      divider.setAttribute("x2", areaBox.x + areaBox.width -1 );
+      divider.setAttribute("x2", areaBox.x + areaBox.width - 1 );
       divider.setAttribute("y1", dividerY);
       divider.setAttribute("y2", dividerY);
       divider.setAttribute("stroke", "#bbbbbb");
