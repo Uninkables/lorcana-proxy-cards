@@ -225,7 +225,7 @@ function updateCharacterCard(svgRoot, card) {
       );
   
       tspan.setAttribute("x", startX);
-      tspan.setAttribute("dy", "2em");
+      tspan.setAttribute("dy", ruleTspans.length > 0 && line === flavorLines[0] ? "1.6em" : "1.2em");
       tspan.textContent = line;
       tspan.setAttribute("font-style", "italic");
   
@@ -251,8 +251,9 @@ function updateCharacterCard(svgRoot, card) {
         "http://www.w3.org/2000/svg",
         "line"
       );
-    
-      const dividerY = lastRuleBox.y + lastRuleBox.height + 0.6;
+
+      const lineHeight = lastRuleBox.height;
+      const dividerY = lastRuleBox.y + lineHeight * 1.1;
     
       divider.setAttribute("x1", areaBox.x + 1);
       divider.setAttribute("x2", areaBox.x + areaBox.width - 1);
