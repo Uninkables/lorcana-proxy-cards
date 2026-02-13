@@ -209,8 +209,10 @@ function updateCharacterCard(svgRoot, card) {
   
     // Top-align correction
     const bbox = textEl.getBBox();
-    const originalY = parseFloat(textEl.getAttribute("y"));
-    textEl.setAttribute("y", originalY + bbox.height * 2);
+    const bbox = textEl.getBBox();
+    const delta = bbox.y - parseFloat(textEl.getAttribute("y"));
+
+    textEl.setAttribute("transform", `translate(0, ${-delta})`);
   }
   
   function processLineWithSymbols(tspan, line, svgRoot) {
