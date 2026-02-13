@@ -222,7 +222,7 @@ function updateCharacterCard(svgRoot, card) {
       // position later after centering
       line.setAttribute("data-divider-index", lineIndex);
 
-      textEl.appendChild(line);
+      textEl.parentNode.appendChild(line);
       lineIndex++;
     } else {
       const tspan = document.createElementNS(
