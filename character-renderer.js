@@ -258,6 +258,13 @@ function updateCharacterCard(svgRoot, card) {
 
     const ruleBox = lastRuleTspan.getBBox();
 
+    const y = ruleBox.y + ruleBox.height + 2;
+
+    line.setAttribute("x1", startX);
+    line.setAttribute("x2", startX + maxWidth);
+    line.setAttribute("y1", y);
+    line.setAttribute("y2", y);
+
     divider.setAttribute("y1", ruleBox.y + ruleBox.height + 2);
     divider.setAttribute("y2", ruleBox.y + ruleBox.height + 2);
   }
