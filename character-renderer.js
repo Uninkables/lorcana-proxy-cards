@@ -139,23 +139,78 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
 
   function renderCardText(svgRoot, card) {
+    const NS = "http://www.w3.org/2000/svg";
     const textEl = svgRoot.querySelector("#card-text");
     if (!textEl) return;
+  
+    // Clear previous content
+    while (textEl.firstChild) {
+      textEl.removeChild(textEl.firstChild);
+    }
   
     const rulesText = card.text || "";
     const flavorText = card.flavor_text || "";
   
     let combinedText = rulesText;
-  
     if (flavorText) {
       combinedText += "\n\n" + flavorText;
     }
   
-    textEl.textContent = combinedText;
+    const lines = combinedText.split("\n");
   
+    const baseX = parseFloat(textEl.getAttribute("x"));
+    let currentY = parseFloat(textEl.getAttribute("y"));
+  
+    const fontSize = parseFloat(
+      window.getComputedStyle(textEl).fontSize
+    );
+  
+    const lineHeight = fontSize * 1.2;
+  
+    lines.forEach((line, lineIndex) => {
+      let currentX = baseX;
+  
+      // Split line into text + symbols
+      const parts = line.split(/(\{.*?\})/g);
+  
+      parts.forEach(part => {
+        const symbolMatch = part.match(/^\{(.*?)\}$/);
+  
+        if (symbolMatch) {
+          // Symbol detected
+          const symbolId = "icon-" + symbolMatch[1];
+  
+          const use = document.createElementNS(NS, "use");
+          use.setAttribute("href", `#${symbolId}`);
+          use.setAttribute("x", currentX);
+          use.setAttribute("y", currentY - fontSize * 0.8);
+          use.setAttribute("height", fontSize);
+          use.setAttribute("width", fontSize);
+  
+          textEl.appendChild(use);
+  
+          currentX += fontSize;
+        } else if (part.length > 0) {
+          const tspan = document.createElementNS(NS, "tspan");
+          tspan.setAttribute("x", currentX);
+          tspan.setAttribute("y", currentY);
+          tspan.textContent = part;
+  
+          textEl.appendChild(tspan);
+  
+          // Temporarily append to measure width
+          const bbox = tspan.getBBox();
+          currentX += bbox.width;
+        }
+      });
+  
+      currentY += lineHeight;
+    });
+  
+    // Top-align correction
     const bbox = textEl.getBBox();
-    const y = parseFloat(textEl.getAttribute("y"));
-    textEl.setAttribute("y", y + bbox.height);
+    const originalY = parseFloat(textEl.getAttribute("y"));
+    textEl.setAttribute("y", originalY + bbox.height);
   }
   
   function processLineWithSymbols(tspan, line, svgRoot) {
@@ -221,7 +276,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "1" }
+  set: { code: "4" }
 };
 
 loadCard(testCard);
