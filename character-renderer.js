@@ -183,7 +183,7 @@ function updateCharacterCard(svgRoot, card) {
           const use = document.createElementNS(NS, "use");
           use.setAttribute("href", `#${symbolId}`);
           use.setAttribute("x", currentX);
-          use.setAttribute("y", currentY - fontSize * 0.8);
+          use.setAttribute("y", currentY + fontSize * 0.8);
           use.setAttribute("height", fontSize);
           use.setAttribute("width", fontSize);
   
