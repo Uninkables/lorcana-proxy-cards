@@ -139,43 +139,23 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
 
   function renderCardText(svgRoot, card) {
-    const NS = "http://www.w3.org/2000/svg";
     const textEl = svgRoot.querySelector("#card-text");
     if (!textEl) return;
-  
-    // Clear previous content
-    while (textEl.firstChild) {
-      textEl.removeChild(textEl.firstChild);
-    }
   
     const rulesText = card.text || "";
     const flavorText = card.flavor_text || "";
   
     let combinedText = rulesText;
+  
     if (flavorText) {
       combinedText += "\n\n" + flavorText;
     }
   
-    const lines = combinedText.split("\n");
+    textEl.textContent = combinedText;
   
-    const baseX = parseFloat(textEl.getAttribute("x"));
-    let currentY = parseFloat(textEl.getAttribute("y"));
-  
-    const fontSize = parseFloat(
-      window.getComputedStyle(textEl).fontSize
-    );
-  
-    const lineHeight = fontSize * 1.2;
-  
-    lines.forEach((line, lineIndex) => {
-      let currentX = baseX;
-      currentY += lineHeight;
-    });
-  
-    // Top-align correction
     const bbox = textEl.getBBox();
-    const originalY = parseFloat(textEl.getAttribute("y"));
-    textEl.setAttribute("y", originalY + bbox.height);
+    const y = parseFloat(textEl.getAttribute("y"));
+    textEl.setAttribute("y", y + bbox.height);
   }
   
   function processLineWithSymbols(tspan, line, svgRoot) {
@@ -193,7 +173,7 @@ function updateCharacterCard(svgRoot, card) {
     parts.forEach(part => {
       if (symbolMap[part]) {
         const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-        use.setAttributeNS("href", symbolMap[part]);
+        use.setAttributeNS("http://www.w3.org/1999/xlink", "href", symbolMap[part]);
         use.setAttribute("width", "16");
         use.setAttribute("height", "16");
         use.setAttribute("y", "-3"); // adjust baseline alignment
@@ -241,7 +221,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "3" }
+  set: { code: "1" }
 };
 
 loadCard(testCard);
