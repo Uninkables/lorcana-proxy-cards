@@ -9,17 +9,12 @@ const inkColors = {
 
 async function loadSymbols() {
   const response = await fetch("symbols.svg");
-  const text = await response.text();
+  const svgText = await response.text();
 
   const parser = new DOMParser();
-  const doc = parser.parseFromString(text, "image/svg+xml");
+  const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
 
-  const symbols = doc.querySelectorAll("symbol");
-  const defs = document.querySelector("#card svg defs");
-
-  symbols.forEach(symbol => {
-    defs.appendChild(symbol);
-  });
+  document.body.appendChild(svgDoc.documentElement);
 }
 
 async function loadCard(cardData) {
@@ -188,7 +183,7 @@ function updateCharacterCard(svgRoot, card) {
           const use = document.createElementNS(NS, "use");
           use.setAttribute("href", `#${symbolId}`);
           use.setAttribute("x", currentX);
-          use.setAttribute("y", currentY + fontSize);
+          use.setAttribute("y", currentY - fontSize * 0.8);
           use.setAttribute("height", fontSize);
           use.setAttribute("width", fontSize);
   
@@ -211,6 +206,11 @@ function updateCharacterCard(svgRoot, card) {
   
       currentY += lineHeight;
     });
+  
+    // Top-align correction
+    const bbox = textEl.getBBox();
+    const originalY = parseFloat(textEl.getAttribute("y"));
+    textEl.setAttribute("y", originalY + bbox.height);
   }
   
   function processLineWithSymbols(tspan, line, svgRoot) {
@@ -228,7 +228,7 @@ function updateCharacterCard(svgRoot, card) {
     parts.forEach(part => {
       if (symbolMap[part]) {
         const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-        use.setAttribute("href", symbolMap[part]);
+        use.setAttributeNS("http://www.w3.org/1999/xlink", "href", symbolMap[part]);
         use.setAttribute("width", "16");
         use.setAttribute("height", "16");
         use.setAttribute("y", "-3"); // adjust baseline alignment
@@ -271,15 +271,12 @@ const testCard = {
   lore: 2,
   rarity: "Uncommon",
   classifications: ["Storyborn", "Hero", "Princess"],
-  text: "Rush\nVOICELESS When you play this character, gain 1 lore.\n{E} — Deal 1 damage.",
-  flavor_text: "The fastest blade in the Inklands.",
+  text: "VOICELESS This character can't {E} to sing songs.",
+  flavor_text: "\"...\"",
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "2" }
+  set: { code: "4" }
 };
 
-(async () => {
-  await loadSymbols();
-  await loadCard(testCard);
-})();
+loadCard(testCard);
