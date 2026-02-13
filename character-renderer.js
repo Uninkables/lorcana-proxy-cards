@@ -169,41 +169,6 @@ function updateCharacterCard(svgRoot, card) {
   
     lines.forEach((line, lineIndex) => {
       let currentX = baseX;
-  
-      // Split line into text + symbols
-      const parts = line.split(/(\{.*?\})/g);
-  
-      parts.forEach(part => {
-        const symbolMatch = part.match(/^\{(.*?)\}$/);
-  
-        if (symbolMatch) {
-          // Symbol detected
-          const symbolId = "icon-" + symbolMatch[1];
-  
-          const use = document.createElementNS(NS, "use");
-          use.setAttribute("href", `#${symbolId}`);
-          use.setAttribute("x", currentX);
-          use.setAttribute("y", currentY - fontSize * 0.8);
-          use.setAttribute("height", fontSize);
-          use.setAttribute("width", fontSize);
-  
-          textEl.appendChild(use);
-  
-          currentX += fontSize;
-        } else if (part.length > 0) {
-          const tspan = document.createElementNS(NS, "tspan");
-          tspan.setAttribute("x", currentX);
-          tspan.setAttribute("y", currentY);
-          tspan.textContent = part;
-  
-          textEl.appendChild(tspan);
-  
-          // Temporarily append to measure width
-          const bbox = tspan.getBBox();
-          currentX += bbox.width;
-        }
-      });
-  
       currentY += lineHeight;
     });
   
@@ -228,7 +193,7 @@ function updateCharacterCard(svgRoot, card) {
     parts.forEach(part => {
       if (symbolMap[part]) {
         const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-        use.setAttributeNS("http://www.w3.org/1999/xlink", "href", symbolMap[part]);
+        use.setAttributeNS("href", symbolMap[part]);
         use.setAttribute("width", "16");
         use.setAttribute("height", "16");
         use.setAttribute("y", "-3"); // adjust baseline alignment
