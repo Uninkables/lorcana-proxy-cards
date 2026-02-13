@@ -193,7 +193,7 @@ function updateCharacterCard(svgRoot, card) {
         use.setAttributeNS("http://www.w3.org/1999/xlink", "href", symbolMap[part]);
         use.setAttribute("width", "16");
         use.setAttribute("height", "16");
-        use.setAttribute("y", "-3"); // adjust baseline alignment
+        use.setAttribute("y", "+3"); // adjust baseline alignment
         tspan.appendChild(use);
       } else {
         tspan.appendChild(document.createTextNode(part));
