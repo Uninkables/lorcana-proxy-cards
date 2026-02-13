@@ -245,7 +245,7 @@ const testCard = {
   lore: 2,
   rarity: "Uncommon",
   classifications: ["Storyborn", "Hero", "Princess"],
-  text: "VOICELESS This character can't {E} to sing songs.",
+  text: "Singer 5 (This character counts as cost 5 to sing songs.)\nMUSICAL DEBUT When you play this character, look at the top 4 cards of your deck. You may reveal a song card and put it into your hand. Put the rest on the bottom of your deck in any order.",
   flavor_text: "\"...\"",
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
