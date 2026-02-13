@@ -9,12 +9,17 @@ const inkColors = {
 
 async function loadSymbols() {
   const response = await fetch("symbols.svg");
-  const svgText = await response.text();
+  const text = await response.text();
 
   const parser = new DOMParser();
-  const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+  const doc = parser.parseFromString(text, "image/svg+xml");
 
-  document.body.appendChild(svgDoc.documentElement);
+  const symbols = doc.querySelectorAll("symbol");
+  const defs = document.querySelector("#card svg defs");
+
+  symbols.forEach(symbol => {
+    defs.appendChild(symbol);
+  });
 }
 
 async function loadCard(cardData) {
