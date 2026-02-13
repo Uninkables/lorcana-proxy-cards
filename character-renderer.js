@@ -257,7 +257,6 @@ function updateCharacterCard(svgRoot, card) {
       textEl.parentNode.insertBefore(divider, textEl.nextSibling);
     }
   }
-}
 
   // -----------------------------
   // Process Symbols
