@@ -155,10 +155,48 @@ function updateCharacterCard(svgRoot, card) {
     textEl.textContent = "";
   
     const areaBox = textArea.getBBox();
+    const maxWidth = areaBox.width;
     const startX = areaBox.x;
   
-    const lines = combinedText.split("\n");
+    const paragraphs = combinedText.split("\n");
   
+    let lines = [];
+  
+    paragraphs.forEach(paragraph => {
+      const words = paragraph.split(" ");
+      let currentLine = "";
+  
+      words.forEach(word => {
+        const testLine = currentLine
+          ? currentLine + " " + word
+          : word;
+  
+        const testTspan = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "tspan"
+        );
+  
+        testTspan.setAttribute("x", startX);
+        testTspan.textContent = testLine;
+  
+        textEl.appendChild(testTspan);
+  
+        const width = testTspan.getBBox().width;
+  
+        textEl.removeChild(testTspan);
+  
+        if (width > maxWidth && currentLine !== "") {
+          lines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = testLine;
+        }
+      });
+  
+      lines.push(currentLine);
+    });
+  
+    // Now render wrapped lines
     lines.forEach((line, index) => {
       const tspan = document.createElementNS(
         "http://www.w3.org/2000/svg",
@@ -172,20 +210,21 @@ function updateCharacterCard(svgRoot, card) {
       textEl.appendChild(tspan);
     });
   
-    // Temporarily anchor at top to measure
+    // Vertical centering
     textEl.setAttribute("x", startX);
     textEl.setAttribute("y", areaBox.y);
   
-    // Measure rendered height
     const textHeight = textEl.getBBox().height;
   
-    // Calculate centered top position
     const centeredTop =
       areaBox.y + (areaBox.height - textHeight) / 2;
   
-    // Because SVG y = baseline, we move baseline down by 1em
     textEl.setAttribute("y", centeredTop);
   }
+
+  // -----------------------------
+  // Process Symbols
+  // -----------------------------
   
   function processLineWithSymbols(tspan, line, svgRoot) {
     const symbolMap = {
@@ -212,6 +251,10 @@ function updateCharacterCard(svgRoot, card) {
       }
     });
   }
+
+  // -----------------------------
+  // Scale text to fit
+  // -----------------------------
 
   function autoScaleText(textEl, svgRoot, percentage) {
     const viewBox = svgRoot.viewBox.baseVal;
