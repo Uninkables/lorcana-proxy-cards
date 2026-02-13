@@ -208,11 +208,9 @@ function updateCharacterCard(svgRoot, card) {
     });
   
     // Top-align correction
-    const bbox = textEl.getBBox();
-    const bbox = textEl.getBBox();
-    const delta = bbox.y - parseFloat(textEl.getAttribute("y"));
-
-    textEl.setAttribute("transform", `translate(0, ${-delta})`);
+    //const bbox = textEl.getBBox();
+    //const delta = bbox.y - parseFloat(textEl.getAttribute("y"));
+    //textEl.setAttribute("transform", `translate(0, ${-delta})`);
   }
   
   function processLineWithSymbols(tspan, line, svgRoot) {
@@ -278,7 +276,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "2" }
+  set: { code: "3" }
 };
 
 loadCard(testCard);
