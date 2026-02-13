@@ -199,6 +199,8 @@ function updateCharacterCard(svgRoot, card) {
     const ruleLines = wrapText(rulesText);
     const flavorLines = flavorText ? wrapText(flavorText) : [];
   
+    const ruleTspans = [];
+  
     // ---- Render RULE text ----
     ruleLines.forEach((line, i) => {
       const tspan = document.createElementNS(
@@ -211,20 +213,11 @@ function updateCharacterCard(svgRoot, card) {
       tspan.textContent = line;
   
       textEl.appendChild(tspan);
+      ruleTspans.push(tspan);
     });
   
-    // ---- Divider Position (after rules only) ----
-    let dividerY = null;
-  
-    if (flavorLines.length > 0 && ruleLines.length > 0) {
-      const ruleTspans = textEl.querySelectorAll("tspan");
-      const lastRule = ruleTspans[ruleTspans.length - 1];
-      const ruleBox = lastRule.getBBox();
-      dividerY = ruleBox.y + ruleBox.height + 4;
-    }
-  
     // ---- Render FLAVOR text ----
-    flavorLines.forEach((line, i) => {
+    flavorLines.forEach((line) => {
       const tspan = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "tspan"
@@ -238,7 +231,7 @@ function updateCharacterCard(svgRoot, card) {
       textEl.appendChild(tspan);
     });
   
-    // ---- Center vertically ----
+    // ---- Vertical Center ----
     textEl.setAttribute("x", startX);
     textEl.setAttribute("y", areaBox.y);
   
@@ -248,8 +241,12 @@ function updateCharacterCard(svgRoot, card) {
   
     textEl.setAttribute("y", centeredTop);
   
-    // ---- Add divider AFTER centering ----
-    if (dividerY !== null) {
+    // ---- Divider (AFTER centering) ----
+    if (flavorLines.length > 0 && ruleTspans.length > 0) {
+      const lastRule = ruleTspans[ruleTspans.length - 1];
+      const ruleBox = lastRule.getBBox();
+      const dividerY = ruleBox.y + ruleBox.height + 4;
+  
       const divider = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "line"
@@ -257,16 +254,10 @@ function updateCharacterCard(svgRoot, card) {
   
       divider.classList.add("card-divider");
   
-      // Recalculate because centering changed y
-      const ruleTspans = textEl.querySelectorAll("tspan");
-      const lastRule = ruleTspans[ruleLines.length - 1];
-      const ruleBox = lastRule.getBBox();
-      const finalY = ruleBox.y + ruleBox.height + 4;
-  
       divider.setAttribute("x1", startX);
       divider.setAttribute("x2", startX + maxWidth);
-      divider.setAttribute("y1", finalY);
-      divider.setAttribute("y2", finalY);
+      divider.setAttribute("y1", dividerY);
+      divider.setAttribute("y2", dividerY);
       divider.setAttribute("stroke", "#cccccc");
       divider.setAttribute("stroke-width", "0.4");
   
@@ -345,7 +336,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "2" }
+  set: { code: "1" }
 };
 
 loadCard(testCard);
