@@ -276,5 +276,5 @@ const testCard = {
 
 (async () => {
   await loadSymbols();
-  await loadCharacterFrame();
+  await loadCard(testCard);
 })();
