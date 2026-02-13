@@ -244,9 +244,15 @@ function updateCharacterCard(svgRoot, card) {
   
     // ---- Divider (AFTER centering) ----
     if (flavorLines.length > 0 && ruleTspans.length > 0) {
-      const divider = document.createElementNS("http://www.w3.org/2000/svg", "line");
-
-      const dividerY = startY + (ruleLineCount * lineHeight) - (lineHeight * 0.3);
+      const lastRule = ruleTspans[ruleTspans.length - 1];
+      const lastRuleBox = lastRule.getBBox();
+    
+      const divider = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line"
+      );
+    
+      const dividerY = lastRuleBox.y + lastRuleBox.height + 0.6;
     
       divider.setAttribute("x1", areaBox.x + 1);
       divider.setAttribute("x2", areaBox.x + areaBox.width - 1);
@@ -254,6 +260,7 @@ function updateCharacterCard(svgRoot, card) {
       divider.setAttribute("y2", dividerY);
       divider.setAttribute("stroke", "#bbbbbb");
       divider.setAttribute("stroke-width", "0.4");
+      divider.classList.add("card-divider");
     
       textEl.parentNode.insertBefore(divider, textEl.nextSibling);
     }
