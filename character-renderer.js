@@ -153,6 +153,7 @@ function updateCharacterCard(svgRoot, card) {
     const areaBox = textArea.getBBox();
     const maxWidth = areaBox.width;
     const startX = areaBox.x;
+    const startY = areaBox.y;
   
     const rulesText = card.text || "";
     const flavorText = card.flavor_text || "";
