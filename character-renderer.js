@@ -8,7 +8,7 @@ const inkColors = {
 };
 
 async function loadSymbols() {
-  const response = await fetch("./symbols.svg");
+  const response = await fetch("symbols.svg");
   const svgText = await response.text();
 
   const parser = new DOMParser();
