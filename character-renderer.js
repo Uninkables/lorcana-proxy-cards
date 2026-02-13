@@ -274,5 +274,7 @@ const testCard = {
   set: { code: "1" }
 };
 
-await loadSymbols();
-await loadCard(testCard);
+(async () => {
+  await loadSymbols();
+  await loadCharacterFrame();
+})();
