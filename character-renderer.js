@@ -152,14 +152,10 @@ function updateCharacterCard(svgRoot, card) {
       combinedText += "\n\n" + flavorText;
     }
   
-    // Clear old content
     textEl.textContent = "";
   
-    // Get text area bounds
     const areaBox = textArea.getBBox();
-  
     const startX = areaBox.x;
-    const startY = areaBox.y;
   
     const lines = combinedText.split("\n");
   
@@ -176,9 +172,19 @@ function updateCharacterCard(svgRoot, card) {
       textEl.appendChild(tspan);
     });
   
-    // Position the whole text block
+    // Temporarily anchor at top to measure
     textEl.setAttribute("x", startX);
-    textEl.setAttribute("y", startY);
+    textEl.setAttribute("y", areaBox.y);
+  
+    // Measure rendered height
+    const textHeight = textEl.getBBox().height;
+  
+    // Calculate centered top position
+    const centeredTop =
+      areaBox.y + (areaBox.height - textHeight) / 2;
+  
+    // Because SVG y = baseline, we move baseline down by 1em
+    textEl.setAttribute("y", centeredTop);
   }
   
   function processLineWithSymbols(tspan, line, svgRoot) {
