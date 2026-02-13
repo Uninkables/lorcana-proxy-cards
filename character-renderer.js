@@ -210,7 +210,7 @@ function updateCharacterCard(svgRoot, card) {
     // Top-align correction
     const bbox = textEl.getBBox();
     const originalY = parseFloat(textEl.getAttribute("y"));
-    textEl.setAttribute("y", originalY + bbox.height);
+    textEl.setAttribute("y", originalY + bbox.height * 2);
   }
   
   function processLineWithSymbols(tspan, line, svgRoot) {
@@ -276,7 +276,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "3" }
+  set: { code: "2" }
 };
 
 loadCard(testCard);
