@@ -225,7 +225,7 @@ function updateCharacterCard(svgRoot, card) {
       );
   
       tspan.setAttribute("x", startX);
-      tspan.setAttribute("dy", "1.2em");
+      tspan.setAttribute("dy", "2em");
       tspan.textContent = line;
       tspan.setAttribute("font-style", "italic");
   
