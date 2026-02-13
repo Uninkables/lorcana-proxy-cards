@@ -253,26 +253,28 @@ function updateCharacterCard(svgRoot, card) {
       areaBox.y + (areaBox.height - textHeight) / 2;
   
     textEl.setAttribute("y", centeredTop);
-  
-    // Now position divider correctly
-    const tspans = textEl.querySelectorAll("tspan");
-    const divider = textEl.querySelector("line");
-  
-    if (divider) {
-      const lastRuleIndex = ruleLines.length - 1;
-      const lastRuleTspan = tspans[lastRuleIndex];
-  
-      const ruleBox = lastRuleTspan.getBBox();
-  
-      const y = ruleBox.y + ruleBox.height + 2;
-  
+
+    if (flavorLines.length > 0) {
+      const lineHeightEm = 1.2;
+      const fontSize = parseFloat(
+        window.getComputedStyle(textEl).fontSize
+      );
+    
+      const lineHeight = fontSize * lineHeightEm;
+    
+      const ruleLineCount = ruleLines.length;
+    
+      // Baseline of first line
+      const firstBaseline = centeredTop + fontSize;
+    
+      // Position after last rule line
+      const dividerY =
+        firstBaseline + (ruleLineCount - 1) * lineHeight + 4;
+    
       line.setAttribute("x1", startX);
       line.setAttribute("x2", startX + maxWidth);
-      line.setAttribute("y1", y);
-      line.setAttribute("y2", y);
-  
-      divider.setAttribute("y1", ruleBox.y + ruleBox.height + 2);
-      divider.setAttribute("y2", ruleBox.y + ruleBox.height + 2);
+      line.setAttribute("y1", dividerY);
+      line.setAttribute("y2", dividerY);
     }
 }
 
