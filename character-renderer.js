@@ -139,128 +139,140 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
 
   function renderCardText(svgRoot, card) {
-  const textEl = svgRoot.querySelector("#card-text");
-  const textArea = svgRoot.querySelector("#card-text-area");
-
-  if (!textEl || !textArea) return;
-
-  // Remove old divider if present
-  const oldDivider = svgRoot.querySelector(".card-divider");
-  if (oldDivider) oldDivider.remove();
-
-  textEl.textContent = "";
-
-  const areaBox = textArea.getBBox();
-  const maxWidth = areaBox.width;
-  const startX = areaBox.x;
-
-  const rulesText = card.text || "";
-  const flavorText = card.flavor_text || "";
-
-  function wrapText(text) {
-    const paragraphs = text.split("\n");
-    const wrapped = [];
-
-    paragraphs.forEach(paragraph => {
-      const words = paragraph.split(" ");
-      let currentLine = "";
-
-      words.forEach(word => {
-        const testLine = currentLine
-          ? currentLine + " " + word
-          : word;
-
-        const testTspan = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "tspan"
-        );
-
-        testTspan.setAttribute("x", startX);
-        testTspan.textContent = testLine;
-
-        textEl.appendChild(testTspan);
-        const width = testTspan.getBBox().width;
-        textEl.removeChild(testTspan);
-
-        if (width > maxWidth && currentLine !== "") {
-          wrapped.push(currentLine);
-          currentLine = word;
-        } else {
-          currentLine = testLine;
-        }
+    const textEl = svgRoot.querySelector("#card-text");
+    const textArea = svgRoot.querySelector("#card-text-area");
+  
+    if (!textEl || !textArea) return;
+  
+    // Remove old divider
+    const oldDivider = svgRoot.querySelector(".card-divider");
+    if (oldDivider) oldDivider.remove();
+  
+    textEl.textContent = "";
+  
+    const areaBox = textArea.getBBox();
+    const maxWidth = areaBox.width;
+    const startX = areaBox.x;
+  
+    const rulesText = card.text || "";
+    const flavorText = card.flavor_text || "";
+  
+    function wrapText(text) {
+      const paragraphs = text.split("\n");
+      const wrapped = [];
+  
+      paragraphs.forEach(paragraph => {
+        const words = paragraph.split(" ");
+        let currentLine = "";
+  
+        words.forEach(word => {
+          const testLine = currentLine
+            ? currentLine + " " + word
+            : word;
+  
+          const testTspan = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "tspan"
+          );
+  
+          testTspan.setAttribute("x", startX);
+          testTspan.textContent = testLine;
+  
+          textEl.appendChild(testTspan);
+          const width = testTspan.getBBox().width;
+          textEl.removeChild(testTspan);
+  
+          if (width > maxWidth && currentLine !== "") {
+            wrapped.push(currentLine);
+            currentLine = word;
+          } else {
+            currentLine = testLine;
+          }
+        });
+  
+        wrapped.push(currentLine);
       });
-
-      wrapped.push(currentLine);
+  
+      return wrapped;
+    }
+  
+    const ruleLines = wrapText(rulesText);
+    const flavorLines = flavorText ? wrapText(flavorText) : [];
+  
+    // ---- Render RULE text ----
+    ruleLines.forEach((line, i) => {
+      const tspan = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "tspan"
+      );
+  
+      tspan.setAttribute("x", startX);
+      tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
+      tspan.textContent = line;
+  
+      textEl.appendChild(tspan);
     });
-
-    return wrapped;
+  
+    // ---- Divider Position (after rules only) ----
+    let dividerY = null;
+  
+    if (flavorLines.length > 0 && ruleLines.length > 0) {
+      const ruleTspans = textEl.querySelectorAll("tspan");
+      const lastRule = ruleTspans[ruleTspans.length - 1];
+      const ruleBox = lastRule.getBBox();
+      dividerY = ruleBox.y + ruleBox.height + 4;
+    }
+  
+    // ---- Render FLAVOR text ----
+    flavorLines.forEach((line, i) => {
+      const tspan = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "tspan"
+      );
+  
+      tspan.setAttribute("x", startX);
+      tspan.setAttribute("dy", "1.2em");
+      tspan.textContent = line;
+      tspan.setAttribute("font-style", "italic");
+  
+      textEl.appendChild(tspan);
+    });
+  
+    // ---- Center vertically ----
+    textEl.setAttribute("x", startX);
+    textEl.setAttribute("y", areaBox.y);
+  
+    const textHeight = textEl.getBBox().height;
+    const centeredTop =
+      areaBox.y + (areaBox.height - textHeight) / 2;
+  
+    textEl.setAttribute("y", centeredTop);
+  
+    // ---- Add divider AFTER centering ----
+    if (dividerY !== null) {
+      const divider = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line"
+      );
+  
+      divider.classList.add("card-divider");
+  
+      // Recalculate because centering changed y
+      const ruleTspans = textEl.querySelectorAll("tspan");
+      const lastRule = ruleTspans[ruleLines.length - 1];
+      const ruleBox = lastRule.getBBox();
+      const finalY = ruleBox.y + ruleBox.height + 4;
+  
+      divider.setAttribute("x1", startX);
+      divider.setAttribute("x2", startX + maxWidth);
+      divider.setAttribute("y1", finalY);
+      divider.setAttribute("y2", finalY);
+      divider.setAttribute("stroke", "#cccccc");
+      divider.setAttribute("stroke-width", "0.4");
+  
+      textEl.parentNode.appendChild(divider);
+    }
   }
-
-  const ruleLines = wrapText(rulesText);
-  const flavorLines = flavorText ? wrapText(flavorText) : [];
-
-  const allLines = [...ruleLines];
-
-  if (flavorLines.length > 0) {
-    allLines.push("__DIVIDER__");
-    allLines.push(...flavorLines);
-  }
-
-  // Render all lines first
-  allLines.forEach((line, index) => {
-    if (line === "__DIVIDER__") return;
-
-    const tspan = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "tspan"
-    );
-
-    tspan.setAttribute("x", startX);
-    tspan.setAttribute("dy", index === 0 ? "1em" : "1.2em");
-    tspan.textContent = line;
-
-    textEl.appendChild(tspan);
-  });
-
-  // Position block at top initially
-  textEl.setAttribute("x", startX);
-  textEl.setAttribute("y", areaBox.y);
-
-  // Measure full text block
-  const textHeight = textEl.getBBox().height;
-
-  // Vertical center
-  const centeredTop =
-    areaBox.y + (areaBox.height - textHeight) / 2;
-
-  textEl.setAttribute("y", centeredTop);
-
-  // Now insert divider if needed
-  if (flavorLines.length > 0) {
-    const tspans = textEl.querySelectorAll("tspan");
-
-    const divider = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "line"
-    );
-
-    divider.classList.add("card-divider");
-
-    const lastRuleTspan = tspans[ruleLines.length - 1];
-    const ruleBox = lastRuleTspan.getBBox();
-
-    const dividerY = ruleBox.y + ruleBox.height + 4;
-
-    divider.setAttribute("x1", startX);
-    divider.setAttribute("x2", startX + maxWidth);
-    divider.setAttribute("y1", dividerY);
-    divider.setAttribute("y2", dividerY);
-    divider.setAttribute("stroke", "#cccccc");
-    divider.setAttribute("stroke-width", "0.4");
-
-    textEl.parentNode.appendChild(divider);
-  }
-}
 
   // -----------------------------
   // Process Symbols
