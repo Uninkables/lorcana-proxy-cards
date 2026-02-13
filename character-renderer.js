@@ -206,11 +206,6 @@ function updateCharacterCard(svgRoot, card) {
   
       currentY += lineHeight;
     });
-  
-    // Top-align correction
-    //const bbox = textEl.getBBox();
-    //const delta = bbox.y - parseFloat(textEl.getAttribute("y"));
-    //textEl.setAttribute("transform", `translate(0, ${-delta})`);
   }
   
   function processLineWithSymbols(tspan, line, svgRoot) {
@@ -228,7 +223,7 @@ function updateCharacterCard(svgRoot, card) {
     parts.forEach(part => {
       if (symbolMap[part]) {
         const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-        use.setAttributeNS("http://www.w3.org/1999/xlink", "href", symbolMap[part]);
+        use.setAttribute("href", symbolMap[part]);
         use.setAttribute("width", "16");
         use.setAttribute("height", "16");
         use.setAttribute("y", "-3"); // adjust baseline alignment
@@ -276,7 +271,8 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "3" }
+  set: { code: "1" }
 };
 
-loadCard(testCard);
+await loadSymbols();
+await loadCard(testCard);
