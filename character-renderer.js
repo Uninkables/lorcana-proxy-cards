@@ -139,41 +139,47 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
 
   function renderCardText(svgRoot, card) {
-  const textEl = svgRoot.querySelector("#card-text");
-  if (!textEl) return;
-
-  const rulesText = card.text || "";
-  const flavorText = card.flavor_text || "";
-
-  let combinedText = rulesText;
-
-  if (flavorText) {
-    combinedText += "\n\n" + flavorText;
+    const textEl = svgRoot.querySelector("#card-text");
+    const textArea = svgRoot.querySelector("#card-text-area");
+  
+    if (!textEl || !textArea) return;
+  
+    const rulesText = card.text || "";
+    const flavorText = card.flavor_text || "";
+  
+    let combinedText = rulesText;
+    if (flavorText) {
+      combinedText += "\n\n" + flavorText;
+    }
+  
+    // Clear old content
+    textEl.textContent = "";
+  
+    // Get text area bounds
+    const areaBox = textArea.getBBox();
+  
+    const startX = areaBox.x;
+    const startY = areaBox.y;
+  
+    const lines = combinedText.split("\n");
+  
+    lines.forEach((line, index) => {
+      const tspan = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "tspan"
+      );
+  
+      tspan.setAttribute("x", startX);
+      tspan.setAttribute("dy", index === 0 ? "1em" : "1.2em");
+      tspan.textContent = line;
+  
+      textEl.appendChild(tspan);
+    });
+  
+    // Position the whole text block
+    textEl.setAttribute("x", startX);
+    textEl.setAttribute("y", startY);
   }
-
-  // Clear existing content
-  textEl.textContent = "";
-
-  const lines = combinedText.split("\n");
-
-  const baseX = parseFloat(textEl.getAttribute("x"));
-  const baseY = parseFloat(textEl.getAttribute("y"));
-
-  const lineHeight = 1.2; // relative multiplier
-
-  lines.forEach((line, index) => {
-    const tspan = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "tspan"
-    );
-
-    tspan.setAttribute("x", baseX);
-    tspan.setAttribute("dy", index === 0 ? 0 : `${lineHeight}em`);
-    tspan.textContent = line;
-
-    textEl.appendChild(tspan);
-  });
-}
   
   function processLineWithSymbols(tspan, line, svgRoot) {
     const symbolMap = {
