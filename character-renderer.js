@@ -262,6 +262,14 @@ function updateCharacterCard(svgRoot, card) {
       divider.setAttribute("stroke-width", "0.4");
   
       textEl.parentNode.appendChild(divider);
+
+      console.log("AREA BOX:", areaBox);
+      console.log("TEXT BOX:", textEl.getBBox());
+      
+      if (ruleTspans.length > 0) {
+        const lastRule = ruleTspans[ruleTspans.length - 1];
+        console.log("LAST RULE BOX:", lastRule.getBBox());
+      }
     }
   }
 
@@ -336,7 +344,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "1" }
+  set: { code: "2" }
 };
 
 loadCard(testCard);
