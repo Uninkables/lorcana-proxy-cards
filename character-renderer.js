@@ -242,9 +242,9 @@ function updateCharacterCard(svgRoot, card) {
     textEl.setAttribute("y", centeredTop);
   
     // ---- Divider (AFTER centering) ----
-    if (ruleLineCount > 0 && flavorLines.length > 0) {
+    if (flavorLines.length > 0 && ruleTspans.length > 0) {
       const divider = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    
+
       const dividerY = startY + (ruleLineCount * lineHeight) - (lineHeight * 0.3);
     
       divider.setAttribute("x1", areaBox.x + 1);
