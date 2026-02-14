@@ -203,34 +203,9 @@ function updateCharacterCard(svgRoot, card) {
     const ruleTspans = [];
   
     // ---- Render RULE text ----
-    ruleLines.forEach((line, i) => {
-      const tspan = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "tspan"
-      );
-  
-      tspan.setAttribute("x", startX);
-      tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
-      tspan.textContent = line;
-  
-      textEl.appendChild(tspan);
-      ruleTspans.push(tspan);
-    });
-  
-    // ---- Render FLAVOR text ----
-    flavorLines.forEach((line) => {
-      const tspan = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "tspan"
-      );
-  
-      tspan.setAttribute("x", startX);
-      tspan.setAttribute("dy", ruleTspans.length > 0 && line === flavorLines[0] ? "2em" : "1em");
-      tspan.textContent = line;
-      tspan.setAttribute("font-style", "italic");
-  
-      textEl.appendChild(tspan);
-    });
+    const ruleTspans = renderLines(textEl, ruleLines, startX, "1em", "1.2em");
+    
+    renderLines(textEl, flavorLines, startX, ruleTspans.length > 0 ? "2em" : "1em", "1em", { italic: true });
   
     // ---- Vertical Center ----
     textEl.setAttribute("x", startX);
@@ -244,27 +219,57 @@ function updateCharacterCard(svgRoot, card) {
   
     // ---- Divider (AFTER centering) ----
     if (flavorLines.length > 0 && ruleTspans.length > 0) {
-      const lastRule = ruleTspans[ruleTspans.length - 1];
-      const lastRuleBox = lastRule.getBBox();
-    
-      const divider = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "line"
-      );
-
-      const lineHeight = lastRuleBox.height;
-      const dividerY = lastRuleBox.y + lineHeight * 1.25;
-    
-      divider.setAttribute("x1", areaBox.x );
-      divider.setAttribute("x2", areaBox.x + areaBox.width - 1 );
-      divider.setAttribute("y1", dividerY);
-      divider.setAttribute("y2", dividerY);
-      divider.setAttribute("stroke", "#bbbbbb");
-      divider.setAttribute("stroke-width", "0.2");
-      divider.classList.add("card-divider");
-    
-      textEl.parentNode.insertBefore(divider, textEl.nextSibling);
+      createDivider(svgRoot, textEl, areaBox, ruleTspans);
     }
+  }
+
+  function renderLines(textEl, lines, startX, firstDy, normalDy, options = {}) {
+    const tspans = [];
+  
+    lines.forEach((line, i) => {
+      const tspan = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "tspan"
+      );
+  
+      tspan.setAttribute("x", startX);
+      tspan.setAttribute("dy", i === 0 ? firstDy : normalDy);
+      tspan.textContent = line;
+  
+      if (options.italic) {
+        tspan.setAttribute("font-style", "italic");
+      }
+  
+      textEl.appendChild(tspan);
+      tspans.push(tspan);
+    });
+  
+    return tspans;
+  }
+
+  function createDivider(svgRoot, textEl, areaBox, ruleTspans) {
+    if (!ruleTspans.length) return;
+  
+    const lastRule = ruleTspans[ruleTspans.length - 1];
+    const lastRuleBox = lastRule.getBBox();
+  
+    const divider = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+  
+    const lineHeight = lastRuleBox.height;
+    const dividerY = lastRuleBox.y + lineHeight * 1.25;
+  
+    divider.setAttribute("x1", areaBox.x);
+    divider.setAttribute("x2", areaBox.x + areaBox.width - 1);
+    divider.setAttribute("y1", dividerY);
+    divider.setAttribute("y2", dividerY);
+    divider.setAttribute("stroke", "#bbbbbb");
+    divider.setAttribute("stroke-width", "0.2");
+    divider.classList.add("card-divider");
+  
+    textEl.parentNode.insertBefore(divider, textEl.nextSibling);
   }
 
   // -----------------------------
