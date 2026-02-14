@@ -200,8 +200,6 @@ function updateCharacterCard(svgRoot, card) {
     const ruleLines = wrapText(rulesText);
     const flavorLines = flavorText ? wrapText(flavorText) : [];
   
-    const ruleTspans = [];
-  
     // ---- Render RULE text ----
     const ruleTspans = renderLines(textEl, ruleLines, startX, "1em", "1.2em");
     
