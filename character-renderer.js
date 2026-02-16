@@ -214,6 +214,22 @@ function updateCharacterCard(svgRoot, card) {
       areaBox.y + (areaBox.height - textHeight) / 2;
   
     textEl.setAttribute("y", centeredTop);
+
+    // ---- Auto Scale If Too Tall ----
+    let finalBox = textEl.getBBox();
+    
+    if (finalBox.height > areaBox.height) {
+      const scaleFactor = areaBox.height / finalBox.height;
+    
+      // Apply scale
+      textEl.setAttribute(
+        "transform",
+        `translate(${startX}, ${centeredTop}) scale(${scaleFactor}) translate(${-startX}, ${-centeredTop})`
+      );
+    
+      // Re-measure after scaling
+      finalBox = textEl.getBBox();
+    }
   
     // ---- Divider (AFTER centering) ----
     if (flavorLines.length > 0 && ruleTspans.length > 0) {
