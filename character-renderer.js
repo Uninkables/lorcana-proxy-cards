@@ -138,10 +138,10 @@ function renderCardText(svgRoot, card) {
   const rulesText = card.text || "";
   const flavorText = card.flavor_text || "";
 
-  let fontSize = 14; // starting size
+  let baseFontSize = 14;
   const minFontSize = 6;
 
-  function wrapText(text) {
+  function wrapText(text, fontSize) {
     const paragraphs = text.split("\n");
     const wrapped = [];
 
@@ -181,11 +181,11 @@ function renderCardText(svgRoot, card) {
     return wrapped;
   }
 
-  function renderAtSize() {
+  function renderText(fontSize) {
     clearText(textEl);
 
-    const ruleLines = wrapText(rulesText);
-    const flavorLines = flavorText ? wrapText(flavorText) : [];
+    const ruleLines = wrapText(rulesText, fontSize);
+    const flavorLines = flavorText ? wrapText(flavorText, fontSize) : [];
 
     const ruleTspans = [];
 
@@ -231,23 +231,33 @@ function renderCardText(svgRoot, card) {
     };
   }
 
-  // 🔁 Shrink until it fits
-  let layout;
-  do {
-    layout = renderAtSize();
-    if (layout.height > areaBox.height) {
-      fontSize -= 0.5;
-    }
-  } while (layout.height > areaBox.height && fontSize > minFontSize);
+  // ---- First render at base size ----
+  let layout = renderText(baseFontSize);
 
-  // ✅ Center vertically AFTER fitting
+  // ---- If overflow, compute proportional scale ----
+  if (layout.height > areaBox.height) {
+    const scaleRatio = areaBox.height / layout.height;
+    const newFontSize = Math.max(
+      minFontSize,
+      baseFontSize * scaleRatio
+    );
+
+    layout = renderText(newFontSize);
+    baseFontSize = newFontSize;
+  }
+
+  // ---- Center vertically ----
   const finalHeight = textEl.getBBox().height;
-  const centeredTop = areaBox.y + (areaBox.height - finalHeight) / 2;
+  const centeredTop =
+    areaBox.y + (areaBox.height - finalHeight) / 2;
+
   textEl.setAttribute("y", centeredTop);
 
   // ---- Divider ----
   if (flavorText && layout.ruleTspans.length > 0) {
-    const lastRule = layout.ruleTspans[layout.ruleTspans.length - 1];
+    const lastRule =
+      layout.ruleTspans[layout.ruleTspans.length - 1];
+
     const lastRuleBox = lastRule.getBBox();
 
     const divider = document.createElementNS(
@@ -255,7 +265,8 @@ function renderCardText(svgRoot, card) {
       "line"
     );
 
-    const dividerY = lastRuleBox.y + lastRuleBox.height * 1.25;
+    const dividerY =
+      lastRuleBox.y + lastRuleBox.height * 1.25;
 
     divider.setAttribute("x1", areaBox.x);
     divider.setAttribute("x2", areaBox.x + areaBox.width);
@@ -265,7 +276,10 @@ function renderCardText(svgRoot, card) {
     divider.setAttribute("stroke-width", "0.2");
     divider.classList.add("card-divider");
 
-    textEl.parentNode.insertBefore(divider, textEl.nextSibling);
+    textEl.parentNode.insertBefore(
+      divider,
+      textEl.nextSibling
+    );
   }
 }
 
@@ -289,7 +303,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "67",
   lang: "en",
-  set: { code: "8" }
+  set: { code: "7" }
 };
 
 loadCard(testCard);
