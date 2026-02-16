@@ -287,9 +287,9 @@ const testCard = {
   text: "SHADOW POWER When you play this character, you may give chosen character Challenger +2 and Resist +2 until the start of your next turn. (They get +2 {} while challenging. Damage dealt to them is reduced by 2.)\n\nETERNAL NIGHT Your Gargoyle characters lose the Stone by Day ability.",
   flavor_text: "\"...\n...\n...\"",
   illustrators: ["Matthew Robert Davies"],
-  collector_number: "1",
+  collector_number: "67",
   lang: "en",
-  set: { code: "2" }
+  set: { code: "8" }
 };
 
 loadCard(testCard);
