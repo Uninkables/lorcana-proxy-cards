@@ -118,6 +118,23 @@ function updateCharacterCard(svgRoot, card) {
 }
 
 // -----------------------------
+// CLEAR TEXT + DIVIDER
+// -----------------------------
+
+function clearText(textEl) {
+  if (textEl) {
+    textEl.textContent = "";
+  }
+}
+
+function clearDivider(svgRoot) {
+  const oldDivider = svgRoot.querySelector(".card-divider");
+  if (oldDivider) {
+    oldDivider.remove();
+  }
+}
+
+// -----------------------------
 // RULES + FLAVOR TEXT
 // -----------------------------
 
