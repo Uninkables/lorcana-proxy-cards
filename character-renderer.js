@@ -139,6 +139,8 @@ function updateCharacterCard(svgRoot, card) {
   // -----------------------------
 
   function renderCardText(svgRoot, card) {
+    const baseFontSize = parseFloat(window.getComputedStyle(textEl).fontSize);
+    
     const textEl = svgRoot.querySelector("#card-text");
     const textArea = svgRoot.querySelector("#card-text-area");
   
@@ -206,29 +208,62 @@ function updateCharacterCard(svgRoot, card) {
     renderLines(textEl, flavorLines, startX, ruleTspans.length > 0 ? "2em" : "1em", "1em", { italic: true });
   
     // ---- Vertical Center ----
-    textEl.setAttribute("x", startX);
-    textEl.setAttribute("y", areaBox.y);
-  
-    const textHeight = textEl.getBBox().height;
-    const centeredTop =
-      areaBox.y + (areaBox.height - textHeight) / 2;
-  
-    textEl.setAttribute("y", centeredTop);
-
-    // ---- Auto Scale If Too Tall ----
-    let finalBox = textEl.getBBox();
+    let currentFontSize = baseFontSize;
+    let fits = false;
     
-    if (finalBox.height > areaBox.height) {
-      const scaleFactor = areaBox.height / finalBox.height;
+    while (!fits) {
+      textEl.style.fontSize = currentFontSize + "px";
     
-      // Apply scale
-      textEl.setAttribute(
-        "transform",
-        `translate(${startX}, ${centeredTop}) scale(${scaleFactor}) translate(${-startX}, ${-centeredTop})`
-      );
+      // Clear and re-render
+      textEl.textContent = "";
     
-      // Re-measure after scaling
-      finalBox = textEl.getBBox();
+      const ruleLines = wrapText(rulesText);
+      const flavorLines = flavorText ? wrapText(flavorText) : [];
+    
+      const ruleTspans = [];
+    
+      ruleLines.forEach((line, i) => {
+        const tspan = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "tspan"
+        );
+    
+        tspan.setAttribute("x", startX);
+        tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
+        tspan.textContent = line;
+    
+        textEl.appendChild(tspan);
+        ruleTspans.push(tspan);
+      });
+    
+      flavorLines.forEach((line, i) => {
+        const tspan = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "tspan"
+        );
+    
+        tspan.setAttribute("x", startX);
+        tspan.setAttribute(
+          "dy",
+          ruleTspans.length > 0 && i === 0 ? "2em" : "1em"
+        );
+    
+        tspan.textContent = line;
+        tspan.setAttribute("font-style", "italic");
+    
+        textEl.appendChild(tspan);
+      });
+    
+      textEl.setAttribute("x", startX);
+      textEl.setAttribute("y", areaBox.y);
+    
+      const textHeight = textEl.getBBox().height;
+    
+      if (textHeight <= areaBox.height || currentFontSize <= 6) {
+        fits = true;
+      } else {
+        currentFontSize -= 0.5;
+      }
     }
   
     // ---- Divider (AFTER centering) ----
