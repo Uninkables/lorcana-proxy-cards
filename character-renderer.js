@@ -236,6 +236,10 @@ function renderCardText(svgRoot, card) {
 
     const textHeight = textEl.getBBox().height;
 
+    console.log("Font size:", currentFontSize);
+    console.log("Text height:", textHeight);
+    console.log("Area height:", areaBox.height);
+
     if (textHeight <= areaBox.height || currentFontSize <= 6) {
       fits = true;
     } else {
