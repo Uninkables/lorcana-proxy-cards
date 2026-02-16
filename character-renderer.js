@@ -336,7 +336,7 @@ const testCard = {
   lore: 2,
   rarity: "Uncommon",
   classifications: ["Storyborn", "Hero", "Princess"],
-  text: "VOICELESS This character can't exert to sing songs.",
+  text: "VOICELESS This character can't exert to sing songs.\nI need to know what happens when I do a line break.",
   flavor_text: "\"The sea always calls her home.\"",
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
