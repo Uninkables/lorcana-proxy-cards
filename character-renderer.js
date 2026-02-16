@@ -33,283 +33,236 @@ async function loadCard(cardData) {
 }
 
 function updateCharacterCard(svgRoot, card) {
-  const get = (id) => svgRoot.querySelector(`#${id}`);
-  
-  // -----------------------------
-  // TEXT
-  // -----------------------------
+  // ----- Basic Text Fields -----
+  svgRoot.querySelector("#name").textContent = card.name || "TITLE";
+  svgRoot.querySelector("#version").textContent = card.version || "Version";
 
-  get("name").textContent = card.name || "TITLE";
-  get("version").textContent = card.version || "Version";
-
-  get("ink-color-text").textContent = card.ink || "InkColor";
-
-  get("classifications").textContent =
+  svgRoot.querySelector("#classifications").textContent =
     card.classifications?.join(" · ") || "Classifications";
 
-  get("artist").textContent =
-    card.illustrators?.[0] || "Artist";
+  svgRoot.querySelector("#ink-color-text").textContent =
+    card.ink || "InkColor";
 
-  get("card-and-set-text").textContent =
-    `${card.collector_number || "c#"}`
-    + `/204`
-    + ` · ${card.lang?.toUpperCase() || "EN"}`
-    + ` · ${card.set?.code || "1"}`;
+  svgRoot.querySelector("#artist").textContent =
+    card.illustrators?.join(", ") || "Artist";
 
-  // -----------------------------
-  // RULES + FLAVOR TEXT (RAW)
-  // -----------------------------
-  
-  renderCardText(svgRoot, card);
+  svgRoot.querySelector("#card-and-set-text").textContent =
+    `${card.collector_number || "c#"} / 204 · ${card.lang?.toUpperCase() || "EN"} · ${card.set?.code || "s#"}`;
 
-  // -----------------------------
-  // INK COLOR
-  // -----------------------------
-
-  const inkHex = inkColors[card.ink];
-  if (inkHex) {
-    get("ink-color-bar").setAttribute("fill", inkHex);
-  }
-
-  // -----------------------------
-  // NUMERIC TOGGLING
-  // -----------------------------
-
-  function toggleNumber(prefix, value) {
-    for (let i = 0; i <= 10; i++) {
-      const el = get(`${prefix}-${i}`);
-      if (!el) continue;
-      el.style.display = (i === value) ? "inline" : "none";
-    }
-  }
-
-  toggleNumber("ink-cost", card.cost);
-  toggleNumber("strength", card.strength);
-  toggleNumber("willpower", card.willpower);
-
-  // -----------------------------
-  // INKABLE
-  // -----------------------------
-
-  get("inkable").style.display =
-    card.inkwell ? "inline" : "none";
-
-  // -----------------------------
-  // RARITY
-  // -----------------------------
-
-  const rarityMap = {
-  "Common": "rarity-common",
-  "Uncommon": "rarity-uncommon",
-  "Rare": "rarity-rare",
-  "Super_rare": "rarity-superrare",
-  "Legendary": "rarity-legendary"
+  // ----- Ink Color Bar -----
+  const inkColors = {
+    Amber: "#f9cd73ff",
+    Amethyst: "#cf9fd0ff",
+    Emerald: "#a0d4aaff",
+    Ruby: "#eeb3b2ff",
+    Sapphire: "#b0daedff",
+    Steel: "#cfd5ddff"
   };
-  
-  const rarityIds = Object.values(rarityMap);
-  
-  // Hide all first
-  rarityIds.forEach(id => {
-    const el = get(id);
+
+  const inkBar = svgRoot.querySelector("#ink-color-bar");
+  if (inkBar && inkColors[card.ink]) {
+    inkBar.setAttribute("fill", inkColors[card.ink]);
+  }
+
+  // ----- Strength -----
+  for (let i = 0; i <= 10; i++) {
+    const el = svgRoot.querySelector(`#strength-${i}`);
+    if (el) el.style.display = i === card.strength ? "inline" : "none";
+  }
+
+  // ----- Willpower -----
+  for (let i = 0; i <= 10; i++) {
+    const el = svgRoot.querySelector(`#willpower-${i}`);
+    if (el) el.style.display = i === card.willpower ? "inline" : "none";
+  }
+
+  // ----- Ink Cost -----
+  for (let i = 0; i <= 10; i++) {
+    const el = svgRoot.querySelector(`#ink-cost-${i}`);
+    if (el) el.style.display = i === card.cost ? "inline" : "none";
+  }
+
+  // ----- Lore -----
+  for (let i = 1; i <= 5; i++) {
+    const el = svgRoot.querySelector(`#lore-${i}`);
+    if (el) el.style.display = i === card.lore ? "inline" : "none";
+  }
+
+  // ----- Inkwell -----
+  const inkwell = svgRoot.querySelector("#inkable");
+  if (inkwell) {
+    inkwell.style.display = card.inkwell ? "inline" : "none";
+  }
+
+  // ----- Rarity -----
+  const rarityMap = {
+    Common: "rarity-common",
+    Uncommon: "rarity-uncommon",
+    Rare: "rarity-rare",
+    "Super Rare": "rarity-superrare",
+    Legendary: "rarity-legendary"
+  };
+
+  Object.values(rarityMap).forEach(id => {
+    const el = svgRoot.querySelector(`#${id}`);
     if (el) el.style.display = "none";
   });
-  
-  // Show correct one
-  const rarityId = rarityMap[card.rarity];
-  if (rarityId) {
-    const el = get(rarityId);
-    if (el) el.style.display = "inline";
+
+  if (rarityMap[card.rarity]) {
+    const rarityEl = svgRoot.querySelector(`#${rarityMap[card.rarity]}`);
+    if (rarityEl) rarityEl.style.display = "inline";
   }
 
-  // -----------------------------
-  // LORE
-  // -----------------------------
-  
-  const loreValue = Number(card.lore) || 0;
+  // ----- Render Card Text (Rules + Flavor + Scaling + Divider) -----
+  renderCardText(svgRoot, card);
+}
 
-  for (let i = 1; i <= 5; i++) {
-    const el = get(`lore-${i}`);
-    if (!el) continue;
-  
-    el.style.display = (i === loreValue) ? "inline" : "none";
+// -----------------------------
+// RULES + FLAVOR TEXT
+// -----------------------------
+
+function renderCardText(svgRoot, card) {
+  const textEl = svgRoot.querySelector("#card-text");
+  const textArea = svgRoot.querySelector("#card-text-area");
+
+  if (!textEl || !textArea) return;
+
+  // Remove old divider
+  const oldDivider = svgRoot.querySelector(".card-divider");
+  if (oldDivider) oldDivider.remove();
+
+  const areaBox = textArea.getBBox();
+  const maxWidth = areaBox.width;
+  const startX = areaBox.x;
+  const startY = areaBox.y;
+
+  const rulesText = card.text || "";
+  const flavorText = card.flavor_text || "";
+
+  const baseFontSize = parseFloat(
+    window.getComputedStyle(textEl).fontSize
+  );
+
+  function wrapText(text) {
+    const paragraphs = text.split("\n");
+    const wrapped = [];
+
+    paragraphs.forEach(paragraph => {
+      const words = paragraph.split(" ");
+      let currentLine = "";
+
+      words.forEach(word => {
+        const testLine = currentLine
+          ? currentLine + " " + word
+          : word;
+
+        const testTspan = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "tspan"
+        );
+
+        testTspan.setAttribute("x", startX);
+        testTspan.textContent = testLine;
+
+        textEl.appendChild(testTspan);
+        const width = testTspan.getBBox().width;
+        textEl.removeChild(testTspan);
+
+        if (width > maxWidth && currentLine !== "") {
+          wrapped.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = testLine;
+        }
+      });
+
+      wrapped.push(currentLine);
+    });
+
+    return wrapped;
   }
 
-  // -----------------------------
-  // RULES + FLAVOR TEXT
-  // -----------------------------
+  let currentFontSize = baseFontSize;
+  let fits = false;
+  let ruleTspans = [];
+  let ruleLines = [];
+  let flavorLines = [];
 
-  function renderCardText(svgRoot, card) {
-    const baseFontSize = parseFloat(window.getComputedStyle(textEl).fontSize);
-    
-    const textEl = svgRoot.querySelector("#card-text");
-    const textArea = svgRoot.querySelector("#card-text-area");
-  
-    if (!textEl || !textArea) return;
-  
-    // Remove old divider
-    const oldDivider = svgRoot.querySelector(".card-divider");
-    if (oldDivider) oldDivider.remove();
-  
+  while (!fits) {
+    textEl.style.fontSize = currentFontSize + "px";
     textEl.textContent = "";
-  
-    const areaBox = textArea.getBBox();
-    const maxWidth = areaBox.width;
-    const startX = areaBox.x;
-    const startY = areaBox.y;
-  
-    const rulesText = card.text || "";
-    const flavorText = card.flavor_text || "";
-  
-    function wrapText(text) {
-      const paragraphs = text.split("\n");
-      const wrapped = [];
-  
-      paragraphs.forEach(paragraph => {
-        const words = paragraph.split(" ");
-        let currentLine = "";
-  
-        words.forEach(word => {
-          const testLine = currentLine
-            ? currentLine + " " + word
-            : word;
-  
-          const testTspan = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "tspan"
-          );
-  
-          testTspan.setAttribute("x", startX);
-          testTspan.textContent = testLine;
-  
-          textEl.appendChild(testTspan);
-          const width = testTspan.getBBox().width;
-          textEl.removeChild(testTspan);
-  
-          if (width > maxWidth && currentLine !== "") {
-            wrapped.push(currentLine);
-            currentLine = word;
-          } else {
-            currentLine = testLine;
-          }
-        });
-  
-        wrapped.push(currentLine);
-      });
-  
-      return wrapped;
-    }
-  
-    const ruleLines = wrapText(rulesText);
-    const flavorLines = flavorText ? wrapText(flavorText) : [];
-  
-    // ---- Render RULE text ----
-    const ruleTspans = renderLines(textEl, ruleLines, startX, "1em", "1.2em");
-    
-    renderLines(textEl, flavorLines, startX, ruleTspans.length > 0 ? "2em" : "1em", "1em", { italic: true });
-  
-    // ---- Vertical Center ----
-    let currentFontSize = baseFontSize;
-    let fits = false;
-    
-    while (!fits) {
-      textEl.style.fontSize = currentFontSize + "px";
-    
-      // Clear and re-render
-      textEl.textContent = "";
-    
-      const ruleLines = wrapText(rulesText);
-      const flavorLines = flavorText ? wrapText(flavorText) : [];
-    
-      const ruleTspans = [];
-    
-      ruleLines.forEach((line, i) => {
-        const tspan = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "tspan"
-        );
-    
-        tspan.setAttribute("x", startX);
-        tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
-        tspan.textContent = line;
-    
-        textEl.appendChild(tspan);
-        ruleTspans.push(tspan);
-      });
-    
-      flavorLines.forEach((line, i) => {
-        const tspan = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "tspan"
-        );
-    
-        tspan.setAttribute("x", startX);
-        tspan.setAttribute(
-          "dy",
-          ruleTspans.length > 0 && i === 0 ? "2em" : "1em"
-        );
-    
-        tspan.textContent = line;
-        tspan.setAttribute("font-style", "italic");
-    
-        textEl.appendChild(tspan);
-      });
-    
-      textEl.setAttribute("x", startX);
-      textEl.setAttribute("y", areaBox.y);
-    
-      const textHeight = textEl.getBBox().height;
-    
-      if (textHeight <= areaBox.height || currentFontSize <= 6) {
-        fits = true;
-      } else {
-        currentFontSize -= 0.5;
-      }
-    }
-  
-    // ---- Divider (AFTER centering) ----
-    if (flavorLines.length > 0 && ruleTspans.length > 0) {
-      createDivider(svgRoot, textEl, areaBox, ruleTspans);
-    }
-  }
 
-  function renderLines(textEl, lines, startX, firstDy, normalDy, options = {}) {
-    const tspans = [];
-  
-    lines.forEach((line, i) => {
+    ruleLines = wrapText(rulesText);
+    flavorLines = flavorText ? wrapText(flavorText) : [];
+
+    ruleTspans = [];
+
+    // Render rules
+    ruleLines.forEach((line, i) => {
       const tspan = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "tspan"
       );
-  
+
       tspan.setAttribute("x", startX);
-      tspan.setAttribute("dy", i === 0 ? firstDy : normalDy);
+      tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
       tspan.textContent = line;
-  
-      if (options.italic) {
-        tspan.setAttribute("font-style", "italic");
-      }
-  
+
       textEl.appendChild(tspan);
-      tspans.push(tspan);
+      ruleTspans.push(tspan);
     });
-  
-    return tspans;
+
+    // Render flavor
+    flavorLines.forEach((line, i) => {
+      const tspan = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "tspan"
+      );
+
+      tspan.setAttribute("x", startX);
+      tspan.setAttribute(
+        "dy",
+        ruleTspans.length > 0 && i === 0 ? "2em" : "1em"
+      );
+
+      tspan.textContent = line;
+      tspan.setAttribute("font-style", "italic");
+
+      textEl.appendChild(tspan);
+    });
+
+    textEl.setAttribute("x", startX);
+    textEl.setAttribute("y", startY);
+
+    const textHeight = textEl.getBBox().height;
+
+    if (textHeight <= areaBox.height || currentFontSize <= 6) {
+      fits = true;
+    } else {
+      currentFontSize -= 0.5;
+    }
   }
 
-  function createDivider(svgRoot, textEl, areaBox, ruleTspans) {
-    if (!ruleTspans.length) return;
-  
+  // Vertical center AFTER fitting
+  const finalHeight = textEl.getBBox().height;
+  const centeredTop =
+    areaBox.y + (areaBox.height - finalHeight) / 2;
+
+  textEl.setAttribute("y", centeredTop);
+
+  // Divider
+  if (flavorLines.length > 0 && ruleTspans.length > 0) {
     const lastRule = ruleTspans[ruleTspans.length - 1];
     const lastRuleBox = lastRule.getBBox();
-  
+
     const divider = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "line"
     );
-  
+
     const lineHeight = lastRuleBox.height;
     const dividerY = lastRuleBox.y + lineHeight * 1.25;
-  
+
     divider.setAttribute("x1", areaBox.x);
     divider.setAttribute("x2", areaBox.x + areaBox.width - 1);
     divider.setAttribute("y1", dividerY);
@@ -317,59 +270,9 @@ function updateCharacterCard(svgRoot, card) {
     divider.setAttribute("stroke", "#bbbbbb");
     divider.setAttribute("stroke-width", "0.2");
     divider.classList.add("card-divider");
-  
+
     textEl.parentNode.insertBefore(divider, textEl.nextSibling);
   }
-
-  // -----------------------------
-  // Process Symbols
-  // -----------------------------
-  
-  function processLineWithSymbols(tspan, line, svgRoot) {
-    const symbolMap = {
-      "{E}": "#symbol-exert",
-      "{IW}": "#symbol-inkwell",
-      "{I}": "#symbol-ink",
-      "{L}": "#symbol-lore",
-      "{S}": "#symbol-strength",
-      "{W}": "#symbol-willpower"
-    };
-
-    const parts = line.split(/(\{[^}]+\})/g);
-
-    parts.forEach(part => {
-      if (symbolMap[part]) {
-        const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-        use.setAttributeNS("http://www.w3.org/1999/xlink", "href", symbolMap[part]);
-        use.setAttribute("width", "16");
-        use.setAttribute("height", "16");
-        use.setAttribute("y", "+3"); // adjust baseline alignment
-        tspan.appendChild(use);
-      } else {
-        tspan.appendChild(document.createTextNode(part));
-      }
-    });
-  }
-
-  // -----------------------------
-  // Scale text to fit
-  // -----------------------------
-
-  function autoScaleText(textEl, svgRoot, percentage) {
-    const viewBox = svgRoot.viewBox.baseVal;
-    const maxHeight = viewBox.height * percentage;
-  
-    let fontSize = 18;
-    textEl.setAttribute("font-size", fontSize);
-  
-    requestAnimationFrame(() => {
-      while (textEl.getBBox().height > maxHeight && fontSize > 8) {
-        fontSize -= 0.5;
-        textEl.setAttribute("font-size", fontSize);
-      }
-    });
-  }
-  
 }
 
 // -----------------------------
@@ -392,7 +295,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "1",
   lang: "en",
-  set: { code: "2" }
+  set: { code: "1" }
 };
 
 loadCard(testCard);
