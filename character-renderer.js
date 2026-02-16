@@ -150,15 +150,17 @@ function renderCardText(svgRoot, card) {
   const areaBox = textArea.getBBox();
   const maxWidth = areaBox.width;
   const startX = areaBox.x;
-  const startY = areaBox.y;
 
   const rulesText = card.text || "";
   const flavorText = card.flavor_text || "";
 
-  let baseFontSize = 14;
-  const minFontSize = 6;
+  // Get original font size from computed style
+  const computedStyle = window.getComputedStyle(textEl);
+  const baseFontSize = parseFloat(computedStyle.fontSize);
 
-  function wrapText(text, fontSize) {
+  let currentFontSize = baseFontSize;
+
+  function wrapText(text) {
     const paragraphs = text.split("\n");
     const wrapped = [];
 
@@ -177,7 +179,6 @@ function renderCardText(svgRoot, card) {
         );
 
         testTspan.setAttribute("x", startX);
-        testTspan.setAttribute("font-size", fontSize);
         testTspan.textContent = testLine;
 
         textEl.appendChild(testTspan);
@@ -198,11 +199,12 @@ function renderCardText(svgRoot, card) {
     return wrapped;
   }
 
-  function renderText(fontSize) {
-    clearText(textEl);
+  function renderTextAtSize(fontSize) {
+    textEl.textContent = "";
+    textEl.setAttribute("font-size", fontSize);
 
-    const ruleLines = wrapText(rulesText, fontSize);
-    const flavorLines = flavorText ? wrapText(flavorText, fontSize) : [];
+    const ruleLines = wrapText(rulesText);
+    const flavorLines = flavorText ? wrapText(flavorText) : [];
 
     const ruleTspans = [];
 
@@ -214,14 +216,13 @@ function renderCardText(svgRoot, card) {
 
       tspan.setAttribute("x", startX);
       tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
-      tspan.setAttribute("font-size", fontSize);
       tspan.textContent = line;
 
       textEl.appendChild(tspan);
       ruleTspans.push(tspan);
     });
 
-    flavorLines.forEach((line, index) => {
+    flavorLines.forEach((line, i) => {
       const tspan = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "tspan"
@@ -230,17 +231,17 @@ function renderCardText(svgRoot, card) {
       tspan.setAttribute("x", startX);
       tspan.setAttribute(
         "dy",
-        ruleTspans.length > 0 && index === 0 ? "2em" : "1em"
+        ruleTspans.length > 0 && i === 0 ? "2em" : "1em"
       );
-      tspan.setAttribute("font-size", fontSize);
-      tspan.setAttribute("font-style", "italic");
+
       tspan.textContent = line;
+      tspan.setAttribute("font-style", "italic");
 
       textEl.appendChild(tspan);
     });
 
     textEl.setAttribute("x", startX);
-    textEl.setAttribute("y", startY);
+    textEl.setAttribute("y", areaBox.y);
 
     return {
       height: textEl.getBBox().height,
@@ -248,33 +249,26 @@ function renderCardText(svgRoot, card) {
     };
   }
 
-  // ---- First render at base size ----
-  let layout = renderText(baseFontSize);
+  // ---------- SCALE DOWN IF TOO TALL ----------
+  let result = renderTextAtSize(currentFontSize);
 
-  // ---- If overflow, compute proportional scale ----
-  if (layout.height > areaBox.height) {
-    const scaleRatio = areaBox.height / layout.height;
-    const newFontSize = Math.max(
-      minFontSize,
-      baseFontSize * scaleRatio
-    );
-
-    layout = renderText(newFontSize);
-    baseFontSize = newFontSize;
+  while (
+    result.height > areaBox.height &&
+    currentFontSize > baseFontSize * 0.6
+  ) {
+    currentFontSize -= 0.1;
+    result = renderTextAtSize(currentFontSize);
   }
 
-  // ---- Center vertically ----
-  const finalHeight = textEl.getBBox().height;
+  // ---------- CENTER VERTICALLY ----------
   const centeredTop =
-    areaBox.y + (areaBox.height - finalHeight) / 2;
+    areaBox.y + (areaBox.height - result.height) / 2;
 
   textEl.setAttribute("y", centeredTop);
 
-  // ---- Divider ----
-  if (flavorText && layout.ruleTspans.length > 0) {
-    const lastRule =
-      layout.ruleTspans[layout.ruleTspans.length - 1];
-
+  // ---------- ADD DIVIDER ----------
+  if (flavorText && result.ruleTspans.length > 0) {
+    const lastRule = result.ruleTspans[result.ruleTspans.length - 1];
     const lastRuleBox = lastRule.getBBox();
 
     const divider = document.createElementNS(
@@ -282,8 +276,7 @@ function renderCardText(svgRoot, card) {
       "line"
     );
 
-    const dividerY =
-      lastRuleBox.y + lastRuleBox.height * 1.25;
+    const dividerY = lastRuleBox.y + lastRuleBox.height * 1.25;
 
     divider.setAttribute("x1", areaBox.x);
     divider.setAttribute("x2", areaBox.x + areaBox.width);
@@ -293,10 +286,7 @@ function renderCardText(svgRoot, card) {
     divider.setAttribute("stroke-width", "0.2");
     divider.classList.add("card-divider");
 
-    textEl.parentNode.insertBefore(
-      divider,
-      textEl.nextSibling
-    );
+    textEl.parentNode.insertBefore(divider, textEl.nextSibling);
   }
 }
 
@@ -320,7 +310,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "67",
   lang: "en",
-  set: { code: "7" }
+  set: { code: "6" }
 };
 
 loadCard(testCard);
