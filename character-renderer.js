@@ -154,7 +154,6 @@ function renderCardText(svgRoot, card) {
   const rulesText = card.text || "";
   const flavorText = card.flavor_text || "";
 
-  // Get original font size from computed style
   const computedStyle = window.getComputedStyle(textEl);
   const baseFontSize = parseFloat(computedStyle.fontSize);
 
@@ -179,6 +178,7 @@ function renderCardText(svgRoot, card) {
         );
 
         testTspan.setAttribute("x", startX);
+        testTspan.setAttribute("font-size", currentFontSize);
         testTspan.textContent = testLine;
 
         textEl.appendChild(testTspan);
@@ -199,13 +199,14 @@ function renderCardText(svgRoot, card) {
     return wrapped;
   }
 
-  function renderTextAtSize(fontSize) {
-    textEl.textContent = "";
-    textEl.setAttribute("font-size", fontSize);
+  function renderAtCurrentSize() {
+    clearText(textEl);
+    textEl.setAttribute("font-size", currentFontSize);
 
     const ruleLines = wrapText(rulesText);
     const flavorLines = flavorText ? wrapText(flavorText) : [];
 
+    const allTspans = [];
     const ruleTspans = [];
 
     ruleLines.forEach((line, i) => {
@@ -220,6 +221,7 @@ function renderCardText(svgRoot, card) {
 
       textEl.appendChild(tspan);
       ruleTspans.push(tspan);
+      allTspans.push(tspan);
     });
 
     flavorLines.forEach((line, i) => {
@@ -233,42 +235,51 @@ function renderCardText(svgRoot, card) {
         "dy",
         ruleTspans.length > 0 && i === 0 ? "2em" : "1em"
       );
-
-      tspan.textContent = line;
       tspan.setAttribute("font-style", "italic");
+      tspan.textContent = line;
 
       textEl.appendChild(tspan);
+      allTspans.push(tspan);
     });
 
     textEl.setAttribute("x", startX);
     textEl.setAttribute("y", areaBox.y);
 
-    return {
-      height: textEl.getBBox().height,
-      ruleTspans
-    };
+    if (allTspans.length === 0) {
+      return { height: 0, ruleTspans };
+    }
+
+    const firstBox = allTspans[0].getBBox();
+    const lastBox = allTspans[allTspans.length - 1].getBBox();
+
+    const trueHeight =
+      (lastBox.y + lastBox.height) - firstBox.y;
+
+    return { height: trueHeight, ruleTspans, firstY: firstBox.y };
   }
 
-  // ---------- SCALE DOWN IF TOO TALL ----------
-  let result = renderTextAtSize(currentFontSize);
+  // ---- SHRINK UNTIL FIT ----
+  let layout = renderAtCurrentSize();
 
   while (
-    result.height > areaBox.height &&
+    layout.height > areaBox.height &&
     currentFontSize > baseFontSize * 0.6
   ) {
-    currentFontSize -= 0.1;
-    result = renderTextAtSize(currentFontSize);
+    currentFontSize -= 0.2;
+    layout = renderAtCurrentSize();
   }
 
-  // ---------- CENTER VERTICALLY ----------
+  // ---- CENTER USING TRUE HEIGHT ----
   const centeredTop =
-    areaBox.y + (areaBox.height - result.height) / 2;
+    areaBox.y + (areaBox.height - layout.height) / 2;
 
   textEl.setAttribute("y", centeredTop);
 
-  // ---------- ADD DIVIDER ----------
-  if (flavorText && result.ruleTspans.length > 0) {
-    const lastRule = result.ruleTspans[result.ruleTspans.length - 1];
+  // ---- DIVIDER ----
+  if (flavorText && layout.ruleTspans.length > 0) {
+    const lastRule =
+      layout.ruleTspans[layout.ruleTspans.length - 1];
+
     const lastRuleBox = lastRule.getBBox();
 
     const divider = document.createElementNS(
@@ -276,7 +287,8 @@ function renderCardText(svgRoot, card) {
       "line"
     );
 
-    const dividerY = lastRuleBox.y + lastRuleBox.height * 1.25;
+    const dividerY =
+      lastRuleBox.y + lastRuleBox.height * 1.25;
 
     divider.setAttribute("x1", areaBox.x);
     divider.setAttribute("x2", areaBox.x + areaBox.width);
@@ -286,7 +298,10 @@ function renderCardText(svgRoot, card) {
     divider.setAttribute("stroke-width", "0.2");
     divider.classList.add("card-divider");
 
-    textEl.parentNode.insertBefore(divider, textEl.nextSibling);
+    textEl.parentNode.insertBefore(
+      divider,
+      textEl.nextSibling
+    );
   }
 }
 
@@ -310,7 +325,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "67",
   lang: "en",
-  set: { code: "7" }
+  set: { code: "6" }
 };
 
 loadCard(testCard);
