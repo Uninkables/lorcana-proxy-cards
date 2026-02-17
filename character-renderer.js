@@ -294,7 +294,6 @@ function renderCardText(svgRoot, card) {
     );
   }
 }
-
 // -----------------------------
 // TEST DATA
 // -----------------------------
@@ -315,7 +314,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "67",
   lang: "en",
-  set: { code: "6" }
+  set: { code: "7" }
 };
 
 loadCard(testCard);
