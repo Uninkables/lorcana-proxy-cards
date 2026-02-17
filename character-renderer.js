@@ -155,6 +155,8 @@ function renderCardText(svgRoot, card) {
   const flavorText = card.flavor_text || "";
 
   const baseFontSize = parseFloat(textEl.getAttribute("font-size")) || 10;
+  let ruleLines = [];
+  let flavorLines = [];
   let fontSize = baseFontSize;
 
   function wrapText(text) {
@@ -243,10 +245,6 @@ function renderCardText(svgRoot, card) {
 
     return textEl.getBBox().height;
   }
-
-  // ---- Establish rule lines and flavor lines ----
-  let ruleLines = [];
-  let flavorLines = [];
   
   // ---- Shrink loop using real bbox ----
   let textHeight = renderAtSize();
