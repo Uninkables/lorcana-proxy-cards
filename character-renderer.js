@@ -205,7 +205,7 @@ function renderCardText(svgRoot, card) {
           use.setAttributeNS(
             "http://www.w3.org/1999/xlink",
             "xlink:href",
-            SYMBOL_MAP[part]
+            SYMBOL_MAP[token]
           );
           
           use.setAttribute("width", fontSize);
