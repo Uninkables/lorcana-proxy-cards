@@ -310,7 +310,7 @@ const testCard = {
   rarity: "Uncommon",
   classifications: ["Storyborn", "Hero", "Princess"],
   text: "VOICELESS This character can't {E} to sing songs.",
-  flavor_text: "\"..."\",
+  flavor_text: "\"...\"",
   illustrators: ["Matthew Robert Davies"],
   collector_number: "67",
   lang: "en",
