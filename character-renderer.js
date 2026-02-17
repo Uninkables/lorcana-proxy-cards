@@ -259,33 +259,39 @@ function renderCardText(svgRoot, card) {
   textEl.setAttribute("y", centeredTop);
 
   // ---- Divider ----
-  const ruleTspans = textEl.querySelectorAll("tspan");
-  if (flavorText && ruleTspans.length > 0) {
-    const lastRule = ruleTspans[rulesText.split("\n").length - 1];
-    if (lastRule) {
-      const lastRuleBox = lastRule.getBBox();
-
-      const divider = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "line"
-      );
-
-      const dividerY =
-        lastRuleBox.y + lastRuleBox.height * 1.25;
-
-      divider.setAttribute("x1", areaBox.x);
-      divider.setAttribute("x2", areaBox.x + areaBox.width);
-      divider.setAttribute("y1", dividerY);
-      divider.setAttribute("y2", dividerY);
-      divider.setAttribute("stroke", "#bbbbbb");
-      divider.setAttribute("stroke-width", "0.2");
-      divider.classList.add("card-divider");
-
-      textEl.parentNode.insertBefore(
-        divider,
-        textEl.nextSibling
-      );
-    }
+  if (flavorText && ruleLines.length > 0) {
+  
+    const ruleCount = ruleLines.length;
+  
+    // First line is 1em
+    // Remaining rule lines are 1.2em
+    const ruleHeight =
+      fontSize +
+      (ruleCount - 1) * (fontSize * 1.2);
+  
+    // Divider should sit slightly below rule block
+    const dividerOffset = fontSize * 0.6;
+  
+    const dividerY =
+      centeredTop + ruleHeight + dividerOffset;
+  
+    const divider = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+  
+    divider.setAttribute("x1", areaBox.x);
+    divider.setAttribute("x2", areaBox.x + areaBox.width);
+    divider.setAttribute("y1", dividerY);
+    divider.setAttribute("y2", dividerY);
+    divider.setAttribute("stroke", "#bbbbbb");
+    divider.setAttribute("stroke-width", "0.2");
+    divider.classList.add("card-divider");
+  
+    textEl.parentNode.insertBefore(
+      divider,
+      textEl.nextSibling
+    );
   }
 }
 
@@ -309,7 +315,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "67",
   lang: "en",
-  set: { code: "7" }
+  set: { code: "6" }
 };
 
 loadCard(testCard);
