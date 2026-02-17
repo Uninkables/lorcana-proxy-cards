@@ -247,22 +247,31 @@ function renderCardText(svgRoot, card) {
 
       // symbol swapping
       const parts = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
-      
+
       parts.forEach(part => {
       
         if (SYMBOL_MAP[part]) {
       
-          const use = document.createElementNS(
+          const symbolDef = svgRoot.querySelector(SYMBOL_MAP[part]);
+          if (!symbolDef) return;
+      
+          const clone = symbolDef.cloneNode(true);
+      
+          // Wrap in a tspan so layout flows correctly
+          const symbolWrapper = document.createElementNS(
             "http://www.w3.org/2000/svg",
-            "use"
+            "tspan"
           );
       
-          use.setAttribute("href", SYMBOL_MAP[part]);
-          use.setAttribute("width", fontSize);
-          use.setAttribute("height", fontSize);
-          use.setAttribute("y", -fontSize * 0.8);
+          // Scale symbol relative to font size
+          const scaleFactor = fontSize / 100; 
+          clone.setAttribute(
+            "transform",
+            `scale(${scaleFactor}) translate(0, -80)`
+          );
       
-          tspan.appendChild(use);
+          symbolWrapper.appendChild(clone);
+          tspan.appendChild(symbolWrapper);
       
         } else {
       
