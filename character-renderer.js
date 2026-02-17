@@ -157,7 +157,7 @@ function renderCardText(svgRoot, card) {
   const computedStyle = window.getComputedStyle(textEl);
   const baseFontSize = parseFloat(computedStyle.fontSize);
 
-  let currentFontSize = baseFontSize;
+  let fontSize = baseFontSize;
 
   function wrapText(text) {
     const paragraphs = text.split("\n");
@@ -178,7 +178,7 @@ function renderCardText(svgRoot, card) {
         );
 
         testTspan.setAttribute("x", startX);
-        testTspan.setAttribute("font-size", currentFontSize);
+        testTspan.setAttribute("font-size", fontSize);
         testTspan.textContent = testLine;
 
         textEl.appendChild(testTspan);
@@ -199,87 +199,87 @@ function renderCardText(svgRoot, card) {
     return wrapped;
   }
 
-  function renderAtCurrentSize() {
+  let ruleLines, flavorLines;
+  let totalHeight;
+
+  do {
     clearText(textEl);
-    textEl.setAttribute("font-size", currentFontSize);
 
-    const ruleLines = wrapText(rulesText);
-    const flavorLines = flavorText ? wrapText(flavorText) : [];
+    ruleLines = wrapText(rulesText);
+    flavorLines = flavorText ? wrapText(flavorText) : [];
 
-    const allTspans = [];
-    const ruleTspans = [];
+    const ruleCount = ruleLines.length;
+    const flavorCount = flavorLines.length;
 
-    ruleLines.forEach((line, i) => {
-      const tspan = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "tspan"
-      );
+    // Manual height calculation
+    const ruleHeight =
+      ruleCount > 0
+        ? fontSize + (ruleCount - 1) * (fontSize * 1.2)
+        : 0;
 
-      tspan.setAttribute("x", startX);
-      tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
-      tspan.textContent = line;
+    const flavorHeight =
+      flavorCount > 0
+        ? fontSize * 2 +
+          (flavorCount - 1) * fontSize
+        : 0;
 
-      textEl.appendChild(tspan);
-      ruleTspans.push(tspan);
-      allTspans.push(tspan);
-    });
+    totalHeight = ruleHeight + flavorHeight;
 
-    flavorLines.forEach((line, i) => {
-      const tspan = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "tspan"
-      );
-
-      tspan.setAttribute("x", startX);
-      tspan.setAttribute(
-        "dy",
-        ruleTspans.length > 0 && i === 0 ? "2em" : "1em"
-      );
-      tspan.setAttribute("font-style", "italic");
-      tspan.textContent = line;
-
-      textEl.appendChild(tspan);
-      allTspans.push(tspan);
-    });
-
-    textEl.setAttribute("x", startX);
-    textEl.setAttribute("y", areaBox.y);
-
-    if (allTspans.length === 0) {
-      return { height: 0, ruleTspans };
+    if (totalHeight > areaBox.height) {
+      fontSize -= 0.2;
     }
 
-    const firstBox = allTspans[0].getBBox();
-    const lastBox = allTspans[allTspans.length - 1].getBBox();
+  } while (totalHeight > areaBox.height && fontSize > baseFontSize * 0.6);
 
-    const trueHeight =
-      (lastBox.y + lastBox.height) - firstBox.y;
+  // ----- Render final text -----
+  textEl.setAttribute("font-size", fontSize);
 
-    return { height: trueHeight, ruleTspans, firstY: firstBox.y };
-  }
+  const ruleTspans = [];
 
-  // ---- SHRINK UNTIL FIT ----
-  let layout = renderAtCurrentSize();
+  ruleLines.forEach((line, i) => {
+    const tspan = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "tspan"
+    );
 
-  while (
-    layout.height > areaBox.height &&
-    currentFontSize > baseFontSize * 0.6
-  ) {
-    currentFontSize -= 0.2;
-    layout = renderAtCurrentSize();
-  }
+    tspan.setAttribute("x", startX);
+    tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
+    tspan.textContent = line;
 
-  // ---- CENTER USING TRUE HEIGHT ----
+    textEl.appendChild(tspan);
+    ruleTspans.push(tspan);
+  });
+
+  flavorLines.forEach((line, i) => {
+    const tspan = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "tspan"
+    );
+
+    tspan.setAttribute(
+      "x",
+      startX
+    );
+    tspan.setAttribute(
+      "dy",
+      ruleTspans.length > 0 && i === 0 ? "2em" : "1em"
+    );
+    tspan.setAttribute("font-style", "italic");
+    tspan.textContent = line;
+
+    textEl.appendChild(tspan);
+  });
+
+  // ----- Vertical Center -----
   const centeredTop =
-    areaBox.y + (areaBox.height - layout.height) / 2;
+    areaBox.y + (areaBox.height - totalHeight) / 2;
 
+  textEl.setAttribute("x", startX);
   textEl.setAttribute("y", centeredTop);
 
-  // ---- DIVIDER ----
-  if (flavorText && layout.ruleTspans.length > 0) {
-    const lastRule =
-      layout.ruleTspans[layout.ruleTspans.length - 1];
-
+  // ----- Divider -----
+  if (flavorText && ruleTspans.length > 0) {
+    const lastRule = ruleTspans[ruleTspans.length - 1];
     const lastRuleBox = lastRule.getBBox();
 
     const divider = document.createElementNS(
