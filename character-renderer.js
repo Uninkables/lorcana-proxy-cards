@@ -261,24 +261,18 @@ function renderCardText(svgRoot, card) {
   textEl.setAttribute("y", centeredTop);
 
   // ---- Divider ----
-  if (flavorText && ruleLines.length > 0) {
+  if (flavorText && ruleTspans.length > 0) {
   
-    const ruleCount = ruleLines.length;
-  
-    const ruleHeight =
-      fontSize +
-      (ruleCount - 1) * (fontSize * 1.2);
-  
-    // Adjust for baseline overshoot (~0.5em)
-    const baselineCorrection = fontSize * 0.5;
-  
-    const dividerY =
-      centeredTop + ruleHeight - baselineCorrection;
+    const lastRule = ruleTspans[ruleTspans.length - 1];
+    const lastRuleBox = lastRule.getBBox();
   
     const divider = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "line"
     );
+  
+    const dividerY =
+      lastRuleBox.y + lastRuleBox.height + (fontSize * 0.3);
   
     divider.setAttribute("x1", areaBox.x);
     divider.setAttribute("x2", areaBox.x + areaBox.width);
@@ -294,6 +288,7 @@ function renderCardText(svgRoot, card) {
     );
   }
 }
+
 // -----------------------------
 // TEST DATA
 // -----------------------------
