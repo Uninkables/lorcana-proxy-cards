@@ -272,7 +272,7 @@ function renderCardText(svgRoot, card) {
       (ruleCount - 1) * (fontSize * 1.2);
   
     // Divider should sit slightly below rule block
-    const dividerOffset = fontSize * 0.0;
+    const dividerOffset = fontSize * 1;
   
     const dividerY =
       centeredTop + ruleHeight + dividerOffset;
