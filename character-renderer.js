@@ -265,17 +265,15 @@ function renderCardText(svgRoot, card) {
   
     const ruleCount = ruleLines.length;
   
-    // First line is 1em
-    // Remaining rule lines are 1.2em
     const ruleHeight =
       fontSize +
       (ruleCount - 1) * (fontSize * 1.2);
   
-    // Divider should sit slightly below rule block
-    const dividerOffset = fontSize * -0.5;
+    // Adjust for baseline overshoot (~0.5em)
+    const baselineCorrection = fontSize * 0.5;
   
     const dividerY =
-      centeredTop + ruleHeight + dividerOffset;
+      centeredTop + ruleHeight - baselineCorrection;
   
     const divider = document.createElementNS(
       "http://www.w3.org/2000/svg",
@@ -316,7 +314,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "67",
   lang: "en",
-  set: { code: "1" }
+  set: { code: "16" }
 };
 
 loadCard(testCard);
