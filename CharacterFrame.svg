@@ -134,27 +134,27 @@
       }
     </style>
 
-    <symbol id="symbol-exert" viewBox="0 0 10 10">
+    <symbol id="symbol-exert" viewBox="0 0 100 100">
        <!-- exert art -->
     </symbol>
 
-   <symbol id="symbol-ink" viewBox="0 0 10 10">
+   <symbol id="symbol-ink" viewBox="0 0 100 100">
       <!-- ink art -->
    </symbol>
 
-   <symbol id="symbol-inkwell" viewBox="0 0 10 10">
+   <symbol id="symbol-inkwell" viewBox="0 0 100 100">
       <!-- inkwell art -->
    </symbol>
 
-   <symbol id="symbol-strength" viewBox="0 0 10 10">
+   <symbol id="symbol-strength" viewBox="0 0 100 100">
       <!-- strength buff art -->
    </symbol>
 
-   <symbol id="symbol-willpower" viewBox="0 0 10 10">
+   <symbol id="symbol-willpower" viewBox="0 0 100 100">
       <!-- willpower buff art -->
    </symbol>
 
-   <symbol id="symbol-lore" viewBox="0 0 10 10">
+   <symbol id="symbol-lore" viewBox="0 0 100 100">
       <!-- lore buff art -->
    </symbol>
 
