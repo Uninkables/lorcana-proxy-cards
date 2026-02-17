@@ -308,7 +308,7 @@ function renderCardText(svgRoot, card) {
     
     svgRoot.appendChild(textGroup);
     
-    let currentY = centeredTop + fontSize;
+    let currentY = areaBox.y + fontSize;
     
     ruleLines.forEach((line, index) => {
     
