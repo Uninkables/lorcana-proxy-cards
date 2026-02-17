@@ -154,7 +154,7 @@ function renderCardText(svgRoot, card) {
   const rulesText = card.text || "";
   const flavorText = card.flavor_text || "";
 
-  const baseFontSize = parseFloat(textEl.getAttribute("font-size")) || 10;
+  const baseFontSize = parseFloat(textEl.getAttribute("font-size")) || 2.11667;
   let ruleLines = [];
   let flavorLines = [];
   let fontSize = baseFontSize;
