@@ -8,13 +8,13 @@ const inkColors = {
 };
 
 const SYMBOL_MAP = {
-  "{I} : "#symbol-ink",
-  "{W} : "#symbol-willpower",
-  "{S} : "#symbol-strength",
-  "{L} : "#symbol-lore",
-  "{IW} : "#symbol-inkwell",
-  "{E} : "#symbol-exert"
-}
+  "{I}": "#symbol-ink",
+  "{W}": "#symbol-willpower",
+  "{S}": "#symbol-strength",
+  "{L}": "#symbol-lore",
+  "{IW}": "#symbol-inkwell",
+  "{E}": "#symbol-exert"
+};
 
 async function loadSymbols() {
   const response = await fetch("symbols.svg");
