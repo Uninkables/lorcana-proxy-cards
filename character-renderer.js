@@ -7,6 +7,15 @@ const inkColors = {
   Steel: "#cfd5ddff"
 };
 
+const SYMBOL_MAP = {
+  "{I} : "#symbol-ink",
+  "{W} : "#symbol-willpower",
+  "{S} : "#symbol-strength",
+  "{L} : "#symbol-lore",
+  "{IW} : "#symbol-inkwell",
+  "{E} : "#symbol-exert"
+}
+
 async function loadSymbols() {
   const response = await fetch("symbols.svg");
   const svgText = await response.text();
@@ -162,40 +171,58 @@ function renderCardText(svgRoot, card) {
   function wrapText(text) {
     const paragraphs = text.split("\n");
     const wrapped = [];
-
+  
     paragraphs.forEach(paragraph => {
-      const words = paragraph.split(" ");
+      const tokens = paragraph.split(/(\{[A-Z]+\})/g).filter(Boolean);
+  
       let currentLine = "";
-
-      words.forEach(word => {
-        const testLine = currentLine
-          ? currentLine + " " + word
-          : word;
-
+  
+      tokens.forEach(token => {
+  
+        const isSymbol = SYMBOL_MAP[token];
+  
+        const testLine = currentLine + token;
+  
         const testTspan = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "tspan"
         );
-
+  
         testTspan.setAttribute("x", startX);
         testTspan.setAttribute("font-size", fontSize);
-        testTspan.textContent = testLine;
-
+  
+        if (isSymbol) {
+          const use = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "use"
+          );
+  
+          use.setAttribute("href", SYMBOL_MAP[token]);
+          use.setAttribute("width", fontSize);
+          use.setAttribute("height", fontSize);
+          use.setAttribute("y", -fontSize * 0.8);
+  
+          testTspan.appendChild(use);
+        } else {
+          testTspan.textContent = testLine;
+        }
+  
         textEl.appendChild(testTspan);
         const width = testTspan.getBBox().width;
         textEl.removeChild(testTspan);
-
+  
         if (width > maxWidth && currentLine !== "") {
           wrapped.push(currentLine);
-          currentLine = word;
+          currentLine = token;
         } else {
           currentLine = testLine;
         }
+  
       });
-
+  
       wrapped.push(currentLine);
     });
-
+  
     return wrapped;
   }
 
@@ -208,6 +235,7 @@ function renderCardText(svgRoot, card) {
 
     const ruleTspans = [];
 
+    // rule lines loop
     ruleLines.forEach((line, i) => {
       const tspan = document.createElementNS(
         "http://www.w3.org/2000/svg",
@@ -216,12 +244,42 @@ function renderCardText(svgRoot, card) {
 
       tspan.setAttribute("x", startX);
       tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
-      tspan.textContent = line;
 
+      // symbol swapping
+      const parts = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
+      
+      parts.forEach(part => {
+      
+        if (SYMBOL_MAP[part]) {
+      
+          const use = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "use"
+          );
+      
+          use.setAttribute("href", SYMBOL_MAP[part]);
+          use.setAttribute("width", fontSize);
+          use.setAttribute("height", fontSize);
+          use.setAttribute("y", -fontSize * 0.8);
+      
+          tspan.appendChild(use);
+      
+        } else {
+      
+          tspan.appendChild(
+            document.createTextNode(part)
+          );
+      
+        }
+      
+      });
+
+      // append lines
       textEl.appendChild(tspan);
       ruleTspans.push(tspan);
     });
 
+    //flavor lines loop
     flavorLines.forEach((line, i) => {
       const tspan = document.createElementNS(
         "http://www.w3.org/2000/svg",
