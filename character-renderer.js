@@ -154,7 +154,7 @@ function renderCardText(svgRoot, card) {
   const rulesText = card.text || "";
   const flavorText = card.flavor_text || "";
 
-  const baseFontSize = 14;
+  const baseFontSize = parseFloat(textEl.getAttribute("font-size")) || 10;
   let fontSize = baseFontSize;
 
   function wrapText(text) {
@@ -247,7 +247,7 @@ function renderCardText(svgRoot, card) {
   // ---- Shrink loop using real bbox ----
   let textHeight = renderAtSize();
 
-  while (textHeight > areaBox.height && fontSize > 6) {
+  while (textHeight > areaBox.height) {
     fontSize -= 0.3;
     textHeight = renderAtSize();
   }
