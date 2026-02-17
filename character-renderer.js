@@ -243,15 +243,18 @@ function renderCardText(svgRoot, card) {
     textEl.setAttribute("x", startX);
     textEl.setAttribute("y", areaBox.y);
 
-    return textEl.getBBox().height;
+    return {
+      height: textEl.getBBox().height,
+      ruleTspans: ruleTspans
+    };
   }
   
   // ---- Shrink loop using real bbox ----
-  let textHeight = renderAtSize();
+  let layout = renderAtSize();
 
-  while (textHeight > areaBox.height) {
+  while (layout.height > areaBox.height) {
     fontSize -= 0.3;
-    textHeight = renderAtSize();
+    layout = renderAtSize();
   }
 
   // ---- Center after final size ----
@@ -261,9 +264,11 @@ function renderCardText(svgRoot, card) {
   textEl.setAttribute("y", centeredTop);
 
   // ---- Divider ----
-  if (flavorText && ruleTspans.length > 0) {
+  if (flavorText && layout.ruleTspans.length > 0) {
   
-    const lastRule = ruleTspans[ruleTspans.length - 1];
+    const lastRule =
+      layout.ruleTspans[layout.ruleTspans.length - 1];
+  
     const lastRuleBox = lastRule.getBBox();
   
     const divider = document.createElementNS(
@@ -272,7 +277,9 @@ function renderCardText(svgRoot, card) {
     );
   
     const dividerY =
-      lastRuleBox.y + lastRuleBox.height + (fontSize * 0.3);
+      lastRuleBox.y +
+      lastRuleBox.height +
+      (fontSize * 0.3);
   
     divider.setAttribute("x1", areaBox.x);
     divider.setAttribute("x2", areaBox.x + areaBox.width);
