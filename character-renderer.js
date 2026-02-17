@@ -259,7 +259,7 @@ function renderCardText(svgRoot, card) {
 
   // ---- Center after final size ----
   const centeredTop =
-    areaBox.y + (areaBox.height - textHeight) / 2;
+    areaBox.y + (areaBox.height - layout.height) / 2;
 
   textEl.setAttribute("y", centeredTop);
 
