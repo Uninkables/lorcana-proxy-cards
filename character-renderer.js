@@ -226,6 +226,71 @@ function renderCardText(svgRoot, card) {
     return wrapped;
   }
 
+  // -----------------------------
+  // RENDER RULE LINE
+  // -----------------------------
+  function renderRuleLine(svgRoot, parentGroup, line, x, y, fontSize) {
+
+    const lineGroup = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "g"
+    );
+  
+    parentGroup.appendChild(lineGroup);
+  
+    let currentX = x;
+  
+    const tokens = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
+  
+    tokens.forEach(token => {
+  
+      if (SYMBOL_MAP[token]) {
+  
+        const symbolDef = svgRoot.querySelector(SYMBOL_MAP[token]);
+        if (!symbolDef) return;
+  
+        const clone = symbolDef.cloneNode(true);
+  
+        const scaleFactor = fontSize / 40;
+  
+        clone.setAttribute(
+          "transform",
+          `translate(${currentX}, ${y - fontSize * 0.8}) scale(${scaleFactor})`
+        );
+  
+        lineGroup.appendChild(clone);
+  
+        // Advance X by fontSize (symbol width)
+        currentX += fontSize;
+  
+        // Add normal word spacing
+        currentX += fontSize * 0.25;
+  
+      } else {
+  
+        const textEl = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+  
+        textEl.setAttribute("x", currentX);
+        textEl.setAttribute("y", y);
+        textEl.setAttribute("font-size", fontSize);
+        textEl.setAttribute("fill", "#2e2e2e");
+  
+        textEl.textContent = token;
+  
+        lineGroup.appendChild(textEl);
+  
+        const width = textEl.getBBox().width;
+        currentX += width;
+      }
+  
+    });
+  
+    return lineGroup;
+  }
+  
   function renderAtSize() {
     clearText(textEl);
     textEl.setAttribute("font-size", fontSize);
@@ -236,56 +301,27 @@ function renderCardText(svgRoot, card) {
     const ruleTspans = [];
 
     // rule lines loop
-    ruleLines.forEach((line, i) => {
-      const tspan = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "tspan"
+    const textGroup = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "g"
+    );
+    
+    svgRoot.appendChild(textGroup);
+    
+    let currentY = centeredTop + fontSize;
+    
+    ruleLines.forEach((line, index) => {
+    
+      renderRuleLine(
+        svgRoot,
+        textGroup,
+        line,
+        startX,
+        currentY,
+        fontSize
       );
-
-      tspan.setAttribute("x", startX);
-      tspan.setAttribute("dy", i === 0 ? "1em" : "1.2em");
-
-      // symbol swapping
-      const parts = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
-
-      parts.forEach(part => {
-      
-        if (SYMBOL_MAP[part]) {
-      
-          const symbolDef = svgRoot.querySelector(SYMBOL_MAP[part]);
-          if (!symbolDef) return;
-      
-          const clone = symbolDef.cloneNode(true);
-      
-          // Wrap in a tspan so layout flows correctly
-          const symbolWrapper = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "tspan"
-          );
-      
-          // Scale symbol relative to font size
-          const scaleFactor = fontSize / 100; 
-          clone.setAttribute(
-            "transform",
-            `scale(${scaleFactor}) translate(0, -80)`
-          );
-      
-          symbolWrapper.appendChild(clone);
-          tspan.appendChild(symbolWrapper);
-      
-        } else {
-      
-          tspan.appendChild(
-            document.createTextNode(part)
-          );
-      
-        }
-      
-      });
-
-      // append lines
-      textEl.appendChild(tspan);
-      ruleTspans.push(tspan);
+    
+      currentY += fontSize * 1.2;
     });
 
     //flavor lines loop
@@ -343,10 +379,7 @@ function renderCardText(svgRoot, card) {
       "line"
     );
   
-    const dividerY =
-      lastRuleBox.y +
-      lastRuleBox.height +
-      (fontSize * 0.3);
+    const dividerY = areaBox.y + (ruleLines.length * fontSize * 1.2);
   
     divider.setAttribute("x1", areaBox.x);
     divider.setAttribute("x2", areaBox.x + areaBox.width);
@@ -383,7 +416,7 @@ const testCard = {
   illustrators: ["Matthew Robert Davies"],
   collector_number: "67",
   lang: "en",
-  set: { code: "7" }
+  set: { code: "8" }
 };
 
 loadCard(testCard);
