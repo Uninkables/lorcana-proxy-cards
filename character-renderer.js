@@ -77,7 +77,7 @@ function updateCharacterCard(svgRoot, card) {
   }
 
   // ----- Ink Cost -----
-  for (let i = 0; i <= 10; i++) {
+  for (let i = 0; i <= 12; i++) {
     const el = svgRoot.querySelector(`#ink-cost-${i}`);
     if (el) el.style.display = i === card.cost ? "inline" : "none";
   }
