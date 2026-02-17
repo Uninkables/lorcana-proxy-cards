@@ -192,12 +192,28 @@ function renderCardText(svgRoot, card) {
         testTspan.setAttribute("font-size", fontSize);
   
         if (isSymbol) {
+          const symbolTspan = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "tspan"
+          );
+          
           const use = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "use"
           );
-  
-          use.setAttribute("href", SYMBOL_MAP[token]);
+          
+          use.setAttributeNS(
+            "http://www.w3.org/1999/xlink",
+            "xlink:href",
+            SYMBOL_MAP[part]
+          );
+          
+          use.setAttribute("width", fontSize);
+          use.setAttribute("height", fontSize);
+          use.setAttribute("y", -fontSize * 0.8);
+          
+          symbolTspan.appendChild(use);
+          tspan.appendChild(symbolTspan);
           use.setAttribute("width", fontSize);
           use.setAttribute("height", fontSize);
           use.setAttribute("y", -fontSize * 0.8);
