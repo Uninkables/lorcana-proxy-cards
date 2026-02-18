@@ -241,7 +241,7 @@ function renderCardText(svgRoot, card) {
     
         let currentX = startX;
     
-        const tokens = line.split(/(\{[A-Z]+\})/g);
+        const tokens = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
     
         tokens.forEach(token => {
     
@@ -271,16 +271,28 @@ function renderCardText(svgRoot, card) {
             // TEXT
             // -------------------------
     
-            const words = token.split(/(\s+)/g);
-
+            const words = token.split(/(\s+)/g).filter(Boolean);
+    
             for (let i = 0; i < words.length; i++) {
             
                 let word = words[i];
             
+                // Skip truly empty strings only
                 if (word === "") continue;
+            
+                // -------------------------
+                // WHITESPACE HANDLING
+                // -------------------------
+                if (/^\s+$/.test(word)) {
+                    currentX += spaceWidth * word.length;
+                    continue;
+                }
             
                 const cleanWord = word.replace(/[^\w]/g, "").toLowerCase();
             
+                // -------------------------
+                // Parentheses State
+                // -------------------------
                 if (word.includes("(")) {
                     state.insideParentheses = true;
                 }
@@ -292,16 +304,26 @@ function renderCardText(svgRoot, card) {
                     isItalic = true;
                 }
             
+                // -------------------------
+                // ALL CAPS
+                // -------------------------
                 if (word === word.toUpperCase() && /[A-Z]/.test(word)) {
                     isBold = true;
                 }
             
+                // -------------------------
+                // KEYWORDS
+                // -------------------------
                 if (keywordSet.has(cleanWord)) {
                     isBold = true;
                 }
             
+                // -------------------------
+                // +NUMBER AFTER KEYWORD
+                // -------------------------
                 if (/^\+\d+/.test(word)) {
             
+                    // look backward for previous NON-whitespace token
                     let j = i - 1;
                     while (j >= 0 && /^\s+$/.test(words[j])) {
                         j--;
@@ -326,16 +348,14 @@ function renderCardText(svgRoot, card) {
                 textNode.setAttribute("x", currentX);
                 textNode.setAttribute("y", y);
                 textNode.setAttribute("font-size", fontSize);
-                textNode.setAttribute("font-family", "Brandon Grotesque");
                 textNode.setAttribute("fill", "#2e2e2e");
+                textNode.setAttribute("font-family", "Brandon Grotesque");
+                textNode.setAttribute("font-weight", "700");
             
+                if (isBold) textNode.setAttribute("font-family", "Brandon Grotesque");
                 if (isBold) textNode.setAttribute("font-weight", "900");
-                else textNode.setAttribute("font-weight", "700");
-            
                 if (isItalic) textNode.setAttribute("font-style", "italic");
             
-                // 🔥 KEY CHANGE:
-                // render word exactly as-is including spaces
                 textNode.textContent = word;
             
                 parentGroup.appendChild(textNode);
@@ -346,6 +366,8 @@ function renderCardText(svgRoot, card) {
                     state.insideParentheses = false;
                 }
             }
+    
+        });
     }
 
     // -----------------------------
