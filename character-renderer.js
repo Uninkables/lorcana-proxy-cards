@@ -274,11 +274,14 @@ function renderCardText(svgRoot, card) {
             const words = token.split(/(\s+)/g).filter(Boolean);
     
             for (let i = 0; i < words.length; i++) {
-
+            
                 let word = words[i];
             
+                // Skip truly empty strings only
+                if (word === "") continue;
+            
                 // -------------------------
-                // HANDLE WHITESPACE PROPERLY
+                // WHITESPACE HANDLING
                 // -------------------------
                 if (/^\s+$/.test(word)) {
                     currentX += spaceWidth * word.length;
@@ -287,6 +290,9 @@ function renderCardText(svgRoot, card) {
             
                 const cleanWord = word.replace(/[^\w]/g, "").toLowerCase();
             
+                // -------------------------
+                // Parentheses State
+                // -------------------------
                 if (word.includes("(")) {
                     state.insideParentheses = true;
                 }
@@ -298,18 +304,39 @@ function renderCardText(svgRoot, card) {
                     isItalic = true;
                 }
             
-                if (word === word.toUpperCase() && word.match(/[A-Z]/)) {
+                // -------------------------
+                // ALL CAPS
+                // -------------------------
+                if (word === word.toUpperCase() && /[A-Z]/.test(word)) {
                     isBold = true;
                 }
             
+                // -------------------------
+                // KEYWORDS
+                // -------------------------
                 if (keywordSet.has(cleanWord)) {
                     isBold = true;
                 }
             
+                // -------------------------
+                // +NUMBER AFTER KEYWORD
+                // -------------------------
                 if (/^\+\d+/.test(word)) {
-                    const prev = words[i - 1];
-                    if (prev && keywordSet.has(prev.toLowerCase())) {
-                        isBold = true;
+            
+                    // look backward for previous NON-whitespace token
+                    let j = i - 1;
+                    while (j >= 0 && /^\s+$/.test(words[j])) {
+                        j--;
+                    }
+            
+                    if (j >= 0) {
+                        const prevClean = words[j]
+                            .replace(/[^\w]/g, "")
+                            .toLowerCase();
+            
+                        if (keywordSet.has(prevClean)) {
+                            isBold = true;
+                        }
                     }
                 }
             
