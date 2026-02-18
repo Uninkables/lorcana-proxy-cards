@@ -163,6 +163,7 @@ function renderCardText(svgRoot, card) {
 
     const rulesText = card.text || "";
     const flavorText = card.flavor_text || "";
+    const keywordSet = new Set((card.keywords || []).map(k => k.toLowerCase()));
 
     const baseFontSize = 2.11667;
     let fontSize = baseFontSize;
@@ -239,46 +240,94 @@ function renderCardText(svgRoot, card) {
     function renderRuleLine(parentGroup, line, y) {
 
         let currentX = startX;
+    
         const tokens = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
-
+    
         tokens.forEach(token => {
-
+    
+            // -------------------------
+            // SYMBOL
+            // -------------------------
             if (SYMBOL_MAP[token]) {
-
+    
                 const symbolDef = svgRoot.querySelector(SYMBOL_MAP[token]);
                 if (!symbolDef) return;
-
+    
                 const clone = symbolDef.cloneNode(true);
-                const scaleFactor = fontSize / 105.834;
-
+    
+                const scaleFactor = fontSize / 80;
+    
                 clone.setAttribute(
                     "transform",
                     `translate(${currentX}, ${y - fontSize * 0.8}) scale(${scaleFactor})`
                 );
-
+    
                 parentGroup.appendChild(clone);
-
+    
                 currentX += fontSize + (fontSize * 0.25);
-
-            } else {
-
+                return;
+            }
+    
+            // -------------------------
+            // TEXT PROCESSING
+            // -------------------------
+    
+            const words = token.split(/(\s+)/g).filter(Boolean);
+    
+            words.forEach(word => {
+    
+                const cleanWord = word.replace(/[^\w]/g, "").toLowerCase();
+    
                 const textNode = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "text"
                 );
-
+    
                 textNode.setAttribute("x", currentX);
                 textNode.setAttribute("y", y);
                 textNode.setAttribute("font-size", fontSize);
                 textNode.setAttribute("fill", "#2e2e2e");
-                textNode.textContent = token;
-
+    
+                // -------------------------
+                // Formatting Rules
+                // -------------------------
+    
+                let isBold = false;
+                let isItalic = false;
+    
+                // 1. ALL CAPS
+                if (
+                    word === word.toUpperCase() &&
+                    word.match(/[A-Z]/)
+                ) {
+                    isBold = true;
+                }
+    
+                // 2. KEYWORDS
+                if (keywordSet.has(cleanWord)) {
+                    isBold = true;
+                }
+    
+                // 3. Parentheses
+                if (word.startsWith("(") || word.endsWith(")")) {
+                    isItalic = true;
+                }
+    
+                if (isBold) {
+                    textNode.setAttribute("font-weight", "700");
+                }
+    
+                if (isItalic) {
+                    textNode.setAttribute("font-style", "italic");
+                }
+    
+                textNode.textContent = word;
+    
                 parentGroup.appendChild(textNode);
-
+    
                 const width = textNode.getBBox().width;
                 currentX += width;
-            }
-
+            });
         });
     }
 
@@ -389,7 +438,8 @@ const testCard = {
     rarity: "Uncommon",
     classifications: ["Storyborn", "Hero", "Princess"],
     text: "SHADOW POWER When you play this character, you may give chosen character Challenger +2 and Resist +2 until the start of your next turn. (They get +2 {S} while challenging. Damage dealt to them is reduced by 2.)\nETERNAL NIGHT Your Gargoyle characters lose the Stone by Day ability.",
-    flavor_text: "",
+    flavor_text: "\"...\n...\n...\"",
+    keywords: ["Challenger", "Resist"],
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
