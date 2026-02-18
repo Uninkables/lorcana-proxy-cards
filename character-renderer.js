@@ -251,7 +251,7 @@ function renderCardText(svgRoot, card) {
   
         const clone = symbolDef.cloneNode(true);
   
-        const scaleFactor = fontSize / 40;
+        const scaleFactor = fontSize / 80;
   
         clone.setAttribute(
           "transform",
@@ -324,35 +324,35 @@ function renderCardText(svgRoot, card) {
       currentY += fontSize * 1.2;
     });
 
-    //flavor lines loop
-    flavorLines.forEach((line, i) => {
-      const tspan = document.createElementNS(
+
+  //flavor lines loop
+
+  if (flavorLines.length > 0) {
+
+    currentY += fontSize * 0.8; // space before divider area
+    
+    flavorLines.forEach((line) => {
+    
+      const flavorText = document.createElementNS(
         "http://www.w3.org/2000/svg",
-        "tspan"
+        "text"
       );
-
-      tspan.setAttribute("x", startX);
-      tspan.setAttribute(
-        "dy",
-        ruleTspans.length > 0 && i === 0 ? "2em" : "1em"
-      );
-      tspan.setAttribute("font-style", "italic");
-      tspan.textContent = line;
-
-      textEl.appendChild(tspan);
+    
+      flavorText.setAttribute("x", startX);
+      flavorText.setAttribute("y", currentY);
+      flavorText.setAttribute("font-size", fontSize);
+      flavorText.setAttribute("font-style", "italic");
+      flavorText.setAttribute("fill", "#2e2e2e");
+    
+      flavorText.textContent = line;
+    
+      textEl.appendChild(flavorText);
+    
+      currentY += fontSize * 1.2;
     });
-
-    // Position at top first
-    textEl.setAttribute("x", startX);
-    textEl.setAttribute("y", areaBox.y);
-
-    return {
-      height: textEl.getBBox().height,
-      ruleTspans: ruleTspans
-    };
   }
-  
-  // ---- Shrink loop using real bbox ----
+    
+  // ---- Shrink loop ----
   let layout = renderAtSize();
 
   while (layout.height > areaBox.height) {
@@ -360,39 +360,46 @@ function renderCardText(svgRoot, card) {
     layout = renderAtSize();
   }
 
+  const textHeight = textEl.getBBox().height;
+
+  const centeredTop =
+    areaBox.y + (areaBox.height - textHeight) / 2;
+  
+  const currentTop = areaBox.y;
+  
+  const offset = centeredTop - currentTop;
+  
+  textEl.setAttribute(
+    "transform",
+    `translate(0, ${offset})`
+  );
+
   // ---- Center after final size ----
   const centeredTop =
     areaBox.y + (areaBox.height - layout.height) / 2;
 
   textEl.setAttribute("y", centeredTop);
-
+  
   // ---- Divider ----
-  if (flavorText && layout.ruleTspans.length > 0) {
-  
-    const lastRule =
-      layout.ruleTspans[layout.ruleTspans.length - 1];
-  
-    const lastRuleBox = lastRule.getBBox();
-  
+  if (flavorLines.length > 0 && ruleLines.length > 0) {
     const divider = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "line"
-    );
+    "http://www.w3.org/2000/svg",
+    "line"
+  );
   
-    const dividerY = areaBox.y + (ruleLines.length * fontSize * 1.2);
+  const ruleBlockHeight = ruleLines.length * fontSize * 1.2;
   
-    divider.setAttribute("x1", areaBox.x);
-    divider.setAttribute("x2", areaBox.x + areaBox.width);
-    divider.setAttribute("y1", dividerY);
-    divider.setAttribute("y2", dividerY);
-    divider.setAttribute("stroke", "#bbbbbb");
-    divider.setAttribute("stroke-width", "0.2");
-    divider.classList.add("card-divider");
+  const dividerY =
+    centeredTop + ruleBlockHeight + fontSize * 0.3;
   
-    textEl.parentNode.insertBefore(
-      divider,
-      textEl.nextSibling
-    );
+  divider.setAttribute("x1", areaBox.x);
+  divider.setAttribute("x2", areaBox.x + areaBox.width);
+  divider.setAttribute("y1", dividerY);
+  divider.setAttribute("y2", dividerY);
+  divider.setAttribute("stroke", "#bbbbbb");
+  divider.setAttribute("stroke-width", "0.2");
+  
+  svgRoot.appendChild(divider);
   }
 }
 
