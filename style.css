@@ -195,8 +195,14 @@ pre {
 
 @font-face {
   font-family: 'Brandon Grotesque';
-  src: url('fonts/brandon-grotesque.otf') format('opetype');
-  font-weight: medium;
+  src: url('fonts/brandon-grotesque-black.otf') format('opetype');
+  font-weight: black;
+}
+
+@font-face {
+  font-family: 'Brandon Grotesque';
+  src: url('fonts/brandon-grotesque-bold.otf') format('opetype');
+  font-weight: bold;
 }
 
 @font-face {
