@@ -237,10 +237,9 @@ function renderCardText(svgRoot, card) {
     // -----------------------------
     // RENDER RULE LINE
     // -----------------------------
-    function renderRuleLine(parentGroup, line, y) {
+    function renderRuleLine(parentGroup, line, y, state) {
     
         let currentX = startX;
-        let insideParentheses = false;
     
         const tokens = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
     
@@ -269,7 +268,7 @@ function renderCardText(svgRoot, card) {
             }
     
             // -------------------------
-            // TEXT TOKEN
+            // TEXT PROCESSING
             // -------------------------
     
             const words = token.split(/(\s+)/g).filter(Boolean);
@@ -278,18 +277,39 @@ function renderCardText(svgRoot, card) {
     
                 let word = words[i];
     
+                // ---- Preserve whitespace ----
+                if (/^\s+$/.test(word)) {
+    
+                    const spaceNode = document.createElementNS(
+                        "http://www.w3.org/2000/svg",
+                        "text"
+                    );
+    
+                    spaceNode.setAttribute("x", currentX);
+                    spaceNode.setAttribute("y", y);
+                    spaceNode.setAttribute("font-size", fontSize);
+                    spaceNode.setAttribute("fill", "#2e2e2e");
+    
+                    spaceNode.textContent = " ";
+    
+                    parentGroup.appendChild(spaceNode);
+    
+                    currentX += spaceNode.getBBox().width;
+                    continue;
+                }
+    
                 const cleanWord = word.replace(/[^\w]/g, "").toLowerCase();
     
-                // Track parentheses state
+                // ---- Parentheses state ----
                 if (word.includes("(")) {
-                    insideParentheses = true;
+                    state.insideParentheses = true;
                 }
     
                 let isBold = false;
                 let isItalic = false;
     
-                // 1. Parentheses (state based)
-                if (insideParentheses) {
+                // 1. Parentheses state (persistent across lines)
+                if (state.insideParentheses) {
                     isItalic = true;
                 }
     
@@ -304,15 +324,9 @@ function renderCardText(svgRoot, card) {
                 // 3. Keywords
                 if (keywordSet.has(cleanWord)) {
                     isBold = true;
-    
-                    // Check next token for +number
-                    const nextWord = words[i + 1];
-                    if (nextWord && /^\+\d+/.test(nextWord)) {
-                        words[i + 1] = nextWord; // mark for bold later
-                    }
                 }
     
-                // 4. +number modifier after keyword
+                // 4. +number after keyword
                 if (/^\+\d+/.test(word)) {
                     const prevWord = words[i - 1];
                     const prevClean = prevWord
@@ -346,12 +360,11 @@ function renderCardText(svgRoot, card) {
     
                 parentGroup.appendChild(textNode);
     
-                const width = textNode.getBBox().width;
-                currentX += width;
+                currentX += textNode.getBBox().width;
     
-                // Close parentheses state AFTER rendering word
+                // ---- Close parentheses AFTER rendering ----
                 if (word.includes(")")) {
-                    insideParentheses = false;
+                    state.insideParentheses = false;
                 }
             }
     
@@ -362,44 +375,71 @@ function renderCardText(svgRoot, card) {
     // RENDER AT SIZE
     // -----------------------------
     function renderAtSize() {
-
+    
         clearText(textEl);
-
+        textEl.setAttribute("font-size", fontSize);
+    
         ruleLines = wrapText(rulesText);
         flavorLines = flavorText ? wrapText(flavorText) : [];
-
+    
+        const textGroup = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "g"
+        );
+    
+        svgRoot.appendChild(textGroup);
+    
         let currentY = areaBox.y + fontSize;
-
-        ruleLines.forEach(line => {
-            renderRuleLine(textEl, line, currentY);
-            currentY += fontSize * 1.3;
+    
+        // ---- Persistent parentheses state ----
+        const state = { insideParentheses: false };
+    
+        // -------------------------
+        // RULES TEXT
+        // -------------------------
+        ruleLines.forEach((line) => {
+    
+            renderRuleLine(
+                textGroup,
+                line,
+                currentY,
+                state
+            );
+    
+            currentY += fontSize * 1.3; // Increased spacing
         });
-
+    
+        // -------------------------
+        // FLAVOR TEXT
+        // -------------------------
         if (flavorLines.length > 0) {
-            currentY += fontSize * 0.8;
-
-            flavorLines.forEach(line => {
-
-                const flavorNode = document.createElementNS(
+    
+            currentY += fontSize * 0.8; // space before divider
+    
+            flavorLines.forEach((line) => {
+    
+                const flavorTextNode = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "text"
                 );
-
-                flavorNode.setAttribute("x", startX);
-                flavorNode.setAttribute("y", currentY);
-                flavorNode.setAttribute("font-size", fontSize);
-                flavorNode.setAttribute("font-style", "italic");
-                flavorNode.setAttribute("fill", "#2e2e2e");
-
-                flavorNode.textContent = line;
-
-                textEl.appendChild(flavorNode);
-
+    
+                flavorTextNode.setAttribute("x", startX);
+                flavorTextNode.setAttribute("y", currentY);
+                flavorTextNode.setAttribute("font-size", fontSize);
+                flavorTextNode.setAttribute("font-style", "italic");
+                flavorTextNode.setAttribute("fill", "#2e2e2e");
+    
+                flavorTextNode.textContent = line;
+    
+                textGroup.appendChild(flavorTextNode);
+    
                 currentY += fontSize * 1.3;
             });
         }
-
-        return textEl.getBBox().height;
+    
+        return {
+            height: textGroup.getBBox().height
+        };
     }
 
     // -----------------------------
