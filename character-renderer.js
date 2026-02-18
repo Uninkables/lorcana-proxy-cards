@@ -149,310 +149,117 @@ function clearDivider(svgRoot) {
 
 function renderCardText(svgRoot, card) {
 
-    const textEl = svgRoot.querySelector("#card-text");
     const textArea = svgRoot.querySelector("#card-text-area");
+    const cardText = svgRoot.querySelector("#card-text");
 
-    if (!textEl || !textArea) return;
+    if (!textArea || !cardText) return;
 
-    clearDivider(svgRoot);
-    clearText(textEl);
+    cardText.innerHTML = "";
 
     const areaBox = textArea.getBBox();
     const maxWidth = areaBox.width;
-    const startX = areaBox.x;
 
     const rulesText = card.text || "";
     const flavorText = card.flavor_text || "";
-    const keywordSet = new Set((card.keywords || []).map(k => k.toLowerCase()));
+    const keywords = card.keywords || [];
 
-    const baseFontSize = 2.11667;
-    let fontSize = baseFontSize;
+    let fontSize = 2.11667;
 
-    let ruleLines = [];
-    let flavorLines = [];
+    // Create text group inside #card-text
+    const textGroup = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "g"
+    );
 
-    // -----------------------------
-    // WRAP TEXT
-    // -----------------------------
-    function wrapTextExact(text, fontSize, maxWidth, keywordSet) {
-    
-        const lines = [];
-        const paragraphs = text.split("\n");
-    
-        const measurer = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
-    
-        measurer.setAttribute("font-family", "Brandon Grotesque");
-        measurer.setAttribute("font-size", fontSize);
-        measurer.setAttribute("font-weight", "700");
-        measurer.setAttribute("visibility", "hidden");
-    
-        document.querySelector("svg").appendChild(measurer);
-    
-        for (const paragraph of paragraphs) {
-    
-            const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
-    
-            let currentLine = "";
-            let currentWidth = 0;
-    
-            for (const token of tokens) {
-    
-                measurer.textContent = token;
-                const tokenWidth = measurer.getBBox().width;
-    
-                if (currentWidth + tokenWidth > maxWidth && currentLine !== "") {
-                    lines.push(currentLine);
-                    currentLine = token;
-                    currentWidth = tokenWidth;
-                } else {
-                    currentLine += token;
-                    currentWidth += tokenWidth;
-                }
-            }
-    
-            lines.push(currentLine);
-        }
-    
-        measurer.remove();
-    
-        return lines;
-    }
+    cardText.appendChild(textGroup);
 
-    // -----------------------------
-    // RENDER RULE LINE
-    // -----------------------------
-    function renderRuleLineExact(
-        line,
-        startX,
-        y,
-        fontSize,
-        parentGroup,
-        keywordSet,
-        state
-    ) {
-    
-        let currentX = startX;
-    
-        const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
-    
-        for (let i = 0; i < tokens.length; i++) {
-    
-            const token = tokens[i];
-    
-            if (/^\{[^}]+\}$/.test(token)) {
-    
-                const symbol = createSymbol(token, currentX, y, fontSize);
-                parentGroup.appendChild(symbol);
-                currentX += symbol.getBBox().width;
-                continue;
-            }
-    
-            if (token.includes("(")) state.insideParentheses = true;
-    
-            const clean = token.replace(/[^\w]/g, "").toLowerCase();
-    
-            let isBold = false;
-            let isItalic = false;
-    
-            if (state.insideParentheses) isItalic = true;
-    
-            if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
-                isBold = true;
-            }
-    
-            if (keywordSet.has(clean)) isBold = true;
-    
-            if (/^\+\d+/.test(token)) {
-                let j = i - 1;
-                while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
-                if (j >= 0) {
-                    const prevClean = tokens[j]
-                        .replace(/[^\w]/g, "")
-                        .toLowerCase();
-                    if (keywordSet.has(prevClean)) isBold = true;
-                }
-            }
-    
-            const textNode = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "text"
-            );
-    
-            textNode.setAttribute("x", currentX);
-            textNode.setAttribute("y", y);
-            textNode.setAttribute("font-size", fontSize);
-            textNode.setAttribute("font-family", "Brandon Grotesque");
-            textNode.setAttribute("fill", "#2e2e2e");
-    
-            textNode.setAttribute("font-weight", isBold ? "900" : "700");
-            if (isItalic) textNode.setAttribute("font-style", "italic");
-    
-            textNode.textContent = token;
-    
-            parentGroup.appendChild(textNode);
-    
-            currentX += textNode.getBBox().width;
-    
-            if (token.includes(")")) state.insideParentheses = false;
-        }
-    }
+    function renderAtSize(fontSize) {
 
-    // -----------------------------
-    // RENDER AT SIZE
-    // -----------------------------
-    function renderAtSize({
-        text,
-        flavorText,
-        keywords,
-        fontSize,
-        cardTextGroup,
-        maxWidth,
-        topY,
-        bottomY
-    }) {
-    
-        cardTextGroup.innerHTML = "";
-    
+        textGroup.innerHTML = "";
+
         const keywordSet = new Set(
-            (keywords || []).map(k => k.toLowerCase())
+            keywords.map(k => k.toLowerCase())
         );
-    
-        const lineHeight = fontSize * 1.35;
-    
-        const rulesLines = wrapTextExact(
-            text,
+
+        const lineHeight = fontSize * 1.45;
+
+        const ruleLines = wrapTextExact(
+            rulesText,
             fontSize,
             maxWidth,
             keywordSet
         );
-    
+
         const flavorLines = flavorText
             ? wrapTextExact(flavorText, fontSize, maxWidth, keywordSet)
             : [];
-    
+
         const totalHeight =
-            (rulesLines.length + flavorLines.length) * lineHeight +
+            (ruleLines.length + flavorLines.length) * lineHeight +
             (flavorLines.length > 0 ? lineHeight * 0.5 : 0);
-    
-        const availableHeight = bottomY - topY;
-        let currentY = topY + (availableHeight - totalHeight) / 2;
-    
+
+        const availableHeight = areaBox.height;
+        let currentY =
+            areaBox.y + (availableHeight - totalHeight) / 2;
+
         const state = { insideParentheses: false };
-    
-        for (const line of rulesLines) {
+
+        for (const line of ruleLines) {
             renderRuleLineExact(
                 line,
-                0,
+                areaBox.x,
                 currentY,
                 fontSize,
-                cardTextGroup,
+                textGroup,
                 keywordSet,
                 state
             );
             currentY += lineHeight;
         }
-    
+
         if (flavorLines.length > 0) {
-    
+
             currentY += lineHeight * 0.25;
-    
+
             const divider = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "line"
             );
-    
-            divider.setAttribute("x1", 0);
-            divider.setAttribute("x2", maxWidth);
+
+            divider.setAttribute("x1", areaBox.x);
+            divider.setAttribute("x2", areaBox.x + maxWidth);
             divider.setAttribute("y1", currentY);
             divider.setAttribute("y2", currentY);
             divider.setAttribute("stroke", "#2e2e2e");
-            divider.setAttribute("stroke-width", "0.5");
-    
-            cardTextGroup.appendChild(divider);
-    
+            divider.setAttribute("stroke-width", "0.4");
+
+            textGroup.appendChild(divider);
+
             currentY += lineHeight * 0.75;
-    
+
             for (const line of flavorLines) {
                 renderRuleLineExact(
                     line,
-                    0,
+                    areaBox.x,
                     currentY,
                     fontSize,
-                    cardTextGroup,
+                    textGroup,
                     keywordSet,
                     state
                 );
                 currentY += lineHeight;
             }
         }
+
+        return totalHeight;
     }
 
-    // -----------------------------
-    // SHRINK LOOP
-    // -----------------------------
-    let layout = renderAtSize({
-            text: rulesText,
-            flavorText: flavorText,
-            keywords: card.keywords || [],
-            fontSize: fontSize,
-            cardTextGroup: textGroup,
-            maxWidth: maxWidth,
-            topY: areaBox.y,
-            bottomY: areaBox.y + areaBox.height
-        });
-    
-    while (layout.height > areaBox.height) {
+    // Shrink loop
+    let height = renderAtSize(fontSize);
+
+    while (height > areaBox.height && fontSize > 1.2) {
         fontSize -= 0.2;
-        svgRoot.removeChild(layout.group);
-        layout = renderAtSize({
-            text: rulesText,
-            flavorText: flavorText,
-            keywords: card.keywords || [],
-            fontSize: fontSize,
-            cardTextGroup: textGroup,
-            maxWidth: maxWidth,
-            topY: areaBox.y,
-            bottomY: areaBox.y + areaBox.height
-        });
-    }
-
-    // -----------------------------
-    // CENTERING
-    // -----------------------------
-    const centeredTop =
-        areaBox.y + (areaBox.height - layout.height) / 2;
-    
-    const offset = centeredTop - areaBox.y;
-
-    layout.group.setAttribute("transform", `translate(0, ${offset})`);
-
-    // -----------------------------
-    // DIVIDER
-    // -----------------------------
-    if (flavorLines.length > 0 && ruleLines.length > 0) {
-
-        const divider = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "line"
-        );
-
-        const ruleBlockHeight = ruleLines.length * fontSize * 1.2;
-
-        const dividerY =
-            centeredTop + ruleBlockHeight + fontSize * 0.3;
-
-        divider.setAttribute("x1", areaBox.x);
-        divider.setAttribute("x2", areaBox.x + areaBox.width);
-        divider.setAttribute("y1", dividerY);
-        divider.setAttribute("y2", dividerY);
-        divider.setAttribute("stroke", "#bbbbbb");
-        divider.setAttribute("stroke-width", "0.2");
-        divider.classList.add("card-divider");
-
-        svgRoot.appendChild(divider);
+        height = renderAtSize(fontSize);
     }
 }
 
