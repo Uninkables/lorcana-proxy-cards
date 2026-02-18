@@ -148,6 +148,7 @@ function clearDivider(svgRoot) {
 // -----------------------------
 
 function renderCardText(svgRoot, card) {
+
     const textEl = svgRoot.querySelector("#card-text");
     const textArea = svgRoot.querySelector("#card-text-area");
 
@@ -163,59 +164,47 @@ function renderCardText(svgRoot, card) {
     const rulesText = card.text || "";
     const flavorText = card.flavor_text || "";
 
-    const baseFontSize = parseFloat(textEl.getAttribute("font-size")) || 2.11667;
-    let ruleLines = [];
-    let flavorLines = [];
+    const baseFontSize = 2.11667;
     let fontSize = baseFontSize;
 
+    let ruleLines = [];
+    let flavorLines = [];
+
+    // -----------------------------
+    // WRAP TEXT
+    // -----------------------------
     function wrapText(text) {
+
         const paragraphs = text.split("\n");
         const wrapped = [];
 
         paragraphs.forEach(paragraph => {
-            const tokens = paragraph.split(/(\{[A-Z]+\})/g).filter(Boolean);
 
+            const tokens = paragraph.split(/(\{[A-Z]+\})/g).filter(Boolean);
             let currentLine = "";
 
             tokens.forEach(token => {
 
-                const isSymbol = SYMBOL_MAP[token];
+                const testText = currentLine + token;
 
-                const testLine = currentLine + token;
-
-                const testTspan = document.createElementNS(
+                const testNode = document.createElementNS(
                     "http://www.w3.org/2000/svg",
-                    "tspan"
+                    "text"
                 );
 
-                testTspan.setAttribute("x", startX);
-                testTspan.setAttribute("font-size", fontSize);
+                testNode.setAttribute("x", startX);
+                testNode.setAttribute("font-size", fontSize);
+                testNode.textContent = testText;
 
-                if (isSymbol) {
-                    const use = document.createElementNS(
-                        "http://www.w3.org/2000/svg",
-                        "use"
-                    );
-
-                    use.setAttribute("href", SYMBOL_MAP[token]);
-                    use.setAttribute("width", fontSize);
-                    use.setAttribute("height", fontSize);
-                    use.setAttribute("y", -fontSize * 0.8);
-
-                    testTspan.appendChild(use);
-                } else {
-                    testTspan.textContent = testLine;
-                }
-
-                textEl.appendChild(testTspan);
-                const width = testTspan.getBBox().width;
-                textEl.removeChild(testTspan);
+                textEl.appendChild(testNode);
+                const width = testNode.getBBox().width;
+                textEl.removeChild(testNode);
 
                 if (width > maxWidth && currentLine !== "") {
                     wrapped.push(currentLine);
                     currentLine = token;
                 } else {
-                    currentLine = testLine;
+                    currentLine = testText;
                 }
 
             });
@@ -225,22 +214,13 @@ function renderCardText(svgRoot, card) {
 
         return wrapped;
     }
-}
 
     // -----------------------------
     // RENDER RULE LINE
     // -----------------------------
-    function renderRuleLine(svgRoot, parentGroup, line, x, y, fontSize) {
+    function renderRuleLine(parentGroup, line, y) {
 
-        const lineGroup = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "g"
-        );
-
-        parentGroup.appendChild(lineGroup);
-
-        let currentX = x;
-
+        let currentX = startX;
         const tokens = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
 
         tokens.forEach(token => {
@@ -251,7 +231,6 @@ function renderCardText(svgRoot, card) {
                 if (!symbolDef) return;
 
                 const clone = symbolDef.cloneNode(true);
-
                 const scaleFactor = fontSize / 80;
 
                 clone.setAttribute(
@@ -259,167 +238,144 @@ function renderCardText(svgRoot, card) {
                     `translate(${currentX}, ${y - fontSize * 0.8}) scale(${scaleFactor})`
                 );
 
-                lineGroup.appendChild(clone);
+                parentGroup.appendChild(clone);
 
-                // Advance X by fontSize (symbol width)
-                currentX += fontSize;
-
-                // Add normal word spacing
-                currentX += fontSize * 0.25;
+                currentX += fontSize + (fontSize * 0.25);
 
             } else {
 
-                const textEl = document.createElementNS(
+                const textNode = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "text"
                 );
 
-                textEl.setAttribute("x", currentX);
-                textEl.setAttribute("y", y);
-                textEl.setAttribute("font-size", fontSize);
-                textEl.setAttribute("fill", "#2e2e2e");
+                textNode.setAttribute("x", currentX);
+                textNode.setAttribute("y", y);
+                textNode.setAttribute("font-size", fontSize);
+                textNode.setAttribute("fill", "#2e2e2e");
+                textNode.textContent = token;
 
-                textEl.textContent = token;
+                parentGroup.appendChild(textNode);
 
-                lineGroup.appendChild(textEl);
-
-                const width = textEl.getBBox().width;
+                const width = textNode.getBBox().width;
                 currentX += width;
             }
 
         });
-
-        return lineGroup;
     }
 
+    // -----------------------------
+    // RENDER AT SIZE
+    // -----------------------------
     function renderAtSize() {
+
         clearText(textEl);
-        textEl.setAttribute("font-size", fontSize);
 
         ruleLines = wrapText(rulesText);
         flavorLines = flavorText ? wrapText(flavorText) : [];
 
-        const ruleTspans = [];
-
-        // rule lines loop
-        const textGroup = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "g"
-        );
-
-        svgRoot.appendChild(textGroup);
-
         let currentY = areaBox.y + fontSize;
 
-        ruleLines.forEach((line, index) => {
-
-            renderRuleLine(
-                svgRoot,
-                textGroup,
-                line,
-                startX,
-                currentY,
-                fontSize
-            );
-
+        ruleLines.forEach(line => {
+            renderRuleLine(textEl, line, currentY);
             currentY += fontSize * 1.2;
         });
 
-
-        //flavor lines loop
-
         if (flavorLines.length > 0) {
+            currentY += fontSize * 0.8;
 
-            currentY += fontSize * 0.8; // space before divider area
+            flavorLines.forEach(line => {
 
-            flavorLines.forEach((line) => {
-
-                const flavorText = document.createElementNS(
+                const flavorNode = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "text"
                 );
 
-                flavorText.setAttribute("x", startX);
-                flavorText.setAttribute("y", currentY);
-                flavorText.setAttribute("font-size", fontSize);
-                flavorText.setAttribute("font-style", "italic");
-                flavorText.setAttribute("fill", "#2e2e2e");
+                flavorNode.setAttribute("x", startX);
+                flavorNode.setAttribute("y", currentY);
+                flavorNode.setAttribute("font-size", fontSize);
+                flavorNode.setAttribute("font-style", "italic");
+                flavorNode.setAttribute("fill", "#2e2e2e");
 
-                flavorText.textContent = line;
+                flavorNode.textContent = line;
 
-                textEl.appendChild(flavorText);
+                textEl.appendChild(flavorNode);
 
                 currentY += fontSize * 1.2;
             });
         }
 
-        // ---- Shrink loop ----
-        let layout = renderAtSize();
-
-        while (layout.height > areaBox.height) {
-            fontSize -= 0.3;
-            layout = renderAtSize();
-        }
-
-        const textHeight = textEl.getBBox().height;
-
-        // ---- Center after final size ----
-        const centeredTop =
-            areaBox.y + (areaBox.height - textHeight) / 2;
-
-        const currentTop = areaBox.y;
-
-        const offset = centeredTop - currentTop;
-
-        textEl.setAttribute(
-            "transform",
-            `translate(0, ${offset})`
-        );
-
-        // ---- Divider ----
-        if (flavorLines.length > 0 && ruleLines.length > 0) {
-            const divider = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "line"
-            );
-
-            const ruleBlockHeight = ruleLines.length * fontSize * 1.2;
-
-            const dividerY =
-                centeredTop + ruleBlockHeight + fontSize * 0.3;
-
-            divider.setAttribute("x1", areaBox.x);
-            divider.setAttribute("x2", areaBox.x + areaBox.width);
-            divider.setAttribute("y1", dividerY);
-            divider.setAttribute("y2", dividerY);
-            divider.setAttribute("stroke", "#bbbbbb");
-            divider.setAttribute("stroke-width", "0.2");
-
-            svgRoot.appendChild(divider);
-        }
+        return textEl.getBBox().height;
     }
 
     // -----------------------------
-    // TEST DATA
+    // SHRINK LOOP
     // -----------------------------
+    let textHeight = renderAtSize();
 
-    const testCard = {
-        name: "ARIEL",
-        version: "On Human Legs",
-        ink: "Amber",
-        cost: 4,
-        inkwell: true,
-        strength: 3,
-        willpower: 4,
-        lore: 2,
-        rarity: "Uncommon",
-        classifications: ["Storyborn", "Hero", "Princess"],
-        text: "VOICELESS This character can't {E} to sing songs.",
-        flavor_text: "\"...\"",
-        illustrators: ["Matthew Robert Davies"],
-        collector_number: "67",
-        lang: "en",
-        set: { code: "8" }
-    };
+    while (textHeight > areaBox.height) {
+        fontSize -= 0.2;
+        textHeight = renderAtSize();
+    }
 
-    loadCard(testCard);
+    // -----------------------------
+    // CENTERING
+    // -----------------------------
+    const centeredTop =
+        areaBox.y + (areaBox.height - textHeight) / 2;
+
+    const offset = centeredTop - areaBox.y;
+
+    textEl.setAttribute("transform", `translate(0, ${offset})`);
+
+    // -----------------------------
+    // DIVIDER
+    // -----------------------------
+    if (flavorLines.length > 0 && ruleLines.length > 0) {
+
+        const divider = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+        );
+
+        const ruleBlockHeight = ruleLines.length * fontSize * 1.2;
+
+        const dividerY =
+            centeredTop + ruleBlockHeight + fontSize * 0.3;
+
+        divider.setAttribute("x1", areaBox.x);
+        divider.setAttribute("x2", areaBox.x + areaBox.width);
+        divider.setAttribute("y1", dividerY);
+        divider.setAttribute("y2", dividerY);
+        divider.setAttribute("stroke", "#bbbbbb");
+        divider.setAttribute("stroke-width", "0.2");
+        divider.classList.add("card-divider");
+
+        svgRoot.appendChild(divider);
+    }
+}
+
+// -----------------------------
+// TEST DATA
+// -----------------------------
+
+const testCard = {
+    name: "ARIEL",
+    version: "On Human Legs",
+    ink: "Amber",
+    cost: 4,
+    inkwell: true,
+    strength: 3,
+    willpower: 4,
+    lore: 2,
+    rarity: "Uncommon",
+    classifications: ["Storyborn", "Hero", "Princess"],
+    text: "VOICELESS This character can't {E} to sing songs.",
+    flavor_text: "\"...\"",
+    illustrators: ["Matthew Robert Davies"],
+    collector_number: "67",
+    lang: "en",
+    set: { code: "8" }
+};
+
+loadCard(testCard);
