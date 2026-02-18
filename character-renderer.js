@@ -470,14 +470,9 @@ function renderCardText(svgRoot, card) {
     const centeredTop =
         areaBox.y + (areaBox.height - layout.height) / 2;
     
-    layout.group.setAttribute(
-        "transform",
-        `translate(0, ${centeredTop - areaBox.y})`
-    );
-
     const offset = centeredTop - areaBox.y;
 
-    textEl.setAttribute("transform", `translate(0, ${offset})`);
+    layout.group.setAttribute("transform", `translate(0, ${offset})`);
 
     // -----------------------------
     // DIVIDER
