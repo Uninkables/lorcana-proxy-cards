@@ -350,10 +350,10 @@ function renderCardText(svgRoot, card) {
                 textNode.setAttribute("font-size", fontSize);
                 textNode.setAttribute("fill", "#2e2e2e");
                 textNode.setAttribute("font-family", "Brandon Grotesque");
-                textNode.setAttribute("font-weight", "500");
+                textNode.setAttribute("font-weight", "700");
             
                 if (isBold) textNode.setAttribute("font-family", "Brandon Grotesque Black");
-                if (isBold) textNode.setAttribute("font-weight", "700");
+                if (isBold) textNode.setAttribute("font-weight", "900");
                 if (isItalic) textNode.setAttribute("font-style", "italic");
             
                 textNode.textContent = word;
