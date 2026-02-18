@@ -194,6 +194,12 @@ pre {
 }
 
 @font-face {
+  font-family: 'Brandon Grotesque';
+  src: url('fonts/brandon-grotesque.otf') format('opetype');
+  font-weight: medium;
+}
+
+@font-face {
   font-family: 'Brandon Grotesque Condensed';
   src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
   font-weight: bold;
@@ -243,4 +249,8 @@ pre {
 
 #card-and-set-text {
   font-family: 'Avenir Next Cyr';
+}
+
+#card-text {
+  font-family: 'Brandon Grotesque';
 }
