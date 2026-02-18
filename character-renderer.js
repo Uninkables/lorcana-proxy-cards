@@ -174,268 +174,220 @@ function renderCardText(svgRoot, card) {
     // -----------------------------
     // WRAP TEXT
     // -----------------------------
-    function wrapText(text) {
+    function wrapTextExact(text, fontSize, maxWidth, keywordSet) {
+    
+        const lines = [];
         const paragraphs = text.split("\n");
-        const wrapped = [];
     
-        paragraphs.forEach(paragraph => {
+        const measurer = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
     
-            // Split by space but keep symbols intact
-            const words = paragraph.split(/(\s+)/g);
+        measurer.setAttribute("font-family", "Brandon Grotesque");
+        measurer.setAttribute("font-size", fontSize);
+        measurer.setAttribute("font-weight", "700");
+        measurer.setAttribute("visibility", "hidden");
+    
+        document.querySelector("svg").appendChild(measurer);
+    
+        for (const paragraph of paragraphs) {
+    
+            const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
     
             let currentLine = "";
+            let currentWidth = 0;
     
-            words.forEach(word => {
+            for (const token of tokens) {
     
-                const testLine = currentLine + word;
+                measurer.textContent = token;
+                const tokenWidth = measurer.getBBox().width;
     
-                const tempText = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "text"
-                );
-    
-                tempText.setAttribute("x", startX);
-                tempText.setAttribute("font-size", fontSize);
-                tempText.setAttribute("visibility", "hidden");
-    
-                // Render full test line using symbol logic
-                const tokens = testLine.split(/(\{[A-Z]+\})/g).filter(Boolean);
-    
-                let currentX = 0;
-    
-                tokens.forEach(token => {
-                    if (SYMBOL_MAP[token]) {
-                        currentX += fontSize; // symbol width
-                    } else {
-                        tempText.textContent += token;
-                    }
-                });
-    
-                textEl.appendChild(tempText);
-                const textWidth = tempText.getBBox().width;
-                textEl.removeChild(tempText);
-    
-                const symbolWidth = tokens.filter(t => SYMBOL_MAP[t]).length * fontSize;
-    
-                const totalWidth = textWidth + symbolWidth;
-    
-                if (totalWidth > maxWidth && currentLine !== "") {
-                    wrapped.push(currentLine.trim());
-                    currentLine = word;
+                if (currentWidth + tokenWidth > maxWidth && currentLine !== "") {
+                    lines.push(currentLine);
+                    currentLine = token;
+                    currentWidth = tokenWidth;
                 } else {
-                    currentLine = testLine;
+                    currentLine += token;
+                    currentWidth += tokenWidth;
                 }
+            }
     
-            });
+            lines.push(currentLine);
+        }
     
-            wrapped.push(currentLine.trim());
-        });
+        measurer.remove();
     
-        return wrapped;
+        return lines;
     }
 
     // -----------------------------
     // RENDER RULE LINE
     // -----------------------------
-    function renderRuleLine(parentGroup, line, y, state) {
+    function renderRuleLineExact(
+        line,
+        startX,
+        y,
+        fontSize,
+        parentGroup,
+        keywordSet,
+        state
+    ) {
     
         let currentX = startX;
     
-        const tokens = line.split(/(\{[A-Z]+\})/g);
+        const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
     
-        tokens.forEach(token => {
+        for (let i = 0; i < tokens.length; i++) {
     
-            // -------------------------
-            // SYMBOL
-            // -------------------------
-            if (SYMBOL_MAP[token]) {
+            const token = tokens[i];
     
-                const symbolDef = svgRoot.querySelector(SYMBOL_MAP[token]);
-                if (!symbolDef) return;
+            if (/^\{[^}]+\}$/.test(token)) {
     
-                const clone = symbolDef.cloneNode(true);
-                const scaleFactor = fontSize / 105.8335;
-    
-                clone.setAttribute(
-                    "transform",
-                    `translate(${currentX}, ${y - fontSize * 0.8}) scale(${scaleFactor})`
-                );
-    
-                parentGroup.appendChild(clone);
-    
-                currentX += fontSize + (fontSize * 0.25);
-                return;
+                const symbol = createSymbol(token, currentX, y, fontSize);
+                parentGroup.appendChild(symbol);
+                currentX += symbol.getBBox().width;
+                continue;
             }
     
-            // -------------------------
-            // TEXT
-            // -------------------------
+            if (token.includes("(")) state.insideParentheses = true;
     
-            const words = token.split(/(\s+)/g);
-            
-            for (let i = 0; i < words.length; i++) {
-            
-                let word = words[i];
-            
-                if (word === "") continue;
-            
-                const cleanWord = word.replace(/[^\w]/g, "").toLowerCase();
-            
-                if (word.includes("(")) {
-                    state.insideParentheses = true;
-                }
-            
-                let isBold = false;
-                let isItalic = false;
-            
-                if (state.insideParentheses) {
-                    isItalic = true;
-                }
-            
-                if (word === word.toUpperCase() && /[A-Z]/.test(word)) {
-                    isBold = true;
-                }
-            
-                if (keywordSet.has(cleanWord)) {
-                    isBold = true;
-                }
-            
-                if (/^\+\d+/.test(word)) {
-            
-                    let j = i - 1;
-                    while (j >= 0 && /^\s+$/.test(words[j])) {
-                        j--;
-                    }
-            
-                    if (j >= 0) {
-                        const prevClean = words[j]
-                            .replace(/[^\w]/g, "")
-                            .toLowerCase();
-            
-                        if (keywordSet.has(prevClean)) {
-                            isBold = true;
-                        }
-                    }
-                }
-            
-                const textNode = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "text"
-                );
-            
-                textNode.setAttribute("x", currentX);
-                textNode.setAttribute("y", y);
-                textNode.setAttribute("font-size", fontSize);
-                textNode.setAttribute("font-family", "Brandon Grotesque");
-                textNode.setAttribute("fill", "#2e2e2e");
-            
-                if (isBold) textNode.setAttribute("font-weight", "900");
-                else textNode.setAttribute("font-weight", "700");
-            
-                if (isItalic) textNode.setAttribute("font-style", "italic");
-            
-                // 🔥 KEY CHANGE:
-                // render word exactly as-is including spaces
-                textNode.textContent = word;
-            
-                parentGroup.appendChild(textNode);
-            
-                currentX += textNode.getBBox().width;
-            
-                if (word.includes(")")) {
-                    state.insideParentheses = false;
+            const clean = token.replace(/[^\w]/g, "").toLowerCase();
+    
+            let isBold = false;
+            let isItalic = false;
+    
+            if (state.insideParentheses) isItalic = true;
+    
+            if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
+                isBold = true;
+            }
+    
+            if (keywordSet.has(clean)) isBold = true;
+    
+            if (/^\+\d+/.test(token)) {
+                let j = i - 1;
+                while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
+                if (j >= 0) {
+                    const prevClean = tokens[j]
+                        .replace(/[^\w]/g, "")
+                        .toLowerCase();
+                    if (keywordSet.has(prevClean)) isBold = true;
                 }
             }
     
-        });
+            const textNode = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text"
+            );
+    
+            textNode.setAttribute("x", currentX);
+            textNode.setAttribute("y", y);
+            textNode.setAttribute("font-size", fontSize);
+            textNode.setAttribute("font-family", "Brandon Grotesque");
+            textNode.setAttribute("fill", "#2e2e2e");
+    
+            textNode.setAttribute("font-weight", isBold ? "900" : "700");
+            if (isItalic) textNode.setAttribute("font-style", "italic");
+    
+            textNode.textContent = token;
+    
+            parentGroup.appendChild(textNode);
+    
+            currentX += textNode.getBBox().width;
+    
+            if (token.includes(")")) state.insideParentheses = false;
+        }
     }
 
     // -----------------------------
     // RENDER AT SIZE
     // -----------------------------
-    function renderAtSize() {
+    function renderAtSize({
+        text,
+        flavorText,
+        keywords,
+        fontSize,
+        cardTextGroup,
+        maxWidth,
+        topY,
+        bottomY
+    }) {
     
-        clearText(textEl);
+        cardTextGroup.innerHTML = "";
     
-        const textGroup = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "g"
+        const keywordSet = new Set(
+            (keywords || []).map(k => k.toLowerCase())
         );
     
-        textEl.appendChild(textGroup);
+        const lineHeight = fontSize * 1.35;
     
-        ruleLines = wrapText(rulesText);
-        flavorLines = flavorText ? wrapText(flavorText) : [];
+        const rulesLines = wrapTextExact(
+            text,
+            fontSize,
+            maxWidth,
+            keywordSet
+        );
     
-        let currentY = areaBox.y + fontSize;
+        const flavorLines = flavorText
+            ? wrapTextExact(flavorText, fontSize, maxWidth, keywordSet)
+            : [];
+    
+        const totalHeight =
+            (rulesLines.length + flavorLines.length) * lineHeight +
+            (flavorLines.length > 0 ? lineHeight * 0.5 : 0);
+    
+        const availableHeight = bottomY - topY;
+        let currentY = topY + (availableHeight - totalHeight) / 2;
     
         const state = { insideParentheses: false };
     
-        // ---- Measure space width reliably ----
-        /* 
-        const measure1 = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
-        measure1.setAttribute("font-size", fontSize);
-        measure1.textContent = "AA";
-        
-        svgRoot.appendChild(measure1);
-        const widthNoSpace = measure1.getBBox().width;
-        svgRoot.removeChild(measure1);
-        
-        const measure2 = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
-        measure2.setAttribute("font-size", fontSize);
-        measure2.textContent = "A A";
-        
-        svgRoot.appendChild(measure2);
-        const widthWithSpace = measure2.getBBox().width;
-        svgRoot.removeChild(measure2);
-        
-        const spaceWidth = (widthWithSpace - widthNoSpace) * 0.2;
-        */
-    
-        // RULES
-        ruleLines.forEach(line => {
-            renderRuleLine(textGroup, line, currentY, state);
-            currentY += fontSize * 1.3;
-        });
-    
-        // FLAVOR
-        if (flavorLines.length > 0) {
-    
-            currentY += fontSize * 0.8;
-    
-            flavorLines.forEach(line => {
-    
-                const flavorNode = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "text"
-                );
-    
-                flavorNode.setAttribute("x", startX);
-                flavorNode.setAttribute("y", currentY);
-                flavorNode.setAttribute("font-size", fontSize);
-                flavorNode.setAttribute("font-style", "italic");
-                flavorNode.setAttribute("fill", "#2e2e2e");
-    
-                flavorNode.textContent = line;
-    
-                textGroup.appendChild(flavorNode);
-    
-                currentY += fontSize * 1.3;
-            });
+        for (const line of rulesLines) {
+            renderRuleLineExact(
+                line,
+                0,
+                currentY,
+                fontSize,
+                cardTextGroup,
+                keywordSet,
+                state
+            );
+            currentY += lineHeight;
         }
     
-        const height = textGroup.getBBox().height;
+        if (flavorLines.length > 0) {
     
-        return {
-            height,
-            group: textGroup
-        };
+            currentY += lineHeight * 0.25;
+    
+            const divider = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "line"
+            );
+    
+            divider.setAttribute("x1", 0);
+            divider.setAttribute("x2", maxWidth);
+            divider.setAttribute("y1", currentY);
+            divider.setAttribute("y2", currentY);
+            divider.setAttribute("stroke", "#2e2e2e");
+            divider.setAttribute("stroke-width", "0.5");
+    
+            cardTextGroup.appendChild(divider);
+    
+            currentY += lineHeight * 0.75;
+    
+            for (const line of flavorLines) {
+                renderRuleLineExact(
+                    line,
+                    0,
+                    currentY,
+                    fontSize,
+                    cardTextGroup,
+                    keywordSet,
+                    state
+                );
+                currentY += lineHeight;
+            }
+        }
     }
 
     // -----------------------------
@@ -507,7 +459,7 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "12" }
+    set: { code: "11" }
 };
 
 loadCard(testCard);
