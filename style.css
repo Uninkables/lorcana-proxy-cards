@@ -208,7 +208,7 @@ pre {
 @font-face {
   font-family: 'Brandon Grotesque Condensed';
   src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
-  font-weight: bold;
+  font-weight: normal;
 }
 
 @font-face {
@@ -259,5 +259,5 @@ pre {
 
 #card-text {
   font-family: 'Brandon Grotesque';
-  font-weight: bold;
+  font-weight: normal;
 }
