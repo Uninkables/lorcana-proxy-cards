@@ -411,7 +411,7 @@ function renderCardText(svgRoot, card) {
         const widthWithSpace = measure2.getBBox().width;
         svgRoot.removeChild(measure2);
         
-        const spaceWidth = (widthWithSpace - widthNoSpace) * 0.8;
+        const spaceWidth = (widthWithSpace - widthNoSpace) * 0.5;
     
         // RULES
         ruleLines.forEach(line => {
@@ -522,7 +522,7 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "12" }
+    set: { code: "11" }
 };
 
 loadCard(testCard);
