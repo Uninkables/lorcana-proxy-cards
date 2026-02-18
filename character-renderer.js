@@ -372,7 +372,7 @@ function renderCardText(svgRoot, card) {
 
         ruleLines.forEach(line => {
             renderRuleLine(textEl, line, currentY);
-            currentY += fontSize * 1.2;
+            currentY += fontSize * 1.3;
         });
 
         if (flavorLines.length > 0) {
@@ -395,7 +395,7 @@ function renderCardText(svgRoot, card) {
 
                 textEl.appendChild(flavorNode);
 
-                currentY += fontSize * 1.2;
+                currentY += fontSize * 1.3;
             });
         }
 
