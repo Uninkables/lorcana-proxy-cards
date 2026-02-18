@@ -414,7 +414,7 @@ function renderCardText(svgRoot, card) {
         const widthWithSpace = measure2.getBBox().width;
         svgRoot.removeChild(measure2);
         
-        const spaceWidth = (widthWithSpace - widthNoSpace) * 0.5;
+        const spaceWidth = (widthWithSpace - widthNoSpace) * 0.2;
     
         // RULES
         ruleLines.forEach(line => {
