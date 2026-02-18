@@ -174,44 +174,62 @@ function renderCardText(svgRoot, card) {
     // WRAP TEXT
     // -----------------------------
     function wrapText(text) {
-
         const paragraphs = text.split("\n");
         const wrapped = [];
-
+    
         paragraphs.forEach(paragraph => {
-
-            const tokens = paragraph.split(/(\{[A-Z]+\})/g).filter(Boolean);
+    
+            // Split by space but keep symbols intact
+            const words = paragraph.split(/(\s+)/g).filter(Boolean);
+    
             let currentLine = "";
-
-            tokens.forEach(token => {
-
-                const testText = currentLine + token;
-
-                const testNode = document.createElementNS(
+    
+            words.forEach(word => {
+    
+                const testLine = currentLine + word;
+    
+                const tempText = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "text"
                 );
-
-                testNode.setAttribute("x", startX);
-                testNode.setAttribute("font-size", fontSize);
-                testNode.textContent = testText;
-
-                textEl.appendChild(testNode);
-                const width = testNode.getBBox().width;
-                textEl.removeChild(testNode);
-
-                if (width > maxWidth && currentLine !== "") {
-                    wrapped.push(currentLine);
-                    currentLine = token;
+    
+                tempText.setAttribute("x", startX);
+                tempText.setAttribute("font-size", fontSize);
+                tempText.setAttribute("visibility", "hidden");
+    
+                // Render full test line using symbol logic
+                const tokens = testLine.split(/(\{[A-Z]+\})/g).filter(Boolean);
+    
+                let currentX = 0;
+    
+                tokens.forEach(token => {
+                    if (SYMBOL_MAP[token]) {
+                        currentX += fontSize; // symbol width
+                    } else {
+                        tempText.textContent += token;
+                    }
+                });
+    
+                textEl.appendChild(tempText);
+                const textWidth = tempText.getBBox().width;
+                textEl.removeChild(tempText);
+    
+                const symbolWidth = tokens.filter(t => SYMBOL_MAP[t]).length * fontSize;
+    
+                const totalWidth = textWidth + symbolWidth;
+    
+                if (totalWidth > maxWidth && currentLine !== "") {
+                    wrapped.push(currentLine.trim());
+                    currentLine = word;
                 } else {
-                    currentLine = testText;
+                    currentLine = testLine;
                 }
-
+    
             });
-
-            wrapped.push(currentLine);
+    
+            wrapped.push(currentLine.trim());
         });
-
+    
         return wrapped;
     }
 
@@ -370,8 +388,8 @@ const testCard = {
     lore: 2,
     rarity: "Uncommon",
     classifications: ["Storyborn", "Hero", "Princess"],
-    text: "SHADOW POWER When you play this character, you may give chosen character Challenger +2 and Resist +2 until the start of your next turn. (They get +2 {S} while challenging. Damage dealt to them is reduced by 2.)\nETERNAL NIGHT Your Gargoyle characters lose the Stone by Day ability.",
-    flavor_text: "\"...\n...\n...\"",
+    text: "VOICELESS This character can't {E} to sing songs.",
+    flavor_text: "\"...\"",
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
