@@ -195,14 +195,24 @@ pre {
 
 @font-face {
   font-family: 'Brandon Grotesque';
-  src: url('fonts/brandon-grotesque-black.otf') format('opetype');
-  font-weight: black;
+  src: url('fonts/brandon-grotesque-bold.otf') format('opetype');
+  font-weight: 700;
+  font-style: normal;
 }
 
 @font-face {
   font-family: 'Brandon Grotesque';
-  src: url('fonts/brandon-grotesque-bold.otf') format('opetype');
-  font-weight: bold;
+  src: url('fonts/brandon-grotesque-black.otf') format('opetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Brandon Grotesque';
+  src: url('fonts/brandon-grotesque-medium-italic.otf') format('opetype');
+  font-weight: 700;
+  font-style: italic;
 }
 
 @font-face {
@@ -259,5 +269,4 @@ pre {
 
 #card-text {
   font-family: 'Brandon Grotesque';
-  font-weight: normal;
 }
