@@ -231,7 +231,7 @@ function renderCardText(svgRoot, card) {
                 if (!symbolDef) return;
 
                 const clone = symbolDef.cloneNode(true);
-                const scaleFactor = fontSize / 85;
+                const scaleFactor = fontSize / 105.834;
 
                 clone.setAttribute(
                     "transform",
