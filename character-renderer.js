@@ -486,7 +486,7 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "11" }
+    set: { code: "12" }
 };
 
 loadCard(testCard);
