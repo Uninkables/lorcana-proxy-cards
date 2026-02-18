@@ -237,7 +237,7 @@ function renderCardText(svgRoot, card) {
     // -----------------------------
     // RENDER RULE LINE
     // -----------------------------
-    function renderRuleLine(parentGroup, line, y, state, spaceWidth) {
+    function renderRuleLine(parentGroup, line, y, state) {
     
         let currentX = startX;
     
@@ -400,7 +400,7 @@ function renderCardText(svgRoot, card) {
     
         // RULES
         ruleLines.forEach(line => {
-            renderRuleLine(textGroup, line, currentY, state, spaceWidth);
+            renderRuleLine(textGroup, line, currentY, state);
             currentY += fontSize * 1.3;
         });
     
