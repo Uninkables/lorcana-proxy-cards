@@ -379,7 +379,7 @@ function renderCardText(svgRoot, card) {
             "g"
         );
     
-        svgRoot.appendChild(textGroup);
+        textEl.appendChild(textGroup);
     
         ruleLines = wrapText(rulesText);
         flavorLines = flavorText ? wrapText(flavorText) : [];
