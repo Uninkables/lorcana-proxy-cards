@@ -393,12 +393,30 @@ function renderCardText(svgRoot, card) {
     // -----------------------------
     // SHRINK LOOP
     // -----------------------------
-    let layout = renderAtSize();
+    let layout = renderAtSize({
+            text: rulesText,
+            flavorText: flavorText,
+            keywords: card.keywords || [],
+            fontSize: fontSize,
+            cardTextGroup: textGroup,
+            maxWidth: maxWidth,
+            topY: areaBox.y,
+            bottomY: areaBox.y + areaBox.height
+        });
     
     while (layout.height > areaBox.height) {
         fontSize -= 0.2;
         svgRoot.removeChild(layout.group);
-        layout = renderAtSize();
+        layout = renderAtSize({
+            text: rulesText,
+            flavorText: flavorText,
+            keywords: card.keywords || [],
+            fontSize: fontSize,
+            cardTextGroup: textGroup,
+            maxWidth: maxWidth,
+            topY: areaBox.y,
+            bottomY: areaBox.y + areaBox.height
+        });
     }
 
     // -----------------------------
