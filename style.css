@@ -201,12 +201,11 @@ pre {
 }
 
 @font-face {
-  font-family: 'Brandon Grotesque Black';
+  font-family: 'Brandon Grotesque';
   src: url('fonts/brandon-grotesque-black.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
 }
-
 
 @font-face {
   font-family: 'Brandon Grotesque';
