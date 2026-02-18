@@ -372,6 +372,7 @@ function renderCardText(svgRoot, card) {
         const state = { insideParentheses: false };
     
         // ---- Measure space width reliably ----
+        /* 
         const measure1 = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "text"
@@ -395,6 +396,7 @@ function renderCardText(svgRoot, card) {
         svgRoot.removeChild(measure2);
         
         const spaceWidth = (widthWithSpace - widthNoSpace) * 0.2;
+        */
     
         // RULES
         ruleLines.forEach(line => {
