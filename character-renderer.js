@@ -238,8 +238,9 @@ function renderCardText(svgRoot, card) {
     // RENDER RULE LINE
     // -----------------------------
     function renderRuleLine(parentGroup, line, y) {
-
+    
         let currentX = startX;
+        let insideParentheses = false;
     
         const tokens = line.split(/(\{[A-Z]+\})/g).filter(Boolean);
     
@@ -254,7 +255,6 @@ function renderCardText(svgRoot, card) {
                 if (!symbolDef) return;
     
                 const clone = symbolDef.cloneNode(true);
-    
                 const scaleFactor = fontSize / 80;
     
                 clone.setAttribute(
@@ -269,14 +269,60 @@ function renderCardText(svgRoot, card) {
             }
     
             // -------------------------
-            // TEXT PROCESSING
+            // TEXT TOKEN
             // -------------------------
     
             const words = token.split(/(\s+)/g).filter(Boolean);
     
-            words.forEach(word => {
+            for (let i = 0; i < words.length; i++) {
+    
+                let word = words[i];
     
                 const cleanWord = word.replace(/[^\w]/g, "").toLowerCase();
+    
+                // Track parentheses state
+                if (word.includes("(")) {
+                    insideParentheses = true;
+                }
+    
+                let isBold = false;
+                let isItalic = false;
+    
+                // 1. Parentheses (state based)
+                if (insideParentheses) {
+                    isItalic = true;
+                }
+    
+                // 2. ALL CAPS
+                if (
+                    word === word.toUpperCase() &&
+                    word.match(/[A-Z]/)
+                ) {
+                    isBold = true;
+                }
+    
+                // 3. Keywords
+                if (keywordSet.has(cleanWord)) {
+                    isBold = true;
+    
+                    // Check next token for +number
+                    const nextWord = words[i + 1];
+                    if (nextWord && /^\+\d+/.test(nextWord)) {
+                        words[i + 1] = nextWord; // mark for bold later
+                    }
+                }
+    
+                // 4. +number modifier after keyword
+                if (/^\+\d+/.test(word)) {
+                    const prevWord = words[i - 1];
+                    const prevClean = prevWord
+                        ? prevWord.replace(/[^\w]/g, "").toLowerCase()
+                        : "";
+    
+                    if (keywordSet.has(prevClean)) {
+                        isBold = true;
+                    }
+                }
     
                 const textNode = document.createElementNS(
                     "http://www.w3.org/2000/svg",
@@ -287,31 +333,6 @@ function renderCardText(svgRoot, card) {
                 textNode.setAttribute("y", y);
                 textNode.setAttribute("font-size", fontSize);
                 textNode.setAttribute("fill", "#2e2e2e");
-    
-                // -------------------------
-                // Formatting Rules
-                // -------------------------
-    
-                let isBold = false;
-                let isItalic = false;
-    
-                // 1. ALL CAPS
-                if (
-                    word === word.toUpperCase() &&
-                    word.match(/[A-Z]/)
-                ) {
-                    isBold = true;
-                }
-    
-                // 2. KEYWORDS
-                if (keywordSet.has(cleanWord)) {
-                    isBold = true;
-                }
-    
-                // 3. Parentheses
-                if (word.startsWith("(") || word.endsWith(")")) {
-                    isItalic = true;
-                }
     
                 if (isBold) {
                     textNode.setAttribute("font-weight", "700");
@@ -327,7 +348,13 @@ function renderCardText(svgRoot, card) {
     
                 const width = textNode.getBBox().width;
                 currentX += width;
-            });
+    
+                // Close parentheses state AFTER rendering word
+                if (word.includes(")")) {
+                    insideParentheses = false;
+                }
+            }
+    
         });
     }
 
