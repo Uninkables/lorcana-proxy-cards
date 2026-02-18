@@ -271,66 +271,67 @@ function renderCardText(svgRoot, card) {
             // TEXT
             // -------------------------
     
-            const words = token.split(/\s+/g);
+            const words = token.split(/(\s+)/g).filter(Boolean);
     
             for (let i = 0; i < words.length; i++) {
-    
+
                 let word = words[i];
-    
-                if (!word) continue;
-    
+            
+                // -------------------------
+                // HANDLE WHITESPACE PROPERLY
+                // -------------------------
+                if (/^\s+$/.test(word)) {
+                    currentX += spaceWidth * word.length;
+                    continue;
+                }
+            
                 const cleanWord = word.replace(/[^\w]/g, "").toLowerCase();
-    
+            
                 if (word.includes("(")) {
                     state.insideParentheses = true;
                 }
-    
+            
                 let isBold = false;
                 let isItalic = false;
-    
+            
                 if (state.insideParentheses) {
                     isItalic = true;
                 }
-    
+            
                 if (word === word.toUpperCase() && word.match(/[A-Z]/)) {
                     isBold = true;
                 }
-    
+            
                 if (keywordSet.has(cleanWord)) {
                     isBold = true;
                 }
-    
+            
                 if (/^\+\d+/.test(word)) {
                     const prev = words[i - 1];
                     if (prev && keywordSet.has(prev.toLowerCase())) {
                         isBold = true;
                     }
                 }
-    
+            
                 const textNode = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "text"
                 );
-    
+            
                 textNode.setAttribute("x", currentX);
                 textNode.setAttribute("y", y);
                 textNode.setAttribute("font-size", fontSize);
                 textNode.setAttribute("fill", "#2e2e2e");
-    
+            
                 if (isBold) textNode.setAttribute("font-weight", "700");
                 if (isItalic) textNode.setAttribute("font-style", "italic");
-    
+            
                 textNode.textContent = word;
-    
+            
                 parentGroup.appendChild(textNode);
-    
+            
                 currentX += textNode.getBBox().width;
-    
-                // add space after every word except last
-                if (i < words.length - 1) {
-                    currentX += spaceWidth;
-                }
-    
+            
                 if (word.includes(")")) {
                     state.insideParentheses = false;
                 }
