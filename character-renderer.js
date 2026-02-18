@@ -388,16 +388,30 @@ function renderCardText(svgRoot, card) {
     
         const state = { insideParentheses: false };
     
-        // Measure space width once
-        const spaceMeasure = document.createElementNS(
+        // ---- Measure space width reliably ----
+        const measure1 = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "text"
         );
-        spaceMeasure.setAttribute("font-size", fontSize);
-        spaceMeasure.textContent = " ";
-        svgRoot.appendChild(spaceMeasure);
-        const spaceWidth = spaceMeasure.getBBox().width;
-        svgRoot.removeChild(spaceMeasure);
+        measure1.setAttribute("font-size", fontSize);
+        measure1.textContent = "AA";
+        
+        svgRoot.appendChild(measure1);
+        const widthNoSpace = measure1.getBBox().width;
+        svgRoot.removeChild(measure1);
+        
+        const measure2 = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+        measure2.setAttribute("font-size", fontSize);
+        measure2.textContent = "A A";
+        
+        svgRoot.appendChild(measure2);
+        const widthWithSpace = measure2.getBBox().width;
+        svgRoot.removeChild(measure2);
+        
+        const spaceWidth = widthWithSpace - widthNoSpace;
     
         // RULES
         ruleLines.forEach(line => {
