@@ -350,9 +350,10 @@ function renderCardText(svgRoot, card) {
                 textNode.setAttribute("font-size", fontSize);
                 textNode.setAttribute("fill", "#2e2e2e");
                 textNode.setAttribute("font-family", "Brandon Grotesque");
-                textNode.setAttribute("font-weight", "700");
+                textNode.setAttribute("font-weight", "500");
             
-                if (isBold) textNode.setAttribute("font-weight", "900");
+                if (isBold) textNode.setAttribute("font-family", "Brandon Grotesque Black");
+                if (isBold) textNode.setAttribute("font-weight", "700");
                 if (isItalic) textNode.setAttribute("font-style", "italic");
             
                 textNode.textContent = word;
@@ -524,7 +525,7 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "10" }
+    set: { code: "11" }
 };
 
 loadCard(testCard);
