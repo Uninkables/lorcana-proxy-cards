@@ -457,7 +457,7 @@ const testCard = {
     name: "ARIEL",
     version: "On Human Legs",
     ink: "Amber",
-    cost: 4,
+    cost: 12,
     inkwell: true,
     strength: 3,
     willpower: 4,
