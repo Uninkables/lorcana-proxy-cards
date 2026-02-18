@@ -362,6 +362,7 @@ function renderCardText(svgRoot, card) {
 
   const textHeight = textEl.getBBox().height;
 
+  // ---- Center after final size ----
   const centeredTop =
     areaBox.y + (areaBox.height - textHeight) / 2;
   
@@ -373,12 +374,6 @@ function renderCardText(svgRoot, card) {
     "transform",
     `translate(0, ${offset})`
   );
-
-  // ---- Center after final size ----
-  const centeredTop =
-    areaBox.y + (areaBox.height - layout.height) / 2;
-
-  textEl.setAttribute("y", centeredTop);
   
   // ---- Divider ----
   if (flavorLines.length > 0 && ruleLines.length > 0) {
