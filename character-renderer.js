@@ -144,6 +144,139 @@ function clearDivider(svgRoot) {
 }
 
 // -----------------------------
+// WRAP TEXT
+// -----------------------------
+
+function wrapTextExact(text, fontSize, maxWidth) {
+
+    const lines = [];
+    const paragraphs = text.split("\n");
+
+    const measurer = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+    );
+
+    measurer.setAttribute("font-family", "Brandon Grotesque");
+    measurer.setAttribute("font-size", fontSize);
+    measurer.setAttribute("font-weight", "700");
+    measurer.setAttribute("visibility", "hidden");
+
+    document.querySelector("svg").appendChild(measurer);
+
+    for (const paragraph of paragraphs) {
+
+        const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
+
+        let currentLine = "";
+        let currentWidth = 0;
+
+        for (const token of tokens) {
+
+            measurer.textContent = token;
+            const tokenWidth = measurer.getBBox().width;
+
+            if (currentWidth + tokenWidth > maxWidth && currentLine !== "") {
+                lines.push(currentLine);
+                currentLine = token;
+                currentWidth = tokenWidth;
+            } else {
+                currentLine += token;
+                currentWidth += tokenWidth;
+            }
+        }
+
+        lines.push(currentLine);
+    }
+
+    measurer.remove();
+    return lines;
+}
+
+// -----------------------------
+// RULES LINES
+// -----------------------------
+
+function renderRuleLineExact(
+    line,
+    startX,
+    y,
+    fontSize,
+    parentGroup,
+    keywordSet,
+    state
+) {
+
+    let currentX = startX;
+    const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
+
+    for (let i = 0; i < tokens.length; i++) {
+
+        const token = tokens[i];
+
+        // SYMBOL
+        if (/^\{[^}]+\}$/.test(token)) {
+
+            const symbol = createSymbol(token, currentX, y, fontSize);
+            parentGroup.appendChild(symbol);
+            currentX += symbol.getBBox().width;
+            continue;
+        }
+
+        // Track parentheses across lines
+        if (token.includes("(")) state.insideParentheses = true;
+
+        const clean = token.replace(/[^\w]/g, "").toLowerCase();
+
+        let isBold = false;
+        let isItalic = false;
+
+        if (state.insideParentheses) isItalic = true;
+
+        if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
+            isBold = true;
+        }
+
+        if (keywordSet.has(clean)) isBold = true;
+
+        if (/^\+\d+/.test(token)) {
+            let j = i - 1;
+            while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
+            if (j >= 0) {
+                const prevClean = tokens[j]
+                    .replace(/[^\w]/g, "")
+                    .toLowerCase();
+                if (keywordSet.has(prevClean)) isBold = true;
+            }
+        }
+
+        const textNode = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+
+        textNode.setAttribute("x", currentX);
+        textNode.setAttribute("y", y);
+        textNode.setAttribute("font-size", fontSize);
+        textNode.setAttribute("font-family", "Brandon Grotesque");
+        textNode.setAttribute("fill", "#2e2e2e");
+        textNode.setAttribute("font-weight", isBold ? "900" : "700");
+
+        if (isItalic) {
+            textNode.setAttribute("font-style", "italic");
+        }
+
+        textNode.textContent = token;
+
+        parentGroup.appendChild(textNode);
+
+        currentX += textNode.getBBox().width;
+
+        if (token.includes(")")) state.insideParentheses = false;
+    }
+}
+
+// -----------------------------
 // RULES + FLAVOR TEXT
 // -----------------------------
 
