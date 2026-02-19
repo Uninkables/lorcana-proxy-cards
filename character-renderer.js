@@ -249,7 +249,12 @@ function renderRuleLineExact(
 
             const symbol = createSymbol(token, currentX, y, fontSize);
             parentGroup.appendChild(symbol);
-            currentX += symbol.getBBox().width;
+            
+            // advance exactly one em
+            currentX += fontSize;
+            
+            // add normal word spacing
+            currentX += fontSize * 0.25;
             continue;
         }
 
