@@ -213,8 +213,7 @@ function createSymbol(token, x, y, fontSize) {
 
     const clone = def.cloneNode(true);
 
-    // Your symbols are 40x40
-    const scale = fontSize / 40;
+    const scale = fontSize / 105.8335;
 
     clone.setAttribute(
         "transform",
