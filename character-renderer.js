@@ -194,6 +194,37 @@ function wrapTextExact(text, fontSize, maxWidth) {
 }
 
 // -----------------------------
+// CREATE SYMBOL
+// -----------------------------
+
+function createSymbol(token, x, y, fontSize) {
+
+    const symbolId = SYMBOL_MAP[token];
+    if (!symbolId) {
+        console.warn("Unknown symbol token:", token);
+        return document.createElementNS("http://www.w3.org/2000/svg", "g");
+    }
+
+    const def = document.querySelector(symbolId);
+    if (!def) {
+        console.warn("Symbol definition not found:", symbolId);
+        return document.createElementNS("http://www.w3.org/2000/svg", "g");
+    }
+
+    const clone = def.cloneNode(true);
+
+    // Your symbols are 40x40
+    const scale = fontSize / 40;
+
+    clone.setAttribute(
+        "transform",
+        `translate(${x}, ${y - fontSize * 0.8}) scale(${scale})`
+    );
+
+    return clone;
+}
+
+// -----------------------------
 // RULES LINES
 // -----------------------------
 
