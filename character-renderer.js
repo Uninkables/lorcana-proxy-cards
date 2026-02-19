@@ -342,40 +342,36 @@ function renderCardText(svgRoot, card) {
     cardText.appendChild(textGroup);
 
     function renderAtSize(fontSize) {
-
+    
         textGroup.innerHTML = "";
-
+    
         const keywordSet = new Set(
             keywords.map(k => k.toLowerCase())
         );
-
+    
         const lineHeight = fontSize * 1.45;
-
+    
         const ruleLines = wrapTextExact(
             rulesText,
             fontSize,
             maxWidth,
             keywordSet
         );
-
+    
         const flavorLines = flavorText
             ? wrapTextExact(flavorText, fontSize, maxWidth, keywordSet)
             : [];
-
-        const totalHeight =
-            (ruleLines.length + flavorLines.length) * lineHeight +
-            (flavorLines.length > 0 ? lineHeight * 0.5 : 0);
-
-        const availableHeight = areaBox.height;
-        let currentY =
-            areaBox.y + (availableHeight - totalHeight) / 2;
-
+    
         const state = { insideParentheses: false };
-
+    
+        // Start rendering at 0,0 — we will position later
+        let currentY = 0;
+    
+        // ---- Render Rules ----
         for (const line of ruleLines) {
             renderRuleLineExact(
                 line,
-                areaBox.x,
+                0,                // X = 0 (important!)
                 currentY,
                 fontSize,
                 textGroup,
@@ -384,31 +380,32 @@ function renderCardText(svgRoot, card) {
             );
             currentY += lineHeight;
         }
-
+    
+        // ---- Render Flavor ----
         if (flavorLines.length > 0) {
-
+    
             currentY += lineHeight * 0.25;
-
+    
             const divider = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "line"
             );
-
-            divider.setAttribute("x1", areaBox.x);
-            divider.setAttribute("x2", areaBox.x + maxWidth);
+    
+            divider.setAttribute("x1", 0);
+            divider.setAttribute("x2", maxWidth);
             divider.setAttribute("y1", currentY);
             divider.setAttribute("y2", currentY);
             divider.setAttribute("stroke", "#2e2e2e");
             divider.setAttribute("stroke-width", "0.4");
-
+    
             textGroup.appendChild(divider);
-
+    
             currentY += lineHeight * 0.75;
-
+    
             for (const line of flavorLines) {
                 renderRuleLineExact(
                     line,
-                    areaBox.x,
+                    0,            // X = 0 (important!)
                     currentY,
                     fontSize,
                     textGroup,
@@ -418,8 +415,25 @@ function renderCardText(svgRoot, card) {
                 currentY += lineHeight;
             }
         }
-
-        return totalHeight;
+    
+        // -----------------------------
+        // REAL CENTERING (MEASURED)
+        // -----------------------------
+    
+        const bbox = textGroup.getBBox();
+        const contentHeight = bbox.height;
+    
+        const availableHeight = areaBox.height;
+    
+        const offsetY =
+            areaBox.y + (availableHeight - contentHeight) / 2 - bbox.y;
+    
+        textGroup.setAttribute(
+            "transform",
+            `translate(${areaBox.x}, ${offsetY})`
+        );
+    
+        return contentHeight;
     }
 
     // Shrink loop
