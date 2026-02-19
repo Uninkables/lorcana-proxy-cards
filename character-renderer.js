@@ -236,29 +236,66 @@ function renderRuleLineExact(
     keywordSet,
     state
 ) {
+    const textEl = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+    );
 
-    let currentX = startX;
+    textEl.setAttribute("x", startX);
+    textEl.setAttribute("y", y);
+    textEl.setAttribute("font-size", fontSize);
+    textEl.setAttribute("font-family", "Brandon Grotesque");
+    textEl.setAttribute("fill", "#2e2e2e");
+
+    parentGroup.appendChild(textEl);
+
     const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
 
     for (let i = 0; i < tokens.length; i++) {
 
         const token = tokens[i];
 
+        // -------------------------
         // SYMBOL
+        // -------------------------
         if (/^\{[^}]+\}$/.test(token)) {
 
-            const symbol = createSymbol(token, currentX, y, fontSize);
-            parentGroup.appendChild(symbol);
-            
-            // advance exactly one em
-            currentX += fontSize;
-            
-            // add normal word spacing
-            currentX += fontSize * 0.25;
+            const symbolId = SYMBOL_MAP[token];
+            if (!symbolId) continue;
+
+            const tspan = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "tspan"
+            );
+
+            const symbol = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "svg"
+            );
+
+            symbol.setAttribute("width", fontSize);
+            symbol.setAttribute("height", fontSize);
+            symbol.setAttribute("viewBox", "0 0 80 80"); // your symbol box
+            symbol.setAttribute("y", fontSize * -0.8);
+
+            const use = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "use"
+            );
+
+            use.setAttribute("href", symbolId);
+            symbol.appendChild(use);
+
+            tspan.appendChild(symbol);
+            textEl.appendChild(tspan);
+
             continue;
         }
 
-        // Track parentheses across lines
+        // -------------------------
+        // TEXT SEGMENT
+        // -------------------------
+
         if (token.includes("(")) state.insideParentheses = true;
 
         const clean = token.replace(/[^\w]/g, "").toLowerCase();
@@ -268,12 +305,17 @@ function renderRuleLineExact(
 
         if (state.insideParentheses) isItalic = true;
 
+        // ALL CAPS header
         if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
             isBold = true;
         }
 
-        if (keywordSet.has(clean)) isBold = true;
+        // Keyword bold
+        if (keywordSet.has(clean)) {
+            isBold = true;
+        }
 
+        // +2 after keyword bold
         if (/^\+\d+/.test(token)) {
             let j = i - 1;
             while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
@@ -285,27 +327,24 @@ function renderRuleLineExact(
             }
         }
 
-        const textNode = document.createElementNS(
+        const tspan = document.createElementNS(
             "http://www.w3.org/2000/svg",
-            "text"
+            "tspan"
         );
 
-        textNode.setAttribute("x", currentX);
-        textNode.setAttribute("y", y);
-        textNode.setAttribute("font-size", fontSize);
-        textNode.setAttribute("font-family", "Brandon Grotesque");
-        textNode.setAttribute("fill", "#2e2e2e");
-        textNode.setAttribute("font-weight", isBold ? "900" : "700");
-
-        if (isItalic) {
-            textNode.setAttribute("font-style", "italic");
+        if (isBold) {
+            tspan.setAttribute("font-weight", "900");
+        } else {
+            tspan.setAttribute("font-weight", "700");
         }
 
-        textNode.textContent = token;
+        if (isItalic) {
+            tspan.setAttribute("font-style", "italic");
+        }
 
-        parentGroup.appendChild(textNode);
+        tspan.textContent = token;
 
-        currentX += textNode.getBBox().width;
+        textEl.appendChild(tspan);
 
         if (token.includes(")")) state.insideParentheses = false;
     }
