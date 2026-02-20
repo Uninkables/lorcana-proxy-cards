@@ -408,37 +408,50 @@ function renderCardText(svgRoot, card) {
     
         const state = { insideParentheses: false };
     
-        // Start rendering at 0,0 — we will position later
-        let currentY = 0;
+        let currentY = areaBox.y;
     
-        // ---- Render Rules ----
+        // ---------------- RULES ----------------
         for (const line of ruleLines) {
-            renderRuleLineExact(
-                line,
-                0,                // X = 0 (important!)
-                currentY,
-                fontSize,
-                textGroup,
-                keywordSet,
-                state
+    
+            const textEl = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text"
             );
+    
+            textEl.setAttribute("x", areaBox.x);
+            textEl.setAttribute("y", currentY + lineHeight);
+            textEl.setAttribute("font-size", fontSize);
+            textEl.setAttribute("font-family", "Brandon Grotesque");
+            textEl.setAttribute("fill", "#2e2e2e");
+    
+            buildFormattedLine(
+                line,
+                textEl,
+                keywordSet,
+                state,
+                fontSize
+            );
+    
+            textGroup.appendChild(textEl);
             currentY += lineHeight;
         }
     
-        // ---- Render Flavor ----
+        // ---------------- FLAVOR ----------------
         if (flavorLines.length > 0) {
     
             currentY += lineHeight * 0.25;
+    
+            const dividerY = currentY;
     
             const divider = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "line"
             );
     
-            divider.setAttribute("x1", 0);
-            divider.setAttribute("x2", maxWidth);
-            divider.setAttribute("y1", currentY);
-            divider.setAttribute("y2", currentY);
+            divider.setAttribute("x1", areaBox.x);
+            divider.setAttribute("x2", areaBox.x + maxWidth);
+            divider.setAttribute("y1", dividerY);
+            divider.setAttribute("y2", dividerY);
             divider.setAttribute("stroke", "#2e2e2e");
             divider.setAttribute("stroke-width", "0.4");
     
@@ -447,37 +460,39 @@ function renderCardText(svgRoot, card) {
             currentY += lineHeight * 0.75;
     
             for (const line of flavorLines) {
-                renderRuleLineExact(
-                    line,
-                    0,            // X = 0 (important!)
-                    currentY,
-                    fontSize,
-                    textGroup,
-                    keywordSet,
-                    state
+    
+                const textEl = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "text"
                 );
+    
+                textEl.setAttribute("x", areaBox.x);
+                textEl.setAttribute("y", currentY + lineHeight);
+                textEl.setAttribute("font-size", fontSize);
+                textEl.setAttribute("font-family", "Brandon Grotesque");
+                textEl.setAttribute("fill", "#2e2e2e");
+                textEl.setAttribute("font-style", "italic");
+    
+                buildFormattedLine(
+                    line,
+                    textEl,
+                    keywordSet,
+                    state,
+                    fontSize
+                );
+    
+                textGroup.appendChild(textEl);
                 currentY += lineHeight;
             }
         }
     
-        // -----------------------------
-        // REAL CENTERING (MEASURED)
-        // -----------------------------
+        // REAL MEASUREMENT
+        const box = textGroup.getBBox();
     
-        const bbox = textGroup.getBBox();
-        const contentHeight = bbox.height;
-    
-        const availableHeight = areaBox.height;
-    
-        const offsetY =
-            areaBox.y + (availableHeight - contentHeight) / 2 - bbox.y;
-    
-        textGroup.setAttribute(
-            "transform",
-            `translate(${areaBox.x}, ${offsetY})`
-        );
-    
-        return contentHeight;
+        return {
+            height: box.height,
+            top: box.y
+        };
     }
 
     // Shrink loop
