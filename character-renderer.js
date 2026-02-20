@@ -148,7 +148,7 @@ function clearDivider(svgRoot) {
 // WRAP TEXT
 // -----------------------------
 
-function wrapTextExact(text, fontSize, maxWidth, keywordSet) {
+function wrapTextExact(text, fontSize, maxWidth, keywordSet, textGroup) {
 
     const lines = [];
     const paragraphs = text.split("\n");
@@ -156,14 +156,12 @@ function wrapTextExact(text, fontSize, maxWidth, keywordSet) {
     for (const paragraph of paragraphs) {
 
         const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
-
         let currentLineTokens = [];
 
         for (let i = 0; i < tokens.length; i++) {
 
             const testTokens = [...currentLineTokens, tokens[i]];
 
-            // Create temporary group for measurement
             const testGroup = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "g"
@@ -175,7 +173,7 @@ function wrapTextExact(text, fontSize, maxWidth, keywordSet) {
 
             renderRuleLineExact(
                 testTokens.join(""),
-                areaBox.x,
+                0,
                 0,
                 fontSize,
                 testGroup,
@@ -395,119 +393,6 @@ function renderCardText(svgRoot, card) {
 
     cardText.appendChild(textGroup);
 
-    // Build formatted line for sizing
-    function buildFormattedLine(
-      line,
-      x,
-      y,
-      fontSize,
-      parentGroup,
-      keywordSet,
-      state
-    ) {
-      const textNode = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "text"
-      );
-    
-      textNode.setAttribute("x", x);
-      textNode.setAttribute("y", y);
-      textNode.setAttribute("font-size", fontSize);
-      textNode.setAttribute("font-family", "Brandon Grotesque");
-      textNode.setAttribute("fill", "#2e2e2e");
-    
-      parentGroup.appendChild(textNode);
-    
-      const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
-    
-      for (let i = 0; i < tokens.length; i++) {
-    
-        const token = tokens[i];
-    
-        // SYMBOL PLACEHOLDER
-        if (/^\{[^}]+\}$/.test(token)) {
-    
-          const placeholder = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "tspan"
-          );
-    
-          placeholder.textContent = "◼"; // placeholder char
-          textNode.appendChild(placeholder);
-    
-          const cursorX =
-            x + textNode.getComputedTextLength() - placeholder.getComputedTextLength();
-    
-          const symbolId = SYMBOL_MAP[token];
-          if (!symbolId) continue;
-    
-          const symbolDef = parentGroup.ownerSVGElement.querySelector(symbolId);
-          if (!symbolDef) continue;
-    
-          const symbol = symbolDef.cloneNode(true);
-    
-          const scaleFactor = fontSize / 105.8335;
-    
-          symbol.setAttribute(
-            "transform",
-            `translate(${cursorX}, ${y - fontSize * 0.82}) scale(${scaleFactor})`
-          );
-    
-          parentGroup.appendChild(symbol);
-    
-          placeholder.textContent = ""; // remove visual placeholder
-          continue;
-        }
-    
-        if (token.includes("(")) state.insideParentheses = true;
-    
-        const clean = token.replace(/[^\w]/g, "").toLowerCase();
-    
-        let isBold = false;
-        let isItalic = false;
-    
-        if (state.insideParentheses) isItalic = true;
-    
-        if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
-          isBold = true;
-        }
-    
-        if (keywordSet.has(clean)) {
-          isBold = true;
-        }
-    
-        if (/^\+\d+/.test(token)) {
-          let j = i - 1;
-          while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
-          if (j >= 0) {
-            const prevClean = tokens[j]
-              .replace(/[^\w]/g, "")
-              .toLowerCase();
-            if (keywordSet.has(prevClean)) isBold = true;
-          }
-        }
-    
-        const tspan = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "tspan"
-        );
-    
-        tspan.textContent = token;
-        tspan.setAttribute("font-weight", isBold ? "900" : "700");
-    
-        if (isItalic) {
-          tspan.setAttribute("font-style", "italic");
-          tspan.setAttribute("font-weight", "500");
-        }
-    
-        textNode.appendChild(tspan);
-    
-        if (token.includes(")")) {
-          state.insideParentheses = false;
-        }
-      }
-    }
-
     function renderAtSize(fontSize) {
     
         textGroup.innerHTML = "";
@@ -522,20 +407,29 @@ function renderCardText(svgRoot, card) {
             rulesText,
             fontSize,
             maxWidth,
-            keywordSet
+            keywordSet,
+            textGroup
         );
     
         const flavorLines = flavorText
-            ? wrapTextExact(flavorText, fontSize, maxWidth, keywordSet)
+            ? wrapTextExact(flavorText, fontSize, maxWidth, keywordSet, textGroup)
             : [];
+    
+        const totalHeight =
+            (ruleLines.length + flavorLines.length) * lineHeight +
+            (flavorLines.length > 0 ? lineHeight * 0.5 : 0);
+    
+        const startY =
+            areaBox.y + (areaBox.height - totalHeight) / 2;
+    
+        let currentY = startY;
     
         const state = { insideParentheses: false };
     
-        let currentY = areaBox.y;
-    
-        // ---------------- RULES ----------------
+        // -------- RULES --------
         for (const line of ruleLines) {
-            buildFormattedLine(
+    
+            renderRuleLineExact(
                 line,
                 areaBox.x,
                 currentY,
@@ -544,15 +438,14 @@ function renderCardText(svgRoot, card) {
                 keywordSet,
                 state
             );
+    
             currentY += lineHeight;
         }
     
-        // ---------------- FLAVOR ----------------
+        // -------- FLAVOR --------
         if (flavorLines.length > 0) {
     
             currentY += lineHeight * 0.25;
-    
-            const dividerY = currentY;
     
             const divider = document.createElementNS(
                 "http://www.w3.org/2000/svg",
@@ -561,8 +454,8 @@ function renderCardText(svgRoot, card) {
     
             divider.setAttribute("x1", areaBox.x);
             divider.setAttribute("x2", areaBox.x + maxWidth);
-            divider.setAttribute("y1", dividerY);
-            divider.setAttribute("y2", dividerY);
+            divider.setAttribute("y1", currentY);
+            divider.setAttribute("y2", currentY);
             divider.setAttribute("stroke", "#2e2e2e");
             divider.setAttribute("stroke-width", "0.4");
     
@@ -570,8 +463,9 @@ function renderCardText(svgRoot, card) {
     
             currentY += lineHeight * 0.75;
     
-            for (const line of ruleLines) {
-                buildFormattedLine(
+            for (const line of flavorLines) {
+    
+                renderRuleLineExact(
                     line,
                     areaBox.x,
                     currentY,
@@ -580,11 +474,11 @@ function renderCardText(svgRoot, card) {
                     keywordSet,
                     state
                 );
+    
                 currentY += lineHeight;
             }
         }
     
-        // REAL MEASUREMENT
         const box = textGroup.getBBox();
     
         return {
