@@ -474,6 +474,7 @@ function renderCardText(svgRoot, card) {
     
             if (isItalic) {
                 tspan.setAttribute("font-style", "italic");
+                tspan.setAttribute("font-weight", "500");
             }
     
             textEl.appendChild(tspan);
