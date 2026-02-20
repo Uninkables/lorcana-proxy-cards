@@ -124,6 +124,13 @@ function updateCharacterCard(svgRoot, card) {
 
     // ----- Render Card Text (Rules + Flavor + Scaling + Divider) -----
     renderCardText(svgRoot, card);
+
+    // ----- Quick Debug Test -----
+    const debug = document.createElementNS("http://www.w3.org/2000/svg","use");
+    debug.setAttribute("href","#symbol-strength");
+    debug.setAttribute("x",50);
+    debug.setAttribute("y",50);
+    svgRoot.appendChild(debug);
 }
 
 // -----------------------------
@@ -504,7 +511,7 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "11" }
+    set: { code: "10" }
 };
 
 loadCard(testCard);
