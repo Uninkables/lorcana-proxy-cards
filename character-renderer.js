@@ -174,7 +174,12 @@ function wrapTextExact(text, fontSize, maxWidth) {
 
         for (const token of tokens) {
 
-            measurer.textContent = token;
+            if (/^\{[^}]+\}$/.test(token)) {
+                measurer.textContent = "M"; // placeholder width for symbol
+            } else {
+                measurer.textContent = token;
+            }
+            
             const tokenWidth = measurer.getBBox().width;
 
             if (currentWidth + tokenWidth > maxWidth && currentLine !== "") {
@@ -393,20 +398,19 @@ function renderCardText(svgRoot, card) {
         state,
         fontSize
     ) {
-    
         const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
     
         for (let i = 0; i < tokens.length; i++) {
     
             const token = tokens[i];
     
-            // ---------------- SYMBOL ----------------
+            // -------- SYMBOL --------
             if (/^\{[^}]+\}$/.test(token)) {
     
                 const symbolId = SYMBOL_MAP[token];
                 if (!symbolId) continue;
     
-                const tspan = document.createElementNS(
+                const symbolSpan = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "tspan"
                 );
@@ -419,17 +423,15 @@ function renderCardText(svgRoot, card) {
                 use.setAttribute("href", symbolId);
                 use.setAttribute("width", fontSize);
                 use.setAttribute("height", fontSize);
-    
-                // vertical alignment tweak
                 use.setAttribute("y", -fontSize * 0.75);
     
-                tspan.appendChild(use);
-                textEl.appendChild(tspan);
+                symbolSpan.appendChild(use);
     
+                textEl.appendChild(symbolSpan);
                 continue;
             }
     
-            // ---------------- PARENTHESIS STATE ----------------
+            // -------- STATE TRACKING --------
             if (token.includes("(")) state.insideParentheses = true;
     
             const clean = token.replace(/[^\w]/g, "").toLowerCase();
@@ -458,7 +460,6 @@ function renderCardText(svgRoot, card) {
                 }
             }
     
-            // ---------------- CREATE TSPAN ----------------
             const tspan = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "tspan"
@@ -466,15 +467,10 @@ function renderCardText(svgRoot, card) {
     
             tspan.textContent = token;
     
-            if (isBold) {
-                tspan.setAttribute("font-weight", "900"); // Heavy
-            } else {
-                tspan.setAttribute("font-weight", "700"); // Bold
-            }
+            tspan.setAttribute("font-weight", isBold ? "900" : "700");
     
             if (isItalic) {
                 tspan.setAttribute("font-style", "italic");
-                tspan.setAttribute("font-weight", "500");
             }
     
             textEl.appendChild(tspan);
