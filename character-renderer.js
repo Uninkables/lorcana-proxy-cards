@@ -237,7 +237,6 @@ function renderRuleLineExact(
     keywordSet,
     state
 ) {
-
     const lineGroup = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "g"
@@ -249,63 +248,107 @@ function renderRuleLineExact(
 
     const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
 
-    for (const token of tokens) {
+    // One flowing text node
+    let textNode = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+    );
+
+    textNode.setAttribute("x", currentX);
+    textNode.setAttribute("y", y);
+    textNode.setAttribute("font-size", fontSize);
+    textNode.setAttribute("font-family", "Brandon Grotesque");
+    textNode.setAttribute("fill", "#2e2e2e");
+
+    lineGroup.appendChild(textNode);
+
+    for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
 
         // ---- SYMBOL ----
         if (/^\{[^}]+\}$/.test(token)) {
 
-            const symbolId = SYMBOL_MAP[token];
-            if (!symbolId) continue;
+            // Measure current text width before placing symbol
+            const textWidth = textNode.getBBox().width;
 
+            const symbolId = SYMBOL_MAP[token];
             const symbolDef = document.querySelector(symbolId);
             if (!symbolDef) continue;
 
             const clone = symbolDef.cloneNode(true);
 
-            const scale = fontSize / 105.8335;
+            const scale = fontSize / 80;
 
             clone.setAttribute(
                 "transform",
-                `translate(${currentX}, ${y - fontSize * 0.8}) scale(${scale})`
+                `translate(${startX + textWidth}, ${y - fontSize * 0.8}) scale(${scale})`
             );
 
             lineGroup.appendChild(clone);
 
-            currentX += fontSize; // advance cursor
+            // Move text start after symbol
+            currentX = startX + textWidth + fontSize;
+
+            // Create new flowing text node after symbol
+            textNode = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text"
+            );
+
+            textNode.setAttribute("x", currentX);
+            textNode.setAttribute("y", y);
+            textNode.setAttribute("font-size", fontSize);
+            textNode.setAttribute("font-family", "Brandon Grotesque");
+            textNode.setAttribute("fill", "#2e2e2e");
+
+            lineGroup.appendChild(textNode);
+
             continue;
         }
 
-        // ---- TEXT ----
-        const textNode = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
+        // ---- STYLE LOGIC ----
+        if (token.includes("(")) state.insideParentheses = true;
 
-        textNode.setAttribute("x", currentX);
-        textNode.setAttribute("y", y);
-        textNode.setAttribute("font-size", fontSize);
-        textNode.setAttribute("font-family", "Brandon Grotesque");
-        textNode.setAttribute("fill", "#2e2e2e");
+        const clean = token.replace(/[^\w]/g, "").toLowerCase();
 
         let isBold = false;
         let isItalic = false;
 
         if (state.insideParentheses) isItalic = true;
+
         if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
             isBold = true;
         }
 
-        const clean = token.replace(/[^\w]/g, "").toLowerCase();
         if (keywordSet.has(clean)) isBold = true;
 
-        textNode.setAttribute("font-weight", isBold ? "900" : "700");
-        if (isItalic) textNode.setAttribute("font-style", "italic");
+        if (/^\+\d+/.test(token)) {
+            let j = i - 1;
+            while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
+            if (j >= 0) {
+                const prevClean = tokens[j]
+                    .replace(/[^\w]/g, "")
+                    .toLowerCase();
+                if (keywordSet.has(prevClean)) isBold = true;
+            }
+        }
 
-        textNode.textContent = token;
+        // ---- Create TSPAN ----
+        const tspan = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "tspan"
+        );
 
-        lineGroup.appendChild(textNode);
+        if (isBold) tspan.setAttribute("font-weight", "900");
+        else tspan.setAttribute("font-weight", "700");
 
-        currentX += textNode.getBBox().width;
+        if (isItalic) tspan.setAttribute("font-style", "italic");
+
+        tspan.textContent = token;
+
+        textNode.appendChild(tspan);
+
+        if (token.includes(")")) state.insideParentheses = false;
     }
 }
 
@@ -464,7 +507,7 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "10" }
+    set: { code: "11" }
 };
 
 loadCard(testCard);
