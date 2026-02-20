@@ -277,7 +277,7 @@ function renderRuleLineExact(
 
             const clone = symbolDef.cloneNode(true);
 
-            const scale = fontSize / 80;
+            const scale = fontSize / 105.8335;
 
             clone.setAttribute(
                 "transform",
