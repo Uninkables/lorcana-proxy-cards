@@ -258,37 +258,35 @@ function renderRuleLineExact(
         // -------------------------
         // SYMBOL
         // -------------------------
+        
         if (/^\{[^}]+\}$/.test(token)) {
-
+        
             const symbolId = SYMBOL_MAP[token];
             if (!symbolId) continue;
-
+        
             const tspan = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "tspan"
             );
-
-            const symbol = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "svg"
-            );
-
-            symbol.setAttribute("width", fontSize);
-            symbol.setAttribute("height", fontSize);
-            symbol.setAttribute("viewBox", "0 0 80 80"); // your symbol box
-            symbol.setAttribute("y", fontSize * -0.8);
-
+        
             const use = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "use"
             );
-
+        
             use.setAttribute("href", symbolId);
-            symbol.appendChild(use);
-
-            tspan.appendChild(symbol);
+        
+            // scale symbol relative to 80x80 design box
+            const scale = fontSize / 105.8335;
+        
+            use.setAttribute(
+                "transform",
+                `scale(${scale}) translate(0, ${-60})`
+            );
+        
+            tspan.appendChild(use);
             textEl.appendChild(tspan);
-
+        
             continue;
         }
 
