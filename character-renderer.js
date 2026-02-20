@@ -342,7 +342,10 @@ function renderRuleLineExact(
         if (isBold) tspan.setAttribute("font-weight", "900");
         else tspan.setAttribute("font-weight", "700");
 
-        if (isItalic) tspan.setAttribute("font-style", "italic");
+        if (isItalic) {
+            tspan.setAttribute("font-style", "italic");
+            tspan.setAttribute("font-weight", "500");
+        }
 
         tspan.textContent = token;
 
