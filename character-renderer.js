@@ -385,6 +385,105 @@ function renderCardText(svgRoot, card) {
 
     cardText.appendChild(textGroup);
 
+    // Build formatted line for sizing
+    function buildFormattedLine(
+        line,
+        textEl,
+        keywordSet,
+        state,
+        fontSize
+    ) {
+    
+        const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
+    
+        for (let i = 0; i < tokens.length; i++) {
+    
+            const token = tokens[i];
+    
+            // ---------------- SYMBOL ----------------
+            if (/^\{[^}]+\}$/.test(token)) {
+    
+                const symbolId = SYMBOL_MAP[token];
+                if (!symbolId) continue;
+    
+                const tspan = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "tspan"
+                );
+    
+                const use = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "use"
+                );
+    
+                use.setAttribute("href", symbolId);
+                use.setAttribute("width", fontSize);
+                use.setAttribute("height", fontSize);
+    
+                // vertical alignment tweak
+                use.setAttribute("y", -fontSize * 0.75);
+    
+                tspan.appendChild(use);
+                textEl.appendChild(tspan);
+    
+                continue;
+            }
+    
+            // ---------------- PARENTHESIS STATE ----------------
+            if (token.includes("(")) state.insideParentheses = true;
+    
+            const clean = token.replace(/[^\w]/g, "").toLowerCase();
+    
+            let isBold = false;
+            let isItalic = false;
+    
+            if (state.insideParentheses) isItalic = true;
+    
+            if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
+                isBold = true;
+            }
+    
+            if (keywordSet.has(clean)) {
+                isBold = true;
+            }
+    
+            if (/^\+\d+/.test(token)) {
+                let j = i - 1;
+                while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
+                if (j >= 0) {
+                    const prevClean = tokens[j]
+                        .replace(/[^\w]/g, "")
+                        .toLowerCase();
+                    if (keywordSet.has(prevClean)) isBold = true;
+                }
+            }
+    
+            // ---------------- CREATE TSPAN ----------------
+            const tspan = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "tspan"
+            );
+    
+            tspan.textContent = token;
+    
+            if (isBold) {
+                tspan.setAttribute("font-weight", "900"); // Heavy
+            } else {
+                tspan.setAttribute("font-weight", "700"); // Bold
+            }
+    
+            if (isItalic) {
+                tspan.setAttribute("font-style", "italic");
+            }
+    
+            textEl.appendChild(tspan);
+    
+            if (token.includes(")")) {
+                state.insideParentheses = false;
+            }
+        }
+    }
+
     function renderAtSize(fontSize) {
     
         textGroup.innerHTML = "";
