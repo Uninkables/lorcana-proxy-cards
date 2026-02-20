@@ -508,3 +508,8 @@ const testCard = {
 };
 
 loadCard(testCard);
+const debug = document.createElementNS("http://www.w3.org/2000/svg","use");
+debug.setAttribute("href","#symbol-strength");
+debug.setAttribute("x",50);
+debug.setAttribute("y",50);
+svgRoot.appendChild(debug);
