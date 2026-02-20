@@ -237,116 +237,75 @@ function renderRuleLineExact(
     keywordSet,
     state
 ) {
-    const textEl = document.createElementNS(
+
+    const lineGroup = document.createElementNS(
         "http://www.w3.org/2000/svg",
-        "text"
+        "g"
     );
 
-    textEl.setAttribute("x", startX);
-    textEl.setAttribute("y", y);
-    textEl.setAttribute("font-size", fontSize);
-    textEl.setAttribute("font-family", "Brandon Grotesque");
-    textEl.setAttribute("fill", "#2e2e2e");
+    parentGroup.appendChild(lineGroup);
 
-    parentGroup.appendChild(textEl);
+    let currentX = startX;
 
     const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
 
-    for (let i = 0; i < tokens.length; i++) {
+    for (const token of tokens) {
 
-        const token = tokens[i];
-
-        // -------------------------
-        // SYMBOL
-        // -------------------------
-        
+        // ---- SYMBOL ----
         if (/^\{[^}]+\}$/.test(token)) {
-        
+
             const symbolId = SYMBOL_MAP[token];
             if (!symbolId) continue;
-        
-            const tspan = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "tspan"
-            );
-        
-            const use = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "use"
-            );
-        
-            use.setAttribute("href", symbolId);
-        
-            // scale symbol relative to 80x80 design box
+
+            const symbolDef = document.querySelector(symbolId);
+            if (!symbolDef) continue;
+
+            const clone = symbolDef.cloneNode(true);
+
             const scale = fontSize / 105.8335;
-        
-            use.setAttribute(
+
+            clone.setAttribute(
                 "transform",
-                `scale(${scale}) translate(0, ${-60})`
+                `translate(${currentX}, ${y - fontSize * 0.8}) scale(${scale})`
             );
-        
-            tspan.appendChild(use);
-            textEl.appendChild(tspan);
-        
+
+            lineGroup.appendChild(clone);
+
+            currentX += fontSize; // advance cursor
             continue;
         }
 
-        // -------------------------
-        // TEXT SEGMENT
-        // -------------------------
+        // ---- TEXT ----
+        const textNode = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
 
-        if (token.includes("(")) state.insideParentheses = true;
-
-        const clean = token.replace(/[^\w]/g, "").toLowerCase();
+        textNode.setAttribute("x", currentX);
+        textNode.setAttribute("y", y);
+        textNode.setAttribute("font-size", fontSize);
+        textNode.setAttribute("font-family", "Brandon Grotesque");
+        textNode.setAttribute("fill", "#2e2e2e");
 
         let isBold = false;
         let isItalic = false;
 
         if (state.insideParentheses) isItalic = true;
-
-        // ALL CAPS header
         if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
             isBold = true;
         }
 
-        // Keyword bold
-        if (keywordSet.has(clean)) {
-            isBold = true;
-        }
+        const clean = token.replace(/[^\w]/g, "").toLowerCase();
+        if (keywordSet.has(clean)) isBold = true;
 
-        // +2 after keyword bold
-        if (/^\+\d+/.test(token)) {
-            let j = i - 1;
-            while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
-            if (j >= 0) {
-                const prevClean = tokens[j]
-                    .replace(/[^\w]/g, "")
-                    .toLowerCase();
-                if (keywordSet.has(prevClean)) isBold = true;
-            }
-        }
+        textNode.setAttribute("font-weight", isBold ? "900" : "700");
+        if (isItalic) textNode.setAttribute("font-style", "italic");
 
-        const tspan = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "tspan"
-        );
+        textNode.textContent = token;
 
-        if (isBold) {
-            tspan.setAttribute("font-weight", "900");
-        } else {
-            tspan.setAttribute("font-weight", "700");
-        }
+        lineGroup.appendChild(textNode);
 
-        if (isItalic) {
-            tspan.setAttribute("font-style", "italic");
-            tspan.setAttribute("font-weight", "500");
-        }
-
-        tspan.textContent = token;
-
-        textEl.appendChild(tspan);
-
-        if (token.includes(")")) state.insideParentheses = false;
+        currentX += textNode.getBBox().width;
     }
 }
 
