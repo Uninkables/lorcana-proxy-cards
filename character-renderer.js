@@ -510,4 +510,9 @@ const testCard = {
     set: { code: "11" }
 };
 
-loadCard(testCard);
+initCard(testCard);
+
+async function initCard(cardData) {
+    await document.fonts.ready;
+    await loadCard(cardData);
+}
