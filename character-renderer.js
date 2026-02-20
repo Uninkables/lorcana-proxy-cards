@@ -507,12 +507,15 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "11" }
+    set: { code: "10" }
 };
 
 initCard(testCard);
 
 async function initCard(cardData) {
     await document.fonts.ready;
+    await document.fonts.load('700 16px "Brandon Grotesque"');
+    await document.fonts.load('900 16px "Brandon Grotesque"');
+    await document.fonts.load('500 italic 16px "Brandon Grotesque"');
     await loadCard(cardData);
 }
