@@ -173,15 +173,16 @@ function wrapTextExact(text, fontSize, maxWidth) {
         let currentWidth = 0;
 
         for (const token of tokens) {
-
+        
+            let measureToken = token;
+        
             if (/^\{[^}]+\}$/.test(token)) {
-                measurer.textContent = "M"; // placeholder width for symbol
-            } else {
-                measurer.textContent = token;
+                measureToken = "◼"; // placeholder character
             }
-            
+        
+            measurer.textContent = measureToken;
             const tokenWidth = measurer.getBBox().width;
-
+        
             if (currentWidth + tokenWidth > maxWidth && currentLine !== "") {
                 lines.push(currentLine);
                 currentLine = token;
@@ -392,13 +393,30 @@ function renderCardText(svgRoot, card) {
 
     // Build formatted line for sizing
     function buildFormattedLine(
-        line,
-        textEl,
-        keywordSet,
-        state,
-        fontSize
+    line,
+    x,
+    y,
+    fontSize,
+    parentGroup,
+    keywordSet,
+    state
     ) {
+        const textNode = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+    
+        textNode.setAttribute("x", x);
+        textNode.setAttribute("y", y);
+        textNode.setAttribute("font-size", fontSize);
+        textNode.setAttribute("font-family", "Brandon Grotesque");
+        textNode.setAttribute("fill", "#2e2e2e");
+    
+        parentGroup.appendChild(textNode);
+    
         const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
+    
+        let cursorX = x;
     
         for (let i = 0; i < tokens.length; i++) {
     
@@ -410,28 +428,24 @@ function renderCardText(svgRoot, card) {
                 const symbolId = SYMBOL_MAP[token];
                 if (!symbolId) continue;
     
-                const symbolSpan = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "tspan"
-                );
-    
-                const use = document.createElementNS(
+                const symbol = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "use"
                 );
     
-                use.setAttribute("href", symbolId);
-                use.setAttribute("width", fontSize);
-                use.setAttribute("height", fontSize);
-                use.setAttribute("y", -fontSize * 0.75);
+                symbol.setAttribute("href", symbolId);
+                symbol.setAttribute("width", fontSize);
+                symbol.setAttribute("height", fontSize);
+                symbol.setAttribute("x", cursorX);
+                symbol.setAttribute("y", y - fontSize * 0.8);
     
-                symbolSpan.appendChild(use);
+                parentGroup.appendChild(symbol);
     
-                textEl.appendChild(symbolSpan);
+                cursorX += fontSize;
                 continue;
             }
     
-            // -------- STATE TRACKING --------
+            // -------- STATE --------
             if (token.includes("(")) state.insideParentheses = true;
     
             const clean = token.replace(/[^\w]/g, "").toLowerCase();
@@ -466,15 +480,15 @@ function renderCardText(svgRoot, card) {
             );
     
             tspan.textContent = token;
-    
             tspan.setAttribute("font-weight", isBold ? "900" : "700");
     
             if (isItalic) {
                 tspan.setAttribute("font-style", "italic");
-                tspan.setAttribute("font-weight", "500");
             }
     
-            textEl.appendChild(tspan);
+            textNode.appendChild(tspan);
+    
+            cursorX = x + textNode.getComputedTextLength();
     
             if (token.includes(")")) {
                 state.insideParentheses = false;
@@ -509,27 +523,15 @@ function renderCardText(svgRoot, card) {
     
         // ---------------- RULES ----------------
         for (const line of ruleLines) {
-    
-            const textEl = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "text"
-            );
-    
-            textEl.setAttribute("x", areaBox.x);
-            textEl.setAttribute("y", currentY + lineHeight);
-            textEl.setAttribute("font-size", fontSize);
-            textEl.setAttribute("font-family", "Brandon Grotesque");
-            textEl.setAttribute("fill", "#2e2e2e");
-    
             buildFormattedLine(
                 line,
-                textEl,
+                areaBox.x,
+                currentY,
+                fontSize,
+                textGroup,
                 keywordSet,
-                state,
-                fontSize
+                state
             );
-    
-            textGroup.appendChild(textEl);
             currentY += lineHeight;
         }
     
@@ -556,29 +558,16 @@ function renderCardText(svgRoot, card) {
     
             currentY += lineHeight * 0.75;
     
-            for (const line of flavorLines) {
-    
-                const textEl = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "text"
-                );
-    
-                textEl.setAttribute("x", areaBox.x);
-                textEl.setAttribute("y", currentY + lineHeight);
-                textEl.setAttribute("font-size", fontSize);
-                textEl.setAttribute("font-family", "Brandon Grotesque");
-                textEl.setAttribute("fill", "#2e2e2e");
-                textEl.setAttribute("font-style", "italic");
-    
+            for (const line of ruleLines) {
                 buildFormattedLine(
                     line,
-                    textEl,
+                    areaBox.x,
+                    currentY,
+                    fontSize,
+                    textGroup,
                     keywordSet,
-                    state,
-                    fontSize
+                    state
                 );
-    
-                textGroup.appendChild(textEl);
                 currentY += lineHeight;
             }
         }
