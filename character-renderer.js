@@ -185,7 +185,7 @@ function wrapTextExact(text, fontSize, maxWidth, keywordSet, textGroup) {
 
             textGroup.removeChild(testGroup);
 
-            if (width > maxWidth && currentLineTokens.length > 0) {
+            if (width > maxWidth * 0.995 && currentLineTokens.length > 0) {
                 lines.push(currentLineTokens.join(""));
                 currentLineTokens = [tokens[i]];
             } else {
@@ -274,43 +274,38 @@ function renderRuleLineExact(
 
         // ---- SYMBOL ----
         if (/^\{[^}]+\}$/.test(token)) {
-
-            // Measure current text width before placing symbol
+        
             const textWidth = textNode.getBBox().width;
-
-            const symbolId = SYMBOL_MAP[token];
-            const symbolDef = document.querySelector(symbolId);
-            if (!symbolDef) continue;
-
-            const clone = symbolDef.cloneNode(true);
-
-            const scale = fontSize / 105.8335;
-
-            clone.setAttribute(
-                "transform",
-                `translate(${startX + textWidth}, ${y - fontSize * 0.8}) scale(${scale})`
+        
+            const symbol = createSymbol(
+                token,
+                startX + textWidth,
+                y,
+                fontSize
             );
-
-            lineGroup.appendChild(clone);
-
-            // Move text start after symbol
-            const bbox = clone.getBBox();
-            currentX += bbox.width;
-
-            // Create new flowing text node after symbol
+        
+            lineGroup.appendChild(symbol);
+        
+            const bbox = symbol.getBBox();
+        
+            // Add small spacing after symbol
+            const spacing = fontSize * 0.15;
+        
+            currentX = startX + textWidth + bbox.width + spacing;
+        
             textNode = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "text"
             );
-
+        
             textNode.setAttribute("x", currentX);
             textNode.setAttribute("y", y);
             textNode.setAttribute("font-size", fontSize);
             textNode.setAttribute("font-family", "Brandon Grotesque");
             textNode.setAttribute("fill", "#2e2e2e");
-
+        
             lineGroup.appendChild(textNode);
-
+        
             continue;
         }
 
@@ -488,11 +483,11 @@ function renderCardText(svgRoot, card) {
     }
 
     // Shrink loop
-    let height = renderAtSize(fontSize);
+    let metrics = renderAtSize(fontSize);
 
-    while (height > areaBox.height && fontSize > 1.2) {
+    while (metrics.height > areaBox.height && fontSize > 1.2) {
         fontSize -= 0.2;
-        height = renderAtSize(fontSize);
+        metrics = renderAtSize(fontSize);
     }
 
     textGroup.removeAttribute("transform");
