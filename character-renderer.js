@@ -438,7 +438,7 @@ function renderCardText(svgRoot, card) {
         // -------- FLAVOR --------
         if (flavorLines.length > 0) {
 
-            currentY += lineHeight * -0.25;
+            currentY += lineHeight * -0.75;
     
             const divider = document.createElementNS(
                 "http://www.w3.org/2000/svg",
@@ -520,7 +520,7 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "8" }
+    set: { code: "7" }
 };
 
 initCard(testCard);
