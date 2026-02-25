@@ -148,55 +148,51 @@ function clearDivider(svgRoot) {
 // WRAP TEXT
 // -----------------------------
 
-function wrapTextExact(text, fontSize, maxWidth, keywordSet, textGroup) {
+function wrapTextExact(text, fontSize, maxWidth) {
 
     const lines = [];
     const paragraphs = text.split("\n");
 
+    const measurer = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+    );
+
+    measurer.setAttribute("font-family", "Brandon Grotesque");
+    measurer.setAttribute("font-size", fontSize);
+    measurer.setAttribute("font-weight", "700");
+    measurer.setAttribute("visibility", "hidden");
+
+    document.querySelector("svg").appendChild(measurer);
+
     for (const paragraph of paragraphs) {
 
         const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
-        let currentLineTokens = [];
 
-        for (let i = 0; i < tokens.length; i++) {
+        let currentLine = "";
 
-            const testTokens = [...currentLineTokens, tokens[i]];
+        for (const token of tokens) {
 
-            const testGroup = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "g"
-            );
+            const testLine = currentLine + token;
 
-            textGroup.appendChild(testGroup);
+            // Replace symbols with a placeholder character width
+            const measureString = testLine.replace(/\{[^}]+\}/g, "M");
 
-            const state = { insideParentheses: false };
+            measurer.textContent = measureString;
+            const width = measurer.getBBox().width;
 
-            renderRuleLineExact(
-                testTokens.join(""),
-                0,
-                0,
-                fontSize,
-                testGroup,
-                keywordSet,
-                state
-            );
-
-            const width = testGroup.getBBox().width;
-
-            textGroup.removeChild(testGroup);
-
-            if (width > maxWidth * 0.995 && currentLineTokens.length > 0) {
-                lines.push(currentLineTokens.join(""));
-                currentLineTokens = [tokens[i]];
+            if (width > maxWidth && currentLine !== "") {
+                lines.push(currentLine);
+                currentLine = token;
             } else {
-                currentLineTokens.push(tokens[i]);
+                currentLine = testLine;
             }
         }
 
-        if (currentLineTokens.length > 0) {
-            lines.push(currentLineTokens.join(""));
-        }
+        lines.push(currentLine);
     }
+
+    measurer.remove();
 
     return lines;
 }
@@ -401,23 +397,18 @@ function renderCardText(svgRoot, card) {
         const ruleLines = wrapTextExact(
             rulesText,
             fontSize,
-            maxWidth,
-            keywordSet,
-            textGroup
+            maxWidth
         );
     
         const flavorLines = flavorText
-            ? wrapTextExact(flavorText, fontSize, maxWidth, keywordSet, textGroup)
+            ? wrapTextExact(flavorText, fontSize, maxWidth)
             : [];
     
         const totalHeight =
             (ruleLines.length + flavorLines.length) * lineHeight +
             (flavorLines.length > 0 ? lineHeight * 0.5 : 0);
     
-        const startY =
-            areaBox.y + (areaBox.height - totalHeight) / 2;
-    
-        let currentY = startY;
+        let currentY = areaBox.y;
     
         const state = { insideParentheses: false };
     
