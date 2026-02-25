@@ -437,15 +437,13 @@ function renderCardText(svgRoot, card) {
     
         // -------- FLAVOR --------
         if (flavorLines.length > 0) {
+
+            currentY += lineHeight * 0.0;
     
             const divider = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "line"
             );
-
-            const dividerSpacing = lineHeight * 0.2;
-
-            currentY += dividerSpacing;
     
             divider.setAttribute("x1", areaBox.x);
             divider.setAttribute("x2", areaBox.x + maxWidth);
@@ -456,7 +454,7 @@ function renderCardText(svgRoot, card) {
             
             textGroup.appendChild(divider);
     
-            currentY += dividerSpacing;
+            currentY += lineHeight * 0.75;
     
             for (const line of flavorLines) {
     
