@@ -251,7 +251,6 @@ function renderRuleLineExact(
 
     const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
 
-    // One flowing text node
     let textNode = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "text"
@@ -268,44 +267,51 @@ function renderRuleLineExact(
     for (let i = 0; i < tokens.length; i++) {
         const token = tokens[i];
 
-        // ---- SYMBOL ----
+        // ---------------- SYMBOL ----------------
         if (/^\{[^}]+\}$/.test(token)) {
-        
+
+            // Measure current flowing text width
             const textWidth = textNode.getBBox().width;
-        
+
+            // Move X to end of flowing text
+            currentX += textWidth;
+
+            // Reset text node width baseline
+            textNode.setAttribute("x", startX);
+
             const symbol = createSymbol(
                 token,
-                startX + textWidth,
+                currentX,
                 y,
                 fontSize
             );
-        
+
             lineGroup.appendChild(symbol);
-        
+
             const bbox = symbol.getBBox();
-        
-            // Add small spacing after symbol
+
             const spacing = fontSize * 0.15;
-        
-            currentX = startX + textWidth + bbox.width + spacing;
-        
+
+            currentX += bbox.width + spacing;
+
+            // Start a NEW flowing text node after symbol
             textNode = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "text"
             );
-        
+
             textNode.setAttribute("x", currentX);
             textNode.setAttribute("y", y);
             textNode.setAttribute("font-size", fontSize);
             textNode.setAttribute("font-family", "Brandon Grotesque");
             textNode.setAttribute("fill", "#2e2e2e");
-        
+
             lineGroup.appendChild(textNode);
-        
+
             continue;
         }
 
-        // ---- STYLE LOGIC ----
+        // ---------------- STYLE LOGIC ----------------
         if (token.includes("(")) state.insideParentheses = true;
 
         const clean = token.replace(/[^\w]/g, "").toLowerCase();
@@ -332,14 +338,16 @@ function renderRuleLineExact(
             }
         }
 
-        // ---- Create TSPAN ----
         const tspan = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "tspan"
         );
 
-        if (isBold) tspan.setAttribute("font-weight", "900");
-        else tspan.setAttribute("font-weight", "700");
+        if (isBold) {
+            tspan.setAttribute("font-weight", "900");
+        } else {
+            tspan.setAttribute("font-weight", "700");
+        }
 
         if (isItalic) {
             tspan.setAttribute("font-style", "italic");
@@ -513,7 +521,7 @@ const testCard = {
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "11" }
+    set: { code: "6" }
 };
 
 initCard(testCard);
