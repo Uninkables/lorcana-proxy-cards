@@ -511,7 +511,7 @@ const testCard = {
     inkwell: true,
     strength: 3,
     willpower: 4,
-    lore: 2,
+    lore: 5,
     rarity: "Uncommon",
     classifications: ["Storyborn", "Hero", "Princess"],
     text: "SHADOW POWER When you play this character, you may give chosen character Challenger +2 and Resist +2 until the start of your next turn. (They get +2 {S} while challenging. Damage dealt to them is reduced by 2.)\nETERNAL NIGHT Your Gargoyle characters lose the Stone by Day ability.",
