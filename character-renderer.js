@@ -288,11 +288,10 @@ function renderRuleLineExact(
 
             lineGroup.appendChild(symbol);
 
-            const bbox = symbol.getBBox();
-
             const spacing = fontSize * 0.15;
-
-            currentX += bbox.width + spacing;
+            const scaledWidth = fontSize;
+            
+            currentX += scaledWidth + spacing;
 
             // Start a NEW flowing text node after symbol
             textNode = document.createElementNS(
