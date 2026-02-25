@@ -504,23 +504,23 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    name: "ARIEL",
-    version: "On Human Legs",
-    ink: "Amber",
-    cost: 12,
+    name: "BONGO",
+    version: "Fun And Fancy Free",
+    ink: "Ruby",
+    cost: 11,
     inkwell: true,
-    strength: 3,
-    willpower: 4,
-    lore: 5,
-    rarity: "Uncommon",
-    classifications: ["Storyborn", "Hero", "Princess"],
-    text: "SHADOW POWER When you play this character, you may give chosen character Challenger +2 and Resist +2 until the start of your next turn. (They get +2 {S} while challenging. Damage dealt to them is reduced by 2.)\nETERNAL NIGHT Your Gargoyle characters lose the Stone by Day ability.",
-    flavor_text: "\"...\n...\n...\"",
+    strength: 6,
+    willpower: 7,
+    lore: 4,
+    rarity: "Super_rare",
+    classifications: ["Storyborn", "Hero"],
+    text: "Challenger +2 (While challenging, this character gets +2 {S}.)\nResist +2 (Damage dealt to this character is reduced by 2.)\nLOTS OF TEXT Here's some more text for this proxy card so we can see the text actually scale.",
+    flavor_text: "\"More proxy text.\nHave another line of text.\nAnother one!\"",
     keywords: ["Challenger", "Resist"],
     illustrators: ["Matthew Robert Davies"],
     collector_number: "67",
     lang: "en",
-    set: { code: "7" }
+    set: { code: "13" }
 };
 
 initCard(testCard);
