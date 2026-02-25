@@ -449,7 +449,7 @@ function renderCardText(svgRoot, card) {
             divider.setAttribute("x2", areaBox.x + maxWidth);
             divider.setAttribute("y1", currentY);
             divider.setAttribute("y2", currentY);
-            divider.setAttribute("stroke", "#737373");
+            divider.setAttribute("stroke", "#ababab");
             divider.setAttribute("stroke-width", "0.2");
             
             textGroup.appendChild(divider);
