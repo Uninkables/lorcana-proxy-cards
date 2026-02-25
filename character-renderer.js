@@ -108,7 +108,7 @@ function updateCharacterCard(svgRoot, card) {
         Common: "rarity-common",
         Uncommon: "rarity-uncommon",
         Rare: "rarity-rare",
-        "Super rare": "rarity-superrare",
+        "Super_rare": "rarity-superrare",
         Legendary: "rarity-legendary"
     };
 
