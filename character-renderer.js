@@ -450,7 +450,7 @@ function renderCardText(svgRoot, card) {
             divider.setAttribute("y1", currentY);
             divider.setAttribute("y2", currentY);
             divider.setAttribute("stroke", "#2e2e2e");
-            divider.setAttribute("stroke-width", "0.4");
+            divider.setAttribute("stroke-width", "0.2");
     
             textGroup.appendChild(divider);
     
