@@ -438,8 +438,6 @@ function renderCardText(svgRoot, card) {
         // -------- FLAVOR --------
         if (flavorLines.length > 0) {
     
-            currentY += lineHeight * 0.25;
-    
             const divider = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "line"
