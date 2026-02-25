@@ -444,6 +444,10 @@ function renderCardText(svgRoot, card) {
                 "http://www.w3.org/2000/svg",
                 "line"
             );
+
+            const dividerSpacing = lineHeight * 0.2;
+
+            currentY += dividerSpacing;
     
             divider.setAttribute("x1", areaBox.x);
             divider.setAttribute("x2", areaBox.x + maxWidth);
@@ -451,10 +455,10 @@ function renderCardText(svgRoot, card) {
             divider.setAttribute("y2", currentY);
             divider.setAttribute("stroke", "#2e2e2e");
             divider.setAttribute("stroke-width", "0.2");
-    
+            
             textGroup.appendChild(divider);
     
-            currentY += lineHeight * 0.75;
+            currentY += dividerSpacing;
     
             for (const line of flavorLines) {
     
