@@ -919,7 +919,7 @@ const testCard = {
     },
     "set": {
       "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
-      "code": "8",
+      "code": "1",
       "name": "The First Chapter"
     },
     "prices": {
