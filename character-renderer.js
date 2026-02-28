@@ -590,7 +590,15 @@ function renderCardName(svgRoot, card) {
     let fontSize = 8;
     const minFontSize = 4;
 
-    const versionText = card.version ? card.version.toUpperCase() : null;
+    const versionEl = svgRoot.querySelector("#version");
+
+    if (versionEl) {
+        versionEl.innerHTML = ""; // ← important
+    
+        if (card.version) {
+            versionEl.textContent = card.version;
+        }
+    }
 
     function renderAtSize(size) {
 
