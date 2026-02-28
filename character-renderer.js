@@ -675,54 +675,55 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_e672bba7d4c5402f82d9360fca1594f5",
-    "name": "Kit Cloudkicker",
-    "version": "Tough Guy",
+    "id": "crd_d9f3b86af85f48579ed9d0d7ce0de129",
+    "name": "Ariel",
+    "version": "On Human Legs",
     "layout": "normal",
-    "released_at": "2024-02-23",
+    "released_at": "2023-08-18",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747"
       }
     },
-    "cost": 3,
+    "cost": 4,
     "inkwell": true,
-    "ink": "Emerald",
+    "ink": "Amber",
     "inks": null,
     "type": [
       "Character"
     ],
     "classifications": [
       "Storyborn",
-      "Ally"
+      "Hero",
+      "Princess"
     ],
-    "text": "SKYSURFING When you play this character, you may return chosen opposing character with 2 {S} or less to their player's hand.",
+    "text": "VOICELESS This character can't {E} to sing songs.",
     "keywords": [],
     "move_cost": null,
-    "strength": 2,
-    "willpower": 2,
-    "lore": 1,
+    "strength": 3,
+    "willpower": 4,
+    "lore": 2,
     "rarity": "Uncommon",
     "illustrators": [
-      "Jake Parker"
+      "Matthew Robert Davies"
     ],
-    "collector_number": "77",
+    "collector_number": "1",
     "lang": "en",
-    "flavor_text": "\"It's been fun, guys, but I got to be going.\nYahoooo!\"",
-    "tcgplayer_id": 538357,
+    "flavor_text": "\"...\"",
+    "tcgplayer_id": 494102,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
-      "name": "Into the Inklands"
+      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
+      "code": "1",
+      "name": "The First Chapter"
     },
     "prices": {
-      "usd": "0.06",
-      "usd_foil": "0.22"
+      "usd": "0.09",
+      "usd_foil": "0.43"
     }
   };
 
