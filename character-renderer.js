@@ -675,39 +675,44 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_4ab0c55e07324d30903f51b7bbd41c8d",
-    "name": "Dinglehopper",
+    "id": "crd_d9f3b86af85f48579ed9d0d7ce0de129",
+    "name": "Ariel",
+    "version": "On Human Legs",
     "layout": "normal",
     "released_at": "2023-08-18",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747"
       }
     },
-    "cost": 1,
+    "cost": 4,
     "inkwell": true,
     "ink": "Amber",
     "inks": null,
     "type": [
-      "Item"
+      "Character"
     ],
-    "classifications": null,
-    "text": "STRAIGHTEN HAIR {E} — Remove up to 1 damage from chosen character.",
+    "classifications": [
+      "Storyborn",
+      "Hero",
+      "Princess"
+    ],
+    "text": "VOICELESS This character can't {E} to sing songs.",
     "keywords": [],
     "move_cost": null,
-    "strength": null,
-    "willpower": null,
-    "lore": null,
-    "rarity": "Common",
+    "strength": 3,
+    "willpower": 4,
+    "lore": 2,
+    "rarity": "Uncommon",
     "illustrators": [
-      "Eri Welli"
+      "Matthew Robert Davies"
     ],
-    "collector_number": "32",
+    "collector_number": "1",
     "lang": "en",
-    "flavor_text": "Enjoy the finest of human hairstyles!",
-    "tcgplayer_id": 492733,
+    "flavor_text": "\"...\"",
+    "tcgplayer_id": 494102,
     "legalities": {
       "core": "legal"
     },
@@ -717,8 +722,8 @@ const testCard = {
       "name": "The First Chapter"
     },
     "prices": {
-      "usd": "0.06",
-      "usd_foil": "0.17"
+      "usd": "0.09",
+      "usd_foil": "0.43"
     }
   };
 
