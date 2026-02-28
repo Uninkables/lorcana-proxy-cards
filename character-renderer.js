@@ -418,6 +418,38 @@ function renderRuleLineExact(
 
     parentGroup.appendChild(lineGroup);
 
+    // -------- Detect Ability Header --------
+    const abilityMatch = line.match(/^([A-Z0-9\s!'’\-]+(?:\s\{[^}]+\})?)\s+—\s+(.*)$/);
+
+    if (abilityMatch) {
+        const abilityTitle = abilityMatch[1] + " —";
+        const remainder = abilityMatch[2];
+
+        renderAbilityHeader(
+            abilityTitle,
+            startX,
+            y,
+            fontSize,
+            lineGroup
+        );
+
+        const extraSpacing = fontSize * 0.75;
+
+        renderRuleLineExact(
+            remainder,
+            startX,
+            y + extraSpacing,
+            fontSize,
+            lineGroup,
+            keywordSet,
+            state
+        );
+
+        return;
+    }
+
+    // -------- Normal Line Rendering --------
+
     let currentX = startX;
 
     const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
@@ -438,33 +470,26 @@ function renderRuleLineExact(
     for (let i = 0; i < tokens.length; i++) {
         const token = tokens[i];
 
-        // ---------------- SYMBOL ----------------
+        // -------- SYMBOL --------
         if (/^\{[^}]+\}$/.test(token)) {
 
-            // Measure current flowing text width
             const textWidth = textNode.getBBox().width;
-
-            // Move X to end of flowing text
-            currentX += textWidth;
-
-            // Reset text node width baseline
-            textNode.setAttribute("x", startX);
 
             const symbol = createSymbol(
                 token,
-                currentX,
+                startX + textWidth,
                 y,
                 fontSize
             );
 
             lineGroup.appendChild(symbol);
 
-            const spacing = fontSize * 0.15;
-            const scaledWidth = fontSize;
-            
-            currentX += scaledWidth + spacing;
+            const bbox = symbol.getBBox();
 
-            // Start a NEW flowing text node after symbol
+            const spacing = fontSize * 0.25; // increased spacing
+
+            currentX = startX + textWidth + bbox.width + spacing;
+
             textNode = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "text"
@@ -481,7 +506,8 @@ function renderRuleLineExact(
             continue;
         }
 
-        // ---------------- STYLE LOGIC ----------------
+        // -------- STYLE LOGIC --------
+
         if (token.includes("(")) state.insideParentheses = true;
 
         const clean = token.replace(/[^\w]/g, "").toLowerCase();
@@ -513,15 +539,13 @@ function renderRuleLineExact(
             "tspan"
         );
 
-        if (isBold) {
-            tspan.setAttribute("font-weight", "900");
-        } else {
-            tspan.setAttribute("font-weight", "700");
-        }
-
         if (isItalic) {
             tspan.setAttribute("font-style", "italic");
             tspan.setAttribute("font-weight", "500");
+        } else if (isBold) {
+            tspan.setAttribute("font-weight", "900");
+        } else {
+            tspan.setAttribute("font-weight", "700");
         }
 
         tspan.textContent = token;
@@ -530,6 +554,159 @@ function renderRuleLineExact(
 
         if (token.includes(")")) state.insideParentheses = false;
     }
+}
+
+// -----------------------------
+// CARD NAME AND VERSION
+// -----------------------------
+
+function renderCardName(svgRoot, card) {
+
+    const nameGroup = svgRoot.querySelector("#name");
+    const nameArea = svgRoot.querySelector("#name-text-area");
+
+    if (!nameGroup || !nameArea) return;
+
+    nameGroup.innerHTML = "";
+
+    const box = nameArea.getBBox();
+
+    let fontSize = 8;
+    const minFontSize = 4;
+
+    const versionText = card.version ? card.version.toUpperCase() : null;
+
+    function renderAtSize(size) {
+
+        nameGroup.innerHTML = "";
+
+        const text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+
+        text.setAttribute("font-family", "Brandon Grotesque");
+        text.setAttribute("font-weight", "900");
+        text.setAttribute("font-size", size);
+        text.setAttribute("text-anchor", "middle");
+
+        nameGroup.appendChild(text);
+
+        const words = card.name.toUpperCase().split(" ");
+
+        let lines = [];
+        let currentLine = "";
+
+        for (let word of words) {
+
+            const testLine = currentLine ? currentLine + " " + word : word;
+            text.textContent = testLine;
+
+            if (text.getBBox().width > box.width && currentLine !== "") {
+                lines.push(currentLine);
+                currentLine = word;
+            } else {
+                currentLine = testLine;
+            }
+        }
+
+        if (currentLine) lines.push(currentLine);
+
+        if (lines.length > 3) {
+            return { overflow: true };
+        }
+
+        text.textContent = "";
+
+        lines.forEach((line, i) => {
+            const tspan = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "tspan"
+            );
+
+            tspan.setAttribute("x", box.x + box.width / 2);
+            tspan.setAttribute("dy", i === 0 ? 0 : size * 1.05);
+            tspan.textContent = line;
+
+            text.appendChild(tspan);
+        });
+
+        let totalHeight = text.getBBox().height;
+
+        if (versionText) {
+
+            const versionTspan = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "tspan"
+            );
+
+            versionTspan.setAttribute("x", box.x + box.width / 2);
+            versionTspan.setAttribute("dy", size * 0.95);
+            versionTspan.setAttribute("font-weight", "500");
+            versionTspan.textContent = versionText;
+
+            text.appendChild(versionTspan);
+
+            totalHeight = text.getBBox().height;
+        }
+
+        const bbox = text.getBBox();
+
+        const offsetY =
+            box.y + (box.height - bbox.height) / 2 - bbox.y;
+
+        nameGroup.setAttribute(
+            "transform",
+            `translate(0, ${offsetY})`
+        );
+
+        return {
+            width: bbox.width,
+            height: bbox.height,
+            overflow: false
+        };
+    }
+
+    let metrics = renderAtSize(fontSize);
+
+    while (
+        (metrics.overflow ||
+            metrics.width > box.width ||
+            metrics.height > box.height) &&
+        fontSize > minFontSize
+    ) {
+        fontSize -= 0.3;
+        metrics = renderAtSize(fontSize);
+    }
+}
+
+// -----------------------------
+// ABILITY HEADER
+// -----------------------------
+
+function renderAbilityHeader(
+    text,
+    x,
+    y,
+    fontSize,
+    parent,
+    keywordSet,
+    state
+) {
+    const header = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+    );
+
+    header.setAttribute("x", x);
+    header.setAttribute("y", y);
+    header.setAttribute("font-size", fontSize);
+    header.setAttribute("font-family", "Brandon Grotesque");
+    header.setAttribute("font-weight", "900");
+
+    header.textContent = text;
+
+    parent.appendChild(header);
 }
 
 // -----------------------------
