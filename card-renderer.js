@@ -572,6 +572,8 @@ function renderCardName(svgRoot, card) {
     const nameGroup = svgRoot.querySelector("#name");
     const nameArea = svgRoot.querySelector("#name-text-area");
 
+    console.log(card.version);
+
     if (!nameGroup || !nameArea) return;
 
     nameGroup.innerHTML = "";
