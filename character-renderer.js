@@ -27,18 +27,189 @@ async function loadSymbols() {
 }
 
 async function loadCard(cardData) {
-    const response = await fetch("CharacterFrame.svg");
+
+    const primaryType = getPrimaryType(cardData);
+
+    const templateMap = {
+        Character: "CharacterFrame.svg",
+        Action: "ActionFrame.svg",
+        Item: "ActionFrame.svg",
+        Location: "LocationFrame.svg"
+    };
+
+    const templateFile = templateMap[primaryType];
+
+    if (!templateFile) {
+        console.error("Unknown card type:", cardData.type);
+        return;
+    }
+
+    const response = await fetch(templateFile);
     const svgText = await response.text();
 
     const parser = new DOMParser();
     const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
-
     const svgElement = svgDoc.documentElement;
 
-    document.getElementById("card-container")
-        .appendChild(svgElement);
+    document.getElementById("card-container").innerHTML = "";
+    document.getElementById("card-container").appendChild(svgElement);
 
-    updateCharacterCard(svgElement, cardData);
+    // Shared fields
+    applyCommonFields(svgElement, cardData);
+
+    // Type-specific logic
+    switch (primaryType) {
+
+        case "Character":
+            applyCharacterFields(svgElement, cardData);
+            break;
+
+        case "Action":
+        case "Item":
+            applyActionItemFields(svgElement, cardData);
+            break;
+
+        case "Location":
+            applyLocationFields(svgElement, cardData);
+            break;
+    }
+
+    // Shared text renderer (already built and working)
+    renderCardText(svgElement, cardData);
+
+    // Name scaling
+    scaleNameToFit(svgElement, cardData);
+}
+
+function getPrimaryType(card) {
+    if (!card.type || card.type.length === 0) return null;
+
+    if (card.type.includes("Character")) return "Character";
+    if (card.type.includes("Location")) return "Location";
+    if (card.type.includes("Item")) return "Item";
+    if (card.type.includes("Action")) return "Action";
+
+    return null;
+}
+
+function applyCommonFields(svgRoot, card) {
+
+    svgRoot.querySelector("#name").textContent =
+        card.name || "";
+
+    svgRoot.querySelector("#ink-color-text").textContent =
+        card.ink || "";
+
+    svgRoot.querySelector("#artist").textContent =
+        card.illustrators?.join(", ") || "";
+
+    svgRoot.querySelector("#card-and-set-text").textContent =
+        `${card.collector_number || ""} · ${card.lang?.toUpperCase() || ""} · ${card.set?.code || ""}`;
+
+    // Ink Bar
+    const inkBar = svgRoot.querySelector("#ink-color-bar");
+    if (inkBar && inkColors[card.ink]) {
+        inkBar.setAttribute("fill", inkColors[card.ink]);
+    }
+
+    // Ink Cost
+    for (let i = 0; i <= 12; i++) {
+        const el = svgRoot.querySelector(`#ink-cost-${i}`);
+        if (el) el.style.display = i === card.cost ? "inline" : "none";
+    }
+
+    // Inkwell
+    const inkwell = svgRoot.querySelector("#inkable");
+    if (inkwell) {
+        inkwell.style.display = card.inkwell ? "inline" : "none";
+    }
+
+    // Rarity
+    const rarityMap = {
+        Common: "rarity-common",
+        Uncommon: "rarity-uncommon",
+        Rare: "rarity-rare",
+        "Super Rare": "rarity-superrare",
+        Legendary: "rarity-legendary"
+    };
+
+    Object.values(rarityMap).forEach(id => {
+        const el = svgRoot.querySelector(`#${id}`);
+        if (el) el.style.display = "none";
+    });
+
+    if (rarityMap[card.rarity]) {
+        const rarityEl = svgRoot.querySelector(`#${rarityMap[card.rarity]}`);
+        if (rarityEl) rarityEl.style.display = "inline";
+    }
+}
+
+function applyCharacterFields(svgRoot, card) {
+
+    svgRoot.querySelector("#classifications").textContent =
+        card.classifications?.join(" · ") || "";
+
+    // Strength
+    for (let i = 0; i <= 10; i++) {
+        const el = svgRoot.querySelector(`#strength-${i}`);
+        if (el) el.style.display = i === card.strength ? "inline" : "none";
+    }
+
+    // Willpower
+    for (let i = 0; i <= 10; i++) {
+        const el = svgRoot.querySelector(`#willpower-${i}`);
+        if (el) el.style.display = i === card.willpower ? "inline" : "none";
+    }
+
+    // Lore
+    for (let i = 1; i <= 5; i++) {
+        const el = svgRoot.querySelector(`#lore-${i}`);
+        if (el) el.style.display = i === card.lore ? "inline" : "none";
+    }
+}
+
+function applyActionItemFields(svgRoot, card) {
+
+    svgRoot.querySelector("#classifications").textContent =
+        card.type.join(" · ");
+
+    // Hide character-only layers if present
+    ["strength", "willpower", "lore"].forEach(stat => {
+        const nodes = svgRoot.querySelectorAll(`[id^="${stat}-"]`);
+        nodes.forEach(n => n.style.display = "none");
+    });
+
+    // If it's a Song
+    if (card.type.includes("Song")) {
+        const songBadge = svgRoot.querySelector("#song-indicator");
+        if (songBadge) songBadge.style.display = "inline";
+    }
+}
+
+function applyLocationFields(svgRoot, card) {
+
+    svgRoot.querySelector("#classifications").textContent =
+        card.type.join(" · ");
+
+    // Future location-specific fields go here
+}
+
+function scaleNameToFit(svgRoot, card) {
+
+    const nameEl = svgRoot.querySelector("#name");
+    const nameArea = svgRoot.querySelector("#name-text-area");
+
+    if (!nameEl || !nameArea) return;
+
+    const areaBox = nameArea.getBBox();
+    let fontSize = parseFloat(nameEl.getAttribute("font-size")) || 6;
+
+    nameEl.setAttribute("font-size", fontSize);
+
+    while (nameEl.getBBox().width > areaBox.width && fontSize > 2) {
+        fontSize -= 0.3;
+        nameEl.setAttribute("font-size", fontSize);
+    }
 }
 
 function updateCharacterCard(svgRoot, card) {
