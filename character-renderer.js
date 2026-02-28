@@ -675,40 +675,43 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
-    "name": "Has Set My Heaaaaaaart . . .",
+    "id": "crd_e672bba7d4c5402f82d9360fca1594f5",
+    "name": "Kit Cloudkicker",
+    "version": "Tough Guy",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747"
       }
     },
-    "cost": 2,
+    "cost": 3,
     "inkwell": true,
     "ink": "Emerald",
     "inks": null,
     "type": [
-      "Action",
-      "Song"
+      "Character"
     ],
-    "classifications": null,
-    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
+    "classifications": [
+      "Storyborn",
+      "Ally"
+    ],
+    "text": "SKYSURFING When you play this character, you may return chosen opposing character with 2 {S} or less to their player's hand.",
     "keywords": [],
     "move_cost": null,
-    "strength": null,
-    "willpower": null,
-    "lore": null,
+    "strength": 2,
+    "willpower": 2,
+    "lore": 1,
     "rarity": "Uncommon",
     "illustrators": [
-      "Hyuna Lee"
+      "Jake Parker"
     ],
-    "collector_number": "94",
+    "collector_number": "77",
     "lang": "en",
-    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
-    "tcgplayer_id": 539085,
+    "flavor_text": "\"It's been fun, guys, but I got to be going.\nYahoooo!\"",
+    "tcgplayer_id": 538357,
     "legalities": {
       "core": "legal"
     },
@@ -718,8 +721,8 @@ const testCard = {
       "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.04",
-      "usd_foil": "0.15"
+      "usd": "0.06",
+      "usd_foil": "0.22"
     }
   };
 
