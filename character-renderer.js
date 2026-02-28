@@ -675,50 +675,51 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_4ab0c55e07324d30903f51b7bbd41c8d",
-    "name": "Dinglehopper",
+    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
+    "name": "Has Set My Heaaaaaaart . . .",
     "layout": "normal",
-    "released_at": "2023-08-18",
+    "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
       }
     },
-    "cost": 1,
+    "cost": 2,
     "inkwell": true,
-    "ink": "Amber",
+    "ink": "Emerald",
     "inks": null,
     "type": [
-      "Item"
+      "Action",
+      "Song"
     ],
     "classifications": null,
-    "text": "STRAIGHTEN HAIR {E} — Remove up to 1 damage from chosen character.",
+    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
     "willpower": null,
     "lore": null,
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "illustrators": [
-      "Eri Welli"
+      "Hyuna Lee"
     ],
-    "collector_number": "32",
+    "collector_number": "94",
     "lang": "en",
-    "flavor_text": "Enjoy the finest of human hairstyles!",
-    "tcgplayer_id": 492733,
+    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
+    "tcgplayer_id": 539085,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
-      "code": "1",
-      "name": "The First Chapter"
+      "id": "set_10a1db03fe66417c9912494b94463e8e",
+      "code": "3",
+      "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.06",
-      "usd_foil": "0.17"
+      "usd": "0.04",
+      "usd_foil": "0.15"
     }
   };
 
