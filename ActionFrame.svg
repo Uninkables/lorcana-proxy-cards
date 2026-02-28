@@ -360,23 +360,17 @@
            x="34.496929"
            y="53.673164">Classifications</tspan></text></g><g
        id="layer13"
-       style="display:inline"><rect
+       style="display:inline">
+
+       <g id="name"></g>
+              
+       <rect
          style="display:inline;fill:none;stroke-width:5;paint-order:markers fill stroke;stroke:none;stroke-dasharray:none"
          id="name-text-area"
-         width="56.5"
-         height="7"
-         x="3.5"
-         y="21.5" /><text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.3504px;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.176389;stroke-linecap:square;stroke-dasharray:none;paint-order:markers fill stroke"
-         x="31.604364"
-         y="28.655699"
-         id="name"
-         transform="scale(1.0054631,0.99456658)"><tspan
-           id="tspan2"
-           style="fill:#000000;fill-opacity:1;stroke-width:0.176389"
-           x="31.604364"
-           y="28.655699">TITLE</tspan></text></g>
+         width="50"
+         height="25"
+         x="6.75"
+         y="12.5" /></g>
       <g id="card-text"></g>
       <rect
         id="card-text-area"
