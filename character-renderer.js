@@ -678,6 +678,7 @@ const testCard = {
     name: "BONGO",
     version: "Fun And Fancy Free",
     ink: "Ruby",
+    type: ["Character"],
     cost: 11,
     inkwell: true,
     strength: 6,
