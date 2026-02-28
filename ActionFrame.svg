@@ -376,21 +376,15 @@
            id="tspan2"
            style="fill:#000000;fill-opacity:1;stroke-width:0.176389"
            x="31.604364"
-           y="28.655699">TITLE</tspan></text></g><g
-       id="layer15"><rect
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:2.11667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;display:inline;fill:none;fill-opacity:1;stroke:none;stroke-width:0.105833;paint-order:markers fill stroke"
-         id="card-text-area"
-         width="56.5"
-         height="22"
-         x="3.5000019"
-         y="60.000004" /><text
-         xml:space="preserve"
-         style="display:inline;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:2.11667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#2e2e2e;fill-opacity:1;stroke:none;stroke-width:0.105833;paint-order:markers fill stroke"
-         x="3.6116903"
-         y="61.502838"
-         id="card-text"><tspan
-           id="tspan38"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;"
-           x="3.6116903"
-           y="61.502838" /></text></g>
-      </g></svg>
+           y="28.655699">TITLE</tspan></text></g>
+      <g id="card-text"></g>
+      <rect
+        id="card-text-area"
+        width="56.5"
+        height="22"
+        x="3.5"
+        y="60"
+        fill="none"
+        stroke="none" />
+      </g>
+</svg>
