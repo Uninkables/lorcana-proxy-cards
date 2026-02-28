@@ -215,7 +215,7 @@ function scaleNameToFit(svgRoot, card) {
 function updateCharacterCard(svgRoot, card) {
     // ----- Basic Text Fields -----
     svgRoot.querySelector("#name").textContent = card.name || "TITLE";
-    svgRoot.querySelector("#version").textContent = card.version || "Version";
+    svgRoot.querySelector("#version").textContent = card.version || "Version Text Changed";
 
     svgRoot.querySelector("#classifications").textContent =
         card.classifications?.join(" · ") || "Classifications";
