@@ -675,25 +675,52 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    name: "BONGO",
-    version: "Fun And Fancy Free",
-    ink: "Ruby",
-    type: ["Character"],
-    cost: 11,
-    inkwell: true,
-    strength: 6,
-    willpower: 7,
-    lore: 4,
-    rarity: "Super_rare",
-    classifications: ["Storyborn", "Hero"],
-    text: "Challenger +2 (While challenging, this character gets +2 {S}.)\nResist +2 (Damage dealt to this character is reduced by 2.)\nLOTS OF TEXT Here's some more text for this proxy card so we can see the text actually scale.",
-    flavor_text: "\"More proxy text.\nHave another line of text.\nAnother one!\"",
-    keywords: ["Challenger", "Resist"],
-    illustrators: ["Matthew Robert Davies"],
-    collector_number: "67",
-    lang: "en",
-    set: { code: "13" }
-};
+    "id": "crd_4ab0c55e07324d30903f51b7bbd41c8d",
+    "name": "Dinglehopper",
+    "layout": "normal",
+    "released_at": "2023-08-18",
+    "image_uris": {
+      "digital": {
+        "small": "https://cards.lorcast.io/card/digital/small/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747"
+      }
+    },
+    "cost": 1,
+    "inkwell": true,
+    "ink": "Amber",
+    "inks": null,
+    "type": [
+      "Item"
+    ],
+    "classifications": null,
+    "text": "STRAIGHTEN HAIR {E} — Remove up to 1 damage from chosen character.",
+    "keywords": [],
+    "move_cost": null,
+    "strength": null,
+    "willpower": null,
+    "lore": null,
+    "rarity": "Common",
+    "illustrators": [
+      "Eri Welli"
+    ],
+    "collector_number": "32",
+    "lang": "en",
+    "flavor_text": "Enjoy the finest of human hairstyles!",
+    "tcgplayer_id": 492733,
+    "legalities": {
+      "core": "legal"
+    },
+    "set": {
+      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
+      "code": "1",
+      "name": "The First Chapter"
+    },
+    "prices": {
+      "usd": "0.06",
+      "usd_foil": "0.17"
+    }
+  };
 
 initCard(testCard);
 
