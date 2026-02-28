@@ -481,14 +481,22 @@ function renderRuleLineExact(
                 y,
                 fontSize
             );
-
+            
             lineGroup.appendChild(symbol);
-
-            const bbox = symbol.getBBox();
-
-            const spacing = fontSize * 0.25; // increased spacing
-
-            currentX = startX + textWidth + bbox.width + spacing;
+            
+            // Measure original (unscaled) bbox
+            const rawBox = symbol.querySelector("path, rect, circle, polygon, g") 
+                ? symbol.querySelector("path, rect, circle, polygon, g").getBBox()
+                : symbol.getBBox();
+            
+            // Match the scale used in createSymbol
+            const scale = fontSize / 105.8335;
+            
+            const realWidth = rawBox.width * scale;
+            
+            const spacing = fontSize * 0.35;
+            
+            currentX = startX + textWidth + realWidth + spacing;
 
             textNode = document.createElementNS(
                 "http://www.w3.org/2000/svg",
