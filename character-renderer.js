@@ -104,7 +104,7 @@ function applyCommonFields(svgRoot, card) {
         card.illustrators?.join(", ") || "";
 
     svgRoot.querySelector("#card-and-set-text").textContent =
-        `${card.collector_number || ""} · ${card.lang?.toUpperCase() || ""} · ${card.set?.code || ""}`;
+        `${card.collector_number || ""} / 204 · ${card.lang?.toUpperCase() || ""} · ${card.set?.code || ""}`;
 
     // Ink Bar
     const inkBar = svgRoot.querySelector("#ink-color-bar");
