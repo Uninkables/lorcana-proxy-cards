@@ -78,7 +78,7 @@ async function loadCard(cardData) {
     renderCardText(svgElement, cardData);
 
     // Name scaling
-    scaleNameToFit(svgElement, cardData);
+    renderCardName(svgElement, cardData);
 }
 
 function getPrimaryType(card) {
@@ -472,45 +472,44 @@ function renderRuleLineExact(
 
         // -------- SYMBOL --------
         if (/^\{[^}]+\}$/.test(token)) {
-
+        
             const textWidth = textNode.getBBox().width;
-
+        
+            const symbolId = SYMBOL_MAP[token];
+            const def = document.querySelector(symbolId);
+            if (!def) continue;
+        
+            const rawBox = def.getBBox();
+            const scale = fontSize / 105.8335;
+        
+            const realWidth = rawBox.width * scale;
+        
             const symbol = createSymbol(
                 token,
                 startX + textWidth,
                 y,
                 fontSize
             );
-            
+        
             lineGroup.appendChild(symbol);
-            
-            // Measure original (unscaled) bbox
-            const rawBox = symbol.querySelector("path, rect, circle, polygon, g") 
-                ? symbol.querySelector("path, rect, circle, polygon, g").getBBox()
-                : symbol.getBBox();
-            
-            // Match the scale used in createSymbol
-            const scale = fontSize / 105.8335;
-            
-            const realWidth = rawBox.width * scale;
-            
-            const spacing = fontSize * 0.35;
-            
+        
+            const spacing = fontSize * 0.25;
+        
             currentX = startX + textWidth + realWidth + spacing;
-
+        
             textNode = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "text"
             );
-
+        
             textNode.setAttribute("x", currentX);
             textNode.setAttribute("y", y);
             textNode.setAttribute("font-size", fontSize);
             textNode.setAttribute("font-family", "Brandon Grotesque");
             textNode.setAttribute("fill", "#2e2e2e");
-
+        
             lineGroup.appendChild(textNode);
-
+        
             continue;
         }
 
@@ -579,20 +578,10 @@ function renderCardName(svgRoot, card) {
 
     const box = nameArea.getBBox();
 
+    const versionText = card.version || null;
+
     let fontSize = 8;
     const minFontSize = 4;
-
-    const versionEl = svgRoot.querySelector("#version");
-
-    console.log(card.version);
-
-    if (versionEl) {
-        versionEl.innerHTML = ""; // ← important
-    
-        if (card.version) {
-            versionEl.textContent = card.version;
-        }
-    }
 
     function renderAtSize(size) {
 
@@ -652,20 +641,19 @@ function renderCardName(svgRoot, card) {
         let totalHeight = text.getBBox().height;
 
         if (versionText) {
-
+        
             const versionTspan = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "tspan"
             );
-
+        
             versionTspan.setAttribute("x", box.x + box.width / 2);
-            versionTspan.setAttribute("dy", size * 0.95);
+            versionTspan.setAttribute("dy", size * 0.9);
             versionTspan.setAttribute("font-weight", "500");
+            versionTspan.setAttribute("font-size", size * 0.65);
             versionTspan.textContent = versionText;
-
+        
             text.appendChild(versionTspan);
-
-            totalHeight = text.getBBox().height;
         }
 
         const bbox = text.getBBox();
