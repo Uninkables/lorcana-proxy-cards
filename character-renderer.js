@@ -215,7 +215,15 @@ function scaleNameToFit(svgRoot, card) {
 function updateCharacterCard(svgRoot, card) {
     // ----- Basic Text Fields -----
     svgRoot.querySelector("#name").textContent = card.name || "TITLE";
-    svgRoot.querySelector("#version").textContent = card.version || "Version Text Changed";
+    const versionEl = svgRoot.querySelector("#version");
+
+    if (versionEl) {
+        versionEl.innerHTML = ""; // ← important
+    
+        if (card.version) {
+            versionEl.textContent = card.version;
+        }
+    }
 
     svgRoot.querySelector("#classifications").textContent =
         card.classifications?.join(" · ") || "Classifications";
@@ -903,7 +911,7 @@ const testCard = {
     },
     "set": {
       "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
-      "code": "1",
+      "code": "8",
       "name": "The First Chapter"
     },
     "prices": {
