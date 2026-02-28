@@ -215,15 +215,7 @@ function scaleNameToFit(svgRoot, card) {
 function updateCharacterCard(svgRoot, card) {
     // ----- Basic Text Fields -----
     svgRoot.querySelector("#name").textContent = card.name || "TITLE";
-    const versionEl = svgRoot.querySelector("#version");
-
-    if (versionEl) {
-        versionEl.innerHTML = ""; // ← important
-    
-        if (card.version) {
-            versionEl.textContent = card.version;
-        }
-    }
+    svgRoot.querySelector("#version").textContent = card.name || "Version";
 
     svgRoot.querySelector("#classifications").textContent =
         card.classifications?.join(" · ") || "Classifications";
@@ -591,6 +583,8 @@ function renderCardName(svgRoot, card) {
     const minFontSize = 4;
 
     const versionEl = svgRoot.querySelector("#version");
+
+    console.log(card.version);
 
     if (versionEl) {
         versionEl.innerHTML = ""; // ← important
