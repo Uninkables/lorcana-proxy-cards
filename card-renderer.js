@@ -518,7 +518,7 @@ function renderCardName(svgRoot, card) {
         nameNode.setAttribute("text-anchor", "middle");
         nameNode.setAttribute("font-family", "The Bystander Collection");
         nameNode.setAttribute("font-weight", "900");
-        versionNode.setAttribute("style", "transform: scale(1, 1.1);");
+        nameNode.setAttribute("style", "transform: scale(1, 1.1);");
         nameNode.setAttribute("font-size", nameFontSize);
         nameNode.textContent = nameText;
 
