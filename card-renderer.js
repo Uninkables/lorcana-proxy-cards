@@ -486,6 +486,8 @@ function renderCardName(svgRoot, card) {
     const nameGroup = svgRoot.querySelector("#name");
     const nameArea = svgRoot.querySelector("#name-text-area");
 
+    if (!nameGroup) console.log("#name is not valid.");
+    if (!nameArea) console.log("#name-text-area is not valid.");
     if (!nameGroup || !nameArea) return;
 
     nameGroup.innerHTML = "";
