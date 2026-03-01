@@ -784,46 +784,43 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_d77c74eca9ae4b56b85f6c1feac4c1c5",
+    "id": "crd_e672bba7d4c5402f82d9360fca1594f5",
     "name": "Kit Cloudkicker",
-    "version": "Navigator",
+    "version": "Tough Guy",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_d77c74eca9ae4b56b85f6c1feac4c1c5.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_d77c74eca9ae4b56b85f6c1feac4c1c5.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_d77c74eca9ae4b56b85f6c1feac4c1c5.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747"
       }
     },
-    "cost": 6,
+    "cost": 3,
     "inkwell": true,
-    "ink": "Sapphire",
+    "ink": "Emerald",
     "inks": null,
     "type": [
       "Character"
     ],
     "classifications": [
-      "Floodborn",
+      "Storyborn",
       "Ally"
     ],
-    "text": "Shift 3 (You may pay 3 {I} to play this on top of one of your characters named Kit Cloudkicker.)\nWard (Opponents can't choose this character except to challenge.)",
-    "keywords": [
-      "Shift",
-      "Ward"
-    ],
+    "text": "SKYSURFING When you play this character, you may return chosen opposing character with 2 {S} or less to their player's hand.",
+    "keywords": [],
     "move_cost": null,
     "strength": 2,
-    "willpower": 5,
-    "lore": 3,
+    "willpower": 2,
+    "lore": 1,
     "rarity": "Uncommon",
     "illustrators": [
-      "Roger Pérez"
+      "Jake Parker"
     ],
-    "collector_number": "147",
+    "collector_number": "77",
     "lang": "en",
-    "flavor_text": null,
-    "tcgplayer_id": 539097,
+    "flavor_text": "\"It's been fun, guys, but I got to be going.\nYahoooo!\"",
+    "tcgplayer_id": 538357,
     "legalities": {
       "core": "legal"
     },
@@ -833,8 +830,8 @@ const testCard = {
       "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.07",
-      "usd_foil": "0.2"
+      "usd": "0.06",
+      "usd_foil": "0.22"
     }
   };
 
