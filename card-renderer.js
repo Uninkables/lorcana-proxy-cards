@@ -568,6 +568,8 @@ function renderCardName(svgRoot, card) {
             versionTspan.setAttribute("font-weight", "500");
             versionTspan.setAttribute("font-size", size * 0.65);
             versionTspan.textContent = versionText;
+
+            console.log(versionText);
         
             text.appendChild(versionTspan);
         }
