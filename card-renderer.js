@@ -542,6 +542,7 @@ function renderCardName(svgRoot, card) {
             versionNode.setAttribute("text-anchor", "middle");
             versionNode.setAttribute("font-family", "Brandon Grotesque");
             versionNode.setAttribute("font-weight", "500");
+            versionNode.setAttribute("style", "transform: scale(1, 1.25);");
             versionNode.setAttribute("font-size", versionFontSize);
             versionNode.textContent = versionText;
 
