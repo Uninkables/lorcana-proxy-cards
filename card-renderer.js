@@ -486,8 +486,6 @@ function renderCardName(svgRoot, card) {
     const nameGroup = svgRoot.querySelector("#name");
     const nameArea = svgRoot.querySelector("#name-text-area");
 
-    if (!nameGroup) console.log("#name is not valid.");
-    if (!nameArea) console.log("#name-text-area is not valid.");
     if (!nameGroup || !nameArea) return;
 
     nameGroup.innerHTML = "";
@@ -496,9 +494,7 @@ function renderCardName(svgRoot, card) {
 
     const versionText = card.version || null;
 
-    console.log(versionText);
-
-    let fontSize = 8;
+    let fontSize = 10.4;
     const minFontSize = 4;
 
     function renderAtSize(size) {
@@ -559,8 +555,6 @@ function renderCardName(svgRoot, card) {
         let totalHeight = text.getBBox().height;
 
         if (versionText) {
-
-            console.log("Check passed on versionText");
         
             const versionTspan = document.createElementNS(
                 "http://www.w3.org/2000/svg",
