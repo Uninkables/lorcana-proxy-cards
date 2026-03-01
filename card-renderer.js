@@ -494,6 +494,8 @@ function renderCardName(svgRoot, card) {
 
     const versionText = card.version || null;
 
+    console.log(versionText);
+
     let fontSize = 8;
     const minFontSize = 4;
 
@@ -555,6 +557,8 @@ function renderCardName(svgRoot, card) {
         let totalHeight = text.getBBox().height;
 
         if (versionText) {
+
+            console.log("Check passed on versionText");
         
             const versionTspan = document.createElementNS(
                 "http://www.w3.org/2000/svg",
