@@ -482,134 +482,178 @@ function renderCardName(svgRoot, card) {
 
     const nameArea = svgRoot.querySelector("#name-text-area");
     const nameGroup = svgRoot.querySelector("#name");
-    const versionGroup = svgRoot.querySelector("#version");
 
     if (!nameArea || !nameGroup) return;
 
     nameGroup.innerHTML = "";
-    if (versionGroup) versionGroup.innerHTML = "";
 
     const areaBox = nameArea.getBBox();
-    const maxWidth = areaBox.width;
-    const maxHeight = areaBox.height;
+    const centerX = areaBox.x + areaBox.width / 2;
+
+    const isCharacter = card.type?.includes("Character");
+    const isLocation  = card.type?.includes("Location");
+
+    const baseNameSize = 10.4;
+    const baseVersionSize = 5.3;
+
+    let nameFontSize = baseNameSize;
+    let versionFontSize = baseVersionSize;
 
     const nameText = card.name || "";
-    const versionText = card.version || null;
+    const versionText =
+        isCharacter || isLocation
+            ? (card.version || "")
+            : "";
 
-    let nameFontSize = 10.4;
-    let versionFontSize = 5.3;
+    // -------------------------
+    // CHARACTER / LOCATION MODE
+    // -------------------------
+    if (isCharacter || isLocation) {
 
-    const lineHeightMultiplier = 1.05;
-    const maxLines = 3;
+        const nameNode = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
 
-    function wrapName(text, fontSize) {
+        nameNode.setAttribute("text-anchor", "middle");
+        nameNode.setAttribute("font-family", "Brandon Grotesque");
+        nameNode.setAttribute("font-weight", "900");
+        nameNode.setAttribute("font-size", nameFontSize);
+        nameNode.textContent = nameText;
 
-        const words = text.split(" ");
-        const lines = [];
-        let current = "";
+        nameGroup.appendChild(nameNode);
 
-        for (const word of words) {
+        // Scale down if too wide
+        while (nameNode.getBBox().width > areaBox.width && nameFontSize > 4) {
+            nameFontSize -= 0.5;
+            nameNode.setAttribute("font-size", nameFontSize);
+        }
 
-            const test = current ? current + " " + word : word;
+        let totalHeight = nameNode.getBBox().height;
+        let versionNode = null;
 
-            const temp = document.createElementNS(
+        if (versionText) {
+
+            versionNode = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "text"
             );
 
-            temp.setAttribute("font-size", fontSize);
-            temp.setAttribute("font-family", "The Bystander Collection");
-            temp.setAttribute("text-anchor", "middle");
-            temp.textContent = test;
+            versionNode.setAttribute("text-anchor", "middle");
+            versionNode.setAttribute("font-family", "Brandon Grotesque");
+            versionNode.setAttribute("font-weight", "500");
+            versionNode.setAttribute("font-size", versionFontSize);
+            versionNode.textContent = versionText;
 
-            nameGroup.appendChild(temp);
-            const width = temp.getBBox().width;
-            nameGroup.removeChild(temp);
+            nameGroup.appendChild(versionNode);
 
-            if (width > maxWidth && current !== "") {
-                lines.push(current);
-                current = word;
+            while (
+                versionNode.getBBox().width > areaBox.width &&
+                versionFontSize > 3
+            ) {
+                versionFontSize -= 0.3;
+                versionNode.setAttribute("font-size", versionFontSize);
+            }
+
+            totalHeight += versionNode.getBBox().height + 2;
+        }
+
+        // Vertical centering
+        const startY =
+            areaBox.y + (areaBox.height - totalHeight) / 2;
+
+        nameNode.setAttribute("x", centerX);
+        nameNode.setAttribute("y", startY + nameNode.getBBox().height);
+
+        if (versionNode) {
+            versionNode.setAttribute("x", centerX);
+            versionNode.setAttribute(
+                "y",
+                startY +
+                nameNode.getBBox().height +
+                versionNode.getBBox().height +
+                2
+            );
+        }
+
+        return;
+    }
+
+    // -------------------------
+    // ACTION / ITEM MODE
+    // -------------------------
+
+    let lines = [nameText];
+    let fontSize = baseNameSize;
+
+    const measureText = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+    );
+
+    measureText.setAttribute("font-family", "Brandon Grotesque");
+    measureText.setAttribute("font-weight", "900");
+    measureText.setAttribute("visibility", "hidden");
+
+    svgRoot.appendChild(measureText);
+
+    function wrapLines(text, size) {
+        const words = text.split(" ");
+        let currentLine = "";
+        const result = [];
+
+        measureText.setAttribute("font-size", size);
+
+        for (let word of words) {
+            const test = currentLine ? currentLine + " " + word : word;
+            measureText.textContent = test;
+
+            if (measureText.getBBox().width > areaBox.width && currentLine) {
+                result.push(currentLine);
+                currentLine = word;
             } else {
-                current = test;
+                currentLine = test;
             }
         }
 
-        if (current) lines.push(current);
+        if (currentLine) result.push(currentLine);
 
-        return lines.slice(0, maxLines);
+        return result.slice(0, 3); // limit 3 lines
     }
 
-    let lines = wrapName(nameText, nameFontSize);
+    lines = wrapLines(nameText, fontSize);
 
-    let totalHeight =
-        lines.length * nameFontSize * lineHeightMultiplier;
-
-    while (
-        (totalHeight > maxHeight || lines.length > maxLines) &&
-        nameFontSize > 6
-    ) {
-        nameFontSize -= 0.5;
-        versionFontSize = nameFontSize * 0.51;
-        lines = wrapName(nameText, nameFontSize);
-        totalHeight =
-            lines.length * nameFontSize * lineHeightMultiplier;
+    while (lines.length > 3 && fontSize > 5) {
+        fontSize -= 0.5;
+        lines = wrapLines(nameText, fontSize);
     }
+
+    const lineHeight = fontSize * 1.1;
+    const totalHeight = lines.length * lineHeight;
 
     const startY =
-        areaBox.y +
-        (areaBox.height - totalHeight) / 2 +
-        nameFontSize;
+        areaBox.y + (areaBox.height - totalHeight) / 2;
 
-    const centerX = areaBox.x + areaBox.width / 2;
+    lines.forEach((line, i) => {
 
-    for (let i = 0; i < lines.length; i++) {
-
-        const text = document.createElementNS(
+        const node = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "text"
         );
 
-        text.setAttribute("x", centerX);
-        text.setAttribute(
-            "y",
-            startY + i * nameFontSize * lineHeightMultiplier
-        );
-        text.setAttribute("font-size", nameFontSize);
-        text.setAttribute("font-family", "The Bystander Collection");
-        text.setAttribute("font-weight", "900");
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("fill", "#2e2e2e");
+        node.setAttribute("x", centerX);
+        node.setAttribute("y", startY + lineHeight * (i + 1));
+        node.setAttribute("text-anchor", "middle");
+        node.setAttribute("font-family", "Brandon Grotesque");
+        node.setAttribute("font-weight", "900");
+        node.setAttribute("font-size", fontSize);
 
-        text.textContent = lines[i];
+        node.textContent = line;
 
-        nameGroup.appendChild(text);
-    }
+        nameGroup.appendChild(node);
+    });
 
-    // ---------- VERSION ----------
-    if (versionGroup && versionText) {
-
-        const versionY =
-            areaBox.y +
-            areaBox.height +
-            versionFontSize * 1.2;
-
-        const versionNode = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
-
-        versionNode.setAttribute("x", centerX);
-        versionNode.setAttribute("y", versionY);
-        versionNode.setAttribute("font-size", versionFontSize);
-        versionNode.setAttribute("font-family", "Brandon Grotesque");
-        versionNode.setAttribute("font-weight", "500");
-        versionNode.setAttribute("text-anchor", "middle");
-        versionNode.setAttribute("fill", "#2e2e2e");
-
-        versionNode.textContent = versionText;
-
-        versionGroup.appendChild(versionNode);
-    }
+    svgRoot.removeChild(measureText);
 }
 
 // -----------------------------
