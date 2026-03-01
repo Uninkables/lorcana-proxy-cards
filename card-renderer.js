@@ -494,7 +494,7 @@ function renderCardName(svgRoot, card) {
     const isLocation  = card.type?.includes("Location");
 
     const baseNameSize = 10.4;
-    const baseVersionSize = 5.3;
+    const baseVersionSize = 4;
 
     let nameFontSize = baseNameSize;
     let versionFontSize = baseVersionSize;
