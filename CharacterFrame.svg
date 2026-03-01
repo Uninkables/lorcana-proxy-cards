@@ -558,7 +558,14 @@
            id="tspan2"
            style="fill:#000000;fill-opacity:1;stroke-width:0.176389"
            x="31.777021"
-           y="26.556509">TITLE</tspan></text></g><g
+           y="26.556509">TITLE</tspan></text>
+         <rect
+           style="display:inline;fill:none;stroke-width:5;paint-order:markers fill stroke;stroke:none;stroke-dasharray:none"
+           id="name-text-area"
+           width="50"
+           height="25"
+           x="6.75"
+           y="12.5" /></g><g
        id="layer14"
        style="display:inline"><path
          id="lore-1"
