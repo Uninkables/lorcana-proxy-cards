@@ -518,6 +518,7 @@ function renderCardName(svgRoot, card) {
         nameNode.setAttribute("text-anchor", "middle");
         nameNode.setAttribute("font-family", "The Bystander Collection");
         nameNode.setAttribute("font-weight", "900");
+        versionNode.setAttribute("style", "transform: scale(1, 1.1);");
         nameNode.setAttribute("font-size", nameFontSize);
         nameNode.textContent = nameText;
 
@@ -592,7 +593,7 @@ function renderCardName(svgRoot, card) {
         "text"
     );
 
-    measureText.setAttribute("font-family", "Brandon Grotesque");
+    measureText.setAttribute("font-family", "The Bystander Collection");
     measureText.setAttribute("font-weight", "900");
     measureText.setAttribute("visibility", "hidden");
 
@@ -647,6 +648,7 @@ function renderCardName(svgRoot, card) {
         node.setAttribute("text-anchor", "middle");
         node.setAttribute("font-family", "Brandon Grotesque");
         node.setAttribute("font-weight", "900");
+        node.setAttribute("style", "transform: scale(1, 1.1);");
         node.setAttribute("font-size", fontSize);
 
         node.textContent = line;
