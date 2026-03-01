@@ -518,7 +518,7 @@ function renderCardName(svgRoot, card) {
             );
 
             temp.setAttribute("font-size", fontSize);
-            temp.setAttribute("font-family", "Brandon Grotesque");
+            temp.setAttribute("font-family", "The Bystander Collection");
             temp.setAttribute("text-anchor", "middle");
             temp.textContent = test;
 
@@ -575,7 +575,7 @@ function renderCardName(svgRoot, card) {
             startY + i * nameFontSize * lineHeightMultiplier
         );
         text.setAttribute("font-size", nameFontSize);
-        text.setAttribute("font-family", "Brandon Grotesque");
+        text.setAttribute("font-family", "The Bystander Collection");
         text.setAttribute("font-weight", "900");
         text.setAttribute("text-anchor", "middle");
         text.setAttribute("fill", "#2e2e2e");
@@ -603,7 +603,6 @@ function renderCardName(svgRoot, card) {
         versionNode.setAttribute("font-size", versionFontSize);
         versionNode.setAttribute("font-family", "Brandon Grotesque");
         versionNode.setAttribute("font-weight", "500");
-        versionNode.setAttribute("font-style", "italic");
         versionNode.setAttribute("text-anchor", "middle");
         versionNode.setAttribute("fill", "#2e2e2e");
 
