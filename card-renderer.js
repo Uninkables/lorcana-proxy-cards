@@ -94,9 +94,6 @@ function getPrimaryType(card) {
 
 function applyCommonFields(svgRoot, card) {
 
-    svgRoot.querySelector("#name").textContent =
-        card.name || "";
-
     svgRoot.querySelector("#ink-color-text").textContent =
         card.ink || "";
 
@@ -483,122 +480,136 @@ function renderRuleLineExact(
 
 function renderCardName(svgRoot, card) {
 
-    const nameGroup = svgRoot.querySelector("#name");
     const nameArea = svgRoot.querySelector("#name-text-area");
+    const nameGroup = svgRoot.querySelector("#name");
+    const versionGroup = svgRoot.querySelector("#version");
 
-    if (!nameGroup || !nameArea) return;
+    if (!nameArea || !nameGroup) return;
 
     nameGroup.innerHTML = "";
+    if (versionGroup) versionGroup.innerHTML = "";
 
-    const box = nameArea.getBBox();
+    const areaBox = nameArea.getBBox();
+    const maxWidth = areaBox.width;
+    const maxHeight = areaBox.height;
 
+    const nameText = card.name || "";
     const versionText = card.version || null;
 
-    let fontSize = 10.4;
-    const minFontSize = 4;
+    let nameFontSize = 10.4;
+    let versionFontSize = 5.3;
 
-    function renderAtSize(size) {
+    const lineHeightMultiplier = 1.05;
+    const maxLines = 3;
 
-        nameGroup.innerHTML = "";
+    function wrapName(text, fontSize) {
+
+        const words = text.split(" ");
+        const lines = [];
+        let current = "";
+
+        for (const word of words) {
+
+            const test = current ? current + " " + word : word;
+
+            const temp = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text"
+            );
+
+            temp.setAttribute("font-size", fontSize);
+            temp.setAttribute("font-family", "Brandon Grotesque");
+            temp.setAttribute("text-anchor", "middle");
+            temp.textContent = test;
+
+            nameGroup.appendChild(temp);
+            const width = temp.getBBox().width;
+            nameGroup.removeChild(temp);
+
+            if (width > maxWidth && current !== "") {
+                lines.push(current);
+                current = word;
+            } else {
+                current = test;
+            }
+        }
+
+        if (current) lines.push(current);
+
+        return lines.slice(0, maxLines);
+    }
+
+    let lines = wrapName(nameText, nameFontSize);
+
+    let totalHeight =
+        lines.length * nameFontSize * lineHeightMultiplier;
+
+    while (
+        (totalHeight > maxHeight || lines.length > maxLines) &&
+        nameFontSize > 6
+    ) {
+        nameFontSize -= 0.5;
+        versionFontSize = nameFontSize * 0.51;
+        lines = wrapName(nameText, nameFontSize);
+        totalHeight =
+            lines.length * nameFontSize * lineHeightMultiplier;
+    }
+
+    const startY =
+        areaBox.y +
+        (areaBox.height - totalHeight) / 2 +
+        nameFontSize;
+
+    const centerX = areaBox.x + areaBox.width / 2;
+
+    for (let i = 0; i < lines.length; i++) {
 
         const text = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "text"
         );
 
+        text.setAttribute("x", centerX);
+        text.setAttribute(
+            "y",
+            startY + i * nameFontSize * lineHeightMultiplier
+        );
+        text.setAttribute("font-size", nameFontSize);
         text.setAttribute("font-family", "Brandon Grotesque");
         text.setAttribute("font-weight", "900");
-        text.setAttribute("font-size", size);
         text.setAttribute("text-anchor", "middle");
+        text.setAttribute("fill", "#2e2e2e");
+
+        text.textContent = lines[i];
 
         nameGroup.appendChild(text);
-
-        const words = card.name.toUpperCase().split(" ");
-
-        let lines = [];
-        let currentLine = "";
-
-        for (let word of words) {
-
-            const testLine = currentLine ? currentLine + " " + word : word;
-            text.textContent = testLine;
-
-            if (text.getBBox().width > box.width && currentLine !== "") {
-                lines.push(currentLine);
-                currentLine = word;
-            } else {
-                currentLine = testLine;
-            }
-        }
-
-        if (currentLine) lines.push(currentLine);
-
-        if (lines.length > 3) {
-            return { overflow: true };
-        }
-
-        text.textContent = "";
-
-        lines.forEach((line, i) => {
-            const tspan = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "tspan"
-            );
-
-            tspan.setAttribute("x", box.x + box.width / 2);
-            tspan.setAttribute("dy", i === 0 ? 0 : size * 1.05);
-            tspan.textContent = line;
-
-            text.appendChild(tspan);
-        });
-
-        let totalHeight = text.getBBox().height;
-
-        if (versionText) {
-        
-            const versionTspan = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "tspan"
-            );
-        
-            versionTspan.setAttribute("x", box.x + box.width / 2);
-            versionTspan.setAttribute("dy", size * 0.9);
-            versionTspan.setAttribute("font-weight", "500");
-            versionTspan.setAttribute("font-size", size * 0.65);
-            versionTspan.textContent = versionText;
-
-            console.log(versionText);
-        
-            text.appendChild(versionTspan);
-        }
-
-        const bbox = text.getBBox();
-
-        const offsetY =
-            box.y + (box.height - bbox.height) / 2 - bbox.y;
-
-        nameGroup.setAttribute(
-            "transform",
-            `translate(0, ${offsetY})`
-        );
-
-        return {
-            width: bbox.width,
-            height: bbox.height,
-            overflow: false
-        };
     }
 
-    let metrics = renderAtSize(fontSize);
+    // ---------- VERSION ----------
+    if (versionGroup && versionText) {
 
-    while (
-        (metrics.overflow ||
-            metrics.width > box.width ||
-            metrics.height > box.height) &&
-        fontSize > minFontSize
-    ) {
-        fontSize -= 0.3;
-        metrics = renderAtSize(fontSize);
+        const versionY =
+            areaBox.y +
+            areaBox.height +
+            versionFontSize * 1.2;
+
+        const versionNode = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+
+        versionNode.setAttribute("x", centerX);
+        versionNode.setAttribute("y", versionY);
+        versionNode.setAttribute("font-size", versionFontSize);
+        versionNode.setAttribute("font-family", "Brandon Grotesque");
+        versionNode.setAttribute("font-weight", "500");
+        versionNode.setAttribute("font-style", "italic");
+        versionNode.setAttribute("text-anchor", "middle");
+        versionNode.setAttribute("fill", "#2e2e2e");
+
+        versionNode.textContent = versionText;
+
+        versionGroup.appendChild(versionNode);
     }
 }
 
