@@ -401,7 +401,7 @@ function renderRuleLineExact(
     textNode.setAttribute("font-size", fontSize);
     textNode.setAttribute("font-family", "Brandon Grotesque");
     textNode.setAttribute("fill", "#2e2e2e");
-    textNode.setAttribute("style", "transform: scale(1, " + TYPO.RULE_Y_SCALE + ");";
+    textNode.setAttribute("style", "transform: scale(1, " + TYPO.RULE_Y_SCALE + ");");
 
     lineGroup.appendChild(textNode);
 
