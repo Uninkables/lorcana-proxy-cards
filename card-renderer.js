@@ -38,7 +38,7 @@ const TYPO = {
     FLAVOR_LINE_HEIGHT: 1.45,
 
     // Spacing controls (in px, not multipliers)
-    NAME_VERSION_GAP: 1.2,
+    NAME_VERSION_GAP: 1,
     RULE_FLAVOR_GAP: -0.5,
     SYMBOL_SPACING: 0.18,
 
