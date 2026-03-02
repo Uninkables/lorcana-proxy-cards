@@ -381,24 +381,28 @@ function renderRuleLineExact(
         if (/^\{[^}]+\}$/.test(token)) {
 
             const textWidth = textNode.getBBox().width;
-
+        
             const symbolX = currentX + textWidth;
-
+        
+            const scale = fontSize / 105.8335;
+        
             const symbol = createSymbol(
                 token,
                 symbolX,
                 y,
                 fontSize
             );
-
+        
             lineGroup.appendChild(symbol);
-
-            const bbox = symbol.getBBox();
-
+        
+            const rawBBox = symbol.getBBox();
+        
+            const scaledWidth = rawBBox.width * scale;
+        
             const spacing = fontSize * TYPO.SYMBOL_SPACING;
-
-            currentX = symbolX + bbox.width + spacing;
-
+        
+            currentX = symbolX + scaledWidth + spacing;
+        
             textNode = createTextNode(
                 currentX,
                 y,
@@ -406,9 +410,9 @@ function renderRuleLineExact(
                 yScale,
                 isFlavor
             );
-
+        
             lineGroup.appendChild(textNode);
-
+        
             continue;
         }
 
@@ -424,7 +428,7 @@ function renderRuleLineExact(
 
         if (isFlavor) {
             tspan.setAttribute("font-style", "italic");
-            tspan.setAttribute("font-weight", "bold");
+            tspan.setAttribute("font-weight", "normal");
         } else {
             tspan.setAttribute("font-weight", "bold");
         }
