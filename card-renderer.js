@@ -39,7 +39,7 @@ const TYPO = {
 
     // Spacing controls (in px, not multipliers)
     NAME_VERSION_GAP: 1.2,
-    RULE_FLAVOR_GAP: 0.6,
+    RULE_FLAVOR_GAP: -0.5,
     SYMBOL_SPACING: 0.18,
 
     // Name shrink step
