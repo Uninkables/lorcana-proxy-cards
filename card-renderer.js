@@ -16,6 +16,9 @@ const SYMBOL_MAP = {
     "{E}": "#symbol-exert"
 };
 
+// ===============================
+// TYPOGRAPHY CONFIG
+// ===============================
 const TYPO = {
 
     // Base font sizes
@@ -24,22 +27,23 @@ const TYPO = {
     RULE_SIZE: 2.11667,
     FLAVOR_SIZE: 2.11667,
 
-    // Vertical scale multipliers
-    NAME_Y_SCALE: 1.1,
-    VERSION_Y_SCALE: 1.25,
-    RULE_Y_SCALE: 1.1,
-    FLAVOR_Y_SCALE: 1.1,
+    // TRUE vertical glyph scaling (actual transform scale)
+    NAME_Y_SCALE: 1.0,
+    VERSION_Y_SCALE: 1.0,
+    RULE_Y_SCALE: 1.0,
+    FLAVOR_Y_SCALE: 1.0,
 
-    // Line height multipliers
-    NAME_LINE_HEIGHT: 1.05,
+    // Line heights (before Y scaling)
     RULE_LINE_HEIGHT: 1.45,
     FLAVOR_LINE_HEIGHT: 1.45,
 
-    // Spacing controls
-    NAME_VERSION_GAP: 2,
-    RULE_FLAVOR_GAP: -0.5,
-    SYMBOL_SPACING: 0.25,
-    ABILITY_HEADER_GAP: 0.35
+    // Spacing controls (in px, not multipliers)
+    NAME_VERSION_GAP: 1.2,
+    RULE_FLAVOR_GAP: 0.6,
+    SYMBOL_SPACING: 0.18,
+
+    // Name shrink step
+    NAME_SHRINK_STEP: 0.2
 };
 
 async function loadSymbols() {
@@ -346,8 +350,10 @@ function renderRuleLineExact(
     fontSize,
     parentGroup,
     keywordSet,
-    state
+    state,
+    isFlavor = false
 ) {
+
     const lineGroup = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "g"
@@ -355,37 +361,11 @@ function renderRuleLineExact(
 
     parentGroup.appendChild(lineGroup);
 
-    // -------- Detect Ability Header --------
-    const abilityMatch = line.match(/^([A-Z0-9\s!'’\-]+(?:\s\{[^}]+\})?)\s+—\s+(.*)$/);
+    const yScale = isFlavor
+        ? TYPO.FLAVOR_Y_SCALE
+        : TYPO.RULE_Y_SCALE;
 
-    if (abilityMatch) {
-        const abilityTitle = abilityMatch[1] + " —";
-        const remainder = abilityMatch[2];
-
-        renderAbilityHeader(
-            abilityTitle,
-            startX,
-            y,
-            fontSize,
-            lineGroup
-        );
-
-        const extraSpacing = fontSize * 0.75;
-
-        renderRuleLineExact(
-            remainder,
-            startX,
-            y + extraSpacing,
-            fontSize,
-            lineGroup,
-            keywordSet,
-            state
-        );
-
-        return;
-    }
-
-    // -------- Normal Line Rendering --------
+    const scaleCompensation = y / yScale;
 
     let currentX = startX;
 
@@ -397,62 +377,63 @@ function renderRuleLineExact(
     );
 
     textNode.setAttribute("x", currentX);
-    textNode.setAttribute("y", y);
+    textNode.setAttribute("y", scaleCompensation);
     textNode.setAttribute("font-size", fontSize);
     textNode.setAttribute("font-family", "Brandon Grotesque");
     textNode.setAttribute("fill", "#2e2e2e");
-    textNode.setAttribute("style", "transform: scale(1, " + TYPO.RULE_Y_SCALE + ");");
+
+    textNode.setAttribute(
+        "style",
+        `transform: scale(1, ${yScale}); transform-origin: left top;`
+    );
 
     lineGroup.appendChild(textNode);
 
     for (let i = 0; i < tokens.length; i++) {
+
         const token = tokens[i];
 
-        // -------- SYMBOL --------
+        // ================= SYMBOL =================
         if (/^\{[^}]+\}$/.test(token)) {
-        
+
             const textWidth = textNode.getBBox().width;
-        
-            const symbolId = SYMBOL_MAP[token];
-            const def = document.querySelector(symbolId);
-            if (!def) continue;
-        
-            const rawBox = def.getBBox();
-            const scale = fontSize / 105.8335;
-        
-            const realWidth = rawBox.width * scale;
-        
+
             const symbol = createSymbol(
                 token,
                 startX + textWidth,
                 y,
                 fontSize
             );
-        
+
             lineGroup.appendChild(symbol);
-        
+
+            const bbox = symbol.getBBox();
             const spacing = fontSize * TYPO.SYMBOL_SPACING;
-        
-            currentX = startX + textWidth + realWidth + spacing;
-        
+
+            currentX = startX + textWidth + bbox.width + spacing;
+
             textNode = document.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "text"
             );
-        
+
             textNode.setAttribute("x", currentX);
-            textNode.setAttribute("y", y);
+            textNode.setAttribute("y", scaleCompensation);
             textNode.setAttribute("font-size", fontSize);
             textNode.setAttribute("font-family", "Brandon Grotesque");
             textNode.setAttribute("fill", "#2e2e2e");
-        
+
+            textNode.setAttribute(
+                "style",
+                `transform: scale(1, ${yScale}); transform-origin: left top;`
+            );
+
             lineGroup.appendChild(textNode);
-        
+
             continue;
         }
 
-        // -------- STYLE LOGIC --------
-
+        // ================= STYLE LOGIC =================
         if (token.includes("(")) state.insideParentheses = true;
 
         const clean = token.replace(/[^\w]/g, "").toLowerCase();
@@ -462,22 +443,9 @@ function renderRuleLineExact(
 
         if (state.insideParentheses) isItalic = true;
 
-        if (token === token.toUpperCase() && /[A-Z]/.test(token)) {
-            isBold = true;
-        }
-
         if (keywordSet.has(clean)) isBold = true;
 
-        if (/^\+\d+/.test(token)) {
-            let j = i - 1;
-            while (j >= 0 && /^\s+$/.test(tokens[j])) j--;
-            if (j >= 0) {
-                const prevClean = tokens[j]
-                    .replace(/[^\w]/g, "")
-                    .toLowerCase();
-                if (keywordSet.has(prevClean)) isBold = true;
-            }
-        }
+        if (isFlavor) isItalic = true;
 
         const tspan = document.createElementNS(
             "http://www.w3.org/2000/svg",
@@ -494,7 +462,6 @@ function renderRuleLineExact(
         }
 
         tspan.textContent = token;
-
         textNode.appendChild(tspan);
 
         if (token.includes(")")) state.insideParentheses = false;
@@ -517,183 +484,118 @@ function renderCardName(svgRoot, card) {
     const areaBox = nameArea.getBBox();
     const centerX = areaBox.x + areaBox.width / 2;
 
-    const isCharacter = card.type?.includes("Character");
-    const isLocation  = card.type?.includes("Location");
-
-    const baseNameSize = 10.4;
-    const baseVersionSize = 4;
-
-    let nameFontSize = baseNameSize;
-    let versionFontSize = baseVersionSize;
+    let nameSize = TYPO.NAME_SIZE;
+    let versionSize = TYPO.VERSION_SIZE;
 
     const nameText = card.name || "";
-    const versionText =
-        isCharacter || isLocation
-            ? (card.version || "")
-            : "";
+    const versionText = card.version || null;
 
-    // -------------------------
-    // CHARACTER / LOCATION MODE
-    // -------------------------
-    if (isCharacter || isLocation) {
+    const group = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "g"
+    );
 
-        const nameNode = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
+    nameGroup.appendChild(group);
 
-        nameNode.setAttribute("text-anchor", "middle");
-        nameNode.setAttribute("font-family", "The Bystander Collection");
-        nameNode.setAttribute("font-weight", "900");
-        nameNode.setAttribute("font-size", nameFontSize);
-        nameNode.textContent = nameText;
-
-        nameGroup.appendChild(nameNode);
-
-        // Scale down if too wide
-        while (nameNode.getBBox().width > areaBox.width && nameFontSize > 4) {
-            nameFontSize -= 0.5;
-            nameNode.setAttribute("font-size", nameFontSize);
-        }
-
-        const nameHeight = nameNode.getBBox().height * TYPO.NAME_Y_SCALE;
-        let totalHeight = nameHeight;
-        
-        let versionNode = null;
-
-        if (versionText) {
-
-            versionNode = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "text"
-            );
-
-            versionNode.setAttribute("text-anchor", "middle");
-            versionNode.setAttribute("font-family", "Brandon Grotesque");
-            versionNode.setAttribute("font-weight", "500");
-            versionNode.setAttribute("style", "transform: scale(1, 1.25);");
-            versionNode.setAttribute("font-size", versionFontSize);
-            versionNode.textContent = versionText;
-
-            nameGroup.appendChild(versionNode);
-
-            while (
-                versionNode.getBBox().width > areaBox.width &&
-                versionFontSize > 3
-            ) {
-                versionFontSize -= 0.3;
-                versionNode.setAttribute("font-size", versionFontSize);
-            }
-
-            totalHeight += versionNode.getBBox().height + 2;
-        }
-
-        // Vertical centering
-        const startY =
-            areaBox.y + (areaBox.height - totalHeight) / 2;
-
-        nameNode.setAttribute("x", centerX);
-        nameNode.setAttribute("y", startY + nameNode.getBBox().height);
-
-        if (versionNode) {
-            versionNode.setAttribute("x", centerX);
-            versionNode.setAttribute(
-                "y",
-                startY +
-                nameHeight +
-                TYPO.NAME_VERSION_GAP +
-                versionNode.getBBox().height * TYPO.VERSION_Y_SCALE
-            );
-        }
-
-        return;
-    }
-
-    // -------------------------
-    // ACTION / ITEM MODE
-    // -------------------------
-
-    let lines = [nameText];
-    let fontSize = baseNameSize;
-
-    const measureText = document.createElementNS(
+    const nameNode = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "text"
     );
 
-    measureText.setAttribute("font-family", "The Bystander Collection");
-    measureText.setAttribute("font-weight", "900");
-    measureText.setAttribute("visibility", "hidden");
+    nameNode.setAttribute("text-anchor", "middle");
+    nameNode.setAttribute("font-family", "Brandon Grotesque");
+    nameNode.setAttribute("font-weight", "900");
+    nameNode.setAttribute("fill", "#2e2e2e");
 
-    svgRoot.appendChild(measureText);
+    nameNode.textContent = nameText;
+    group.appendChild(nameNode);
 
-    function wrapLines(text, size) {
-        const words = text.split(" ");
-        let currentLine = "";
-        const result = [];
+    let versionNode = null;
 
-        measureText.setAttribute("font-size", size);
+    if (versionText) {
 
-        for (let word of words) {
-            const test = currentLine ? currentLine + " " + word : word;
-            measureText.textContent = test;
-
-            if (measureText.getBBox().width > areaBox.width && currentLine) {
-                result.push(currentLine);
-                currentLine = word;
-            } else {
-                currentLine = test;
-            }
-        }
-
-        if (currentLine) result.push(currentLine);
-
-        return result.slice(0, 3); // limit 3 lines
-    }
-
-    lines = wrapLines(nameText, fontSize);
-
-    while (lines.length > 3 && fontSize > 5) {
-        fontSize -= 0.5;
-        lines = wrapLines(nameText, fontSize);
-    }
-
-    const lineHeight = fontSize * 1.1;
-    const nameHeight = nameNode.getBBox().height * TYPO.NAME_Y_SCALE;
-    let totalHeight = nameHeight;
-    
-    if (versionNode) {
-        const versionHeight =
-            versionNode.getBBox().height * TYPO.VERSION_Y_SCALE;
-    
-        totalHeight +=
-            TYPO.NAME_VERSION_GAP + versionHeight;
-    }
-
-    const startY =
-        areaBox.y + (areaBox.height - totalHeight) / 2;
-
-    lines.forEach((line, i) => {
-
-        const node = document.createElementNS(
+        versionNode = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "text"
         );
 
-        node.setAttribute("x", centerX);
-        node.setAttribute("y", startY + lineHeight * (i + 1));
-        node.setAttribute("text-anchor", "middle");
-        node.setAttribute("font-family", "Brandon Grotesque");
-        node.setAttribute("font-weight", "900");
-        node.setAttribute("style", "transform: scale(1, 1.1);");
-        node.setAttribute("font-size", fontSize);
+        versionNode.setAttribute("text-anchor", "middle");
+        versionNode.setAttribute("font-family", "Brandon Grotesque");
+        versionNode.setAttribute("font-weight", "700");
+        versionNode.setAttribute("fill", "#2e2e2e");
 
-        node.textContent = line;
+        versionNode.textContent = versionText;
+        group.appendChild(versionNode);
+    }
 
-        nameGroup.appendChild(node);
-    });
+    // ===== SHRINK LOOP (–0.2 EXACTLY) =====
+    while (true) {
 
-    svgRoot.removeChild(measureText);
+        nameNode.setAttribute("font-size", nameSize);
+        nameNode.setAttribute("x", centerX);
+
+        if (versionNode) {
+            versionNode.setAttribute("font-size", versionSize);
+            versionNode.setAttribute("x", centerX);
+        }
+
+        if (
+            nameNode.getBBox().width <= areaBox.width &&
+            (!versionNode ||
+             versionNode.getBBox().width <= areaBox.width)
+        ) break;
+
+        nameSize -= TYPO.NAME_SHRINK_STEP;
+        versionSize -= TYPO.NAME_SHRINK_STEP;
+
+        if (nameSize < 5) break;
+    }
+
+    // ===== TRUE Y SCALE =====
+    nameNode.setAttribute(
+        "style",
+        `transform: scale(1, ${TYPO.NAME_Y_SCALE}); transform-origin: center top;`
+    );
+
+    if (versionNode) {
+        versionNode.setAttribute(
+            "style",
+            `transform: scale(1, ${TYPO.VERSION_Y_SCALE}); transform-origin: center top;`
+        );
+    }
+
+    // ===== VERTICAL CENTERING =====
+
+    const nameHeight =
+        nameNode.getBBox().height * TYPO.NAME_Y_SCALE;
+
+    let totalHeight = nameHeight;
+
+    if (versionNode) {
+        totalHeight +=
+            TYPO.NAME_VERSION_GAP +
+            versionNode.getBBox().height *
+            TYPO.VERSION_Y_SCALE;
+    }
+
+    const startY =
+        areaBox.y +
+        (areaBox.height - totalHeight) / 2;
+
+    nameNode.setAttribute(
+        "y",
+        startY / TYPO.NAME_Y_SCALE +
+        nameNode.getBBox().height
+    );
+
+    if (versionNode) {
+        versionNode.setAttribute(
+            "y",
+            (startY + nameHeight + TYPO.NAME_VERSION_GAP)
+            / TYPO.VERSION_Y_SCALE +
+            versionNode.getBBox().height
+        );
+    }
 }
 
 // -----------------------------
