@@ -271,7 +271,7 @@ function wrapTextExact(text, fontSize, maxWidth) {
         "text"
     );
 
-    measurer.setAttribute("font-family", "Brandon Grotesque");
+    measurer.setAttribute("font-family", "Brandon Grotesque Condensed");
     measurer.setAttribute("font-size", fontSize);
     measurer.setAttribute("font-weight", "700");
     measurer.setAttribute("visibility", "hidden");
@@ -571,7 +571,7 @@ function renderCardName(svgRoot, card) {
         );
 
         node.setAttribute("text-anchor", "middle");
-        node.setAttribute("font-family", "Brandon Grotesque");
+        node.setAttribute("font-family", "The Bystander Collection");
         node.setAttribute("font-weight", "900");
         node.setAttribute("fill", "#2e2e2e");
         node.textContent = text;
