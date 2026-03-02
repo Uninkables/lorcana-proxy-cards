@@ -28,10 +28,10 @@ const TYPO = {
     FLAVOR_SIZE: 2.11667,
 
     // TRUE vertical glyph scaling (actual transform scale)
-    NAME_Y_SCALE: 1.0,
-    VERSION_Y_SCALE: 1.0,
-    RULE_Y_SCALE: 1.0,
-    FLAVOR_Y_SCALE: 1.0,
+    NAME_Y_SCALE: 1.1,
+    VERSION_Y_SCALE: 1.25,
+    RULE_Y_SCALE: 1.1,
+    FLAVOR_Y_SCALE: 1.1,
 
     // Line heights (before Y scaling)
     RULE_LINE_HEIGHT: 1.45,
