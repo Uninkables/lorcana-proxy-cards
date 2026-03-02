@@ -728,7 +728,7 @@ function renderCardText(svgRoot, card) {
             
             textGroup.appendChild(divider);
     
-            currentY += lineHeight * 0.9;
+            currentY += lineHeight * TYPO.RULE_FLAVOR_GAP;
     
             for (const line of flavorLines) {
     
