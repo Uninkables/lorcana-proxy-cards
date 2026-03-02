@@ -465,138 +465,88 @@ function renderRuleLineExact(
 
 function renderCardName(svgRoot, card) {
 
-    const nameArea = svgRoot.querySelector("#name-text-area");
     const nameGroup = svgRoot.querySelector("#name");
+    const nameArea = svgRoot.querySelector("#name-text-area");
 
-    if (!nameArea || !nameGroup) return;
+    if (!nameGroup || !nameArea) return;
 
     nameGroup.innerHTML = "";
 
     const areaBox = nameArea.getBBox();
-    const centerX = areaBox.x + areaBox.width / 2;
 
-    // ===== FORCE UPPERCASE NAME =====
     const nameText = (card.name || "").toUpperCase();
-    const versionText = card.version || null;
+    const versionText = card.version || "";
 
-    let nameSize = TYPO.NAME_SIZE;
-    let versionSize = TYPO.VERSION_SIZE;
+    // ---------- CONFIG ----------
+    let nameFontSize = 10.4;
+    let versionFontSize = 5.3;
 
-    const group = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "g"
-    );
+    const NAME_Y_SCALE = TYPO.NAME_Y_SCALE;
+    const VERSION_Y_SCALE = TYPO.VERSION_Y_SCALE;
 
-    nameGroup.appendChild(group);
+    // ---------- CREATE NODE HELPERS ----------
+    function createNameNode(size) {
+        const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        node.setAttribute("font-family", "The Bystander Collection");
+        node.setAttribute("font-size", size);
+        node.setAttribute("text-anchor", "middle");
+        node.setAttribute("fill", "#2e2e2e");
+        node.setAttribute("style", `transform: scale(1, ${NAME_Y_SCALE}); transform-origin: center;`);
+        node.textContent = nameText;
+        return node;
+    }
 
-    const nameNode = createNameNode(nameText);
-    group.appendChild(nameNode);
+    function createVersionNode(size) {
+        const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        node.setAttribute("font-family", "Brandon Grotesque Condensed");
+        node.setAttribute("font-size", size);
+        node.setAttribute("text-anchor", "middle");
+        node.setAttribute("fill", "#2e2e2e");
+        node.setAttribute("style", `transform: scale(1, ${VERSION_Y_SCALE}); transform-origin: center;`);
+        node.textContent = versionText;
+        return node;
+    }
 
+    // ---------- FIT NAME WIDTH ----------
+    let nameNode = createNameNode(nameFontSize);
+    nameGroup.appendChild(nameNode);
+
+    while (nameNode.getBBox().width > areaBox.width && nameFontSize > 4) {
+        nameFontSize -= 0.2;
+        nameNode.setAttribute("font-size", nameFontSize);
+    }
+
+    // ---------- FIT VERSION WIDTH ----------
     let versionNode = null;
 
     if (versionText) {
-        versionNode = createVersionNode(versionText);
-        group.appendChild(versionNode);
-    }
+        versionNode = createVersionNode(versionFontSize);
+        nameGroup.appendChild(versionNode);
 
-    // ===== SHRINK LOOP (-0.2 EXACT) =====
-    while (true) {
-
-        nameNode.setAttribute("font-size", nameSize);
-        nameNode.setAttribute("x", centerX);
-
-        if (versionNode) {
-            versionNode.setAttribute("font-size", versionSize);
-            versionNode.setAttribute("x", centerX);
+        while (versionNode.getBBox().width > areaBox.width && versionFontSize > 2) {
+            versionFontSize -= 0.2;
+            versionNode.setAttribute("font-size", versionFontSize);
         }
-
-        if (
-            nameNode.getBBox().width <= areaBox.width &&
-            (!versionNode ||
-             versionNode.getBBox().width <= areaBox.width)
-        ) break;
-
-        nameSize -= TYPO.NAME_SHRINK_STEP;
-        versionSize -= TYPO.NAME_SHRINK_STEP;
-
-        if (nameSize < 5) break;
     }
 
-    // ===== APPLY Y SCALE =====
-    nameNode.setAttribute(
-        "style",
-        `transform: scale(1, ${TYPO.NAME_Y_SCALE}); transform-origin: center top;`
-    );
+    // ---------- POSITION + CENTER AS BLOCK ----------
+    const nameHeight = nameNode.getBBox().height;
+    const versionHeight = versionNode ? versionNode.getBBox().height : 0;
+
+    const gap = TYPO.NAME_VERSION_GAP;
+
+    const totalHeight = versionNode
+        ? nameHeight + gap + versionHeight
+        : nameHeight;
+
+    const startY = areaBox.y + (areaBox.height - totalHeight) / 2;
+
+    nameNode.setAttribute("x", areaBox.x + areaBox.width / 2);
+    nameNode.setAttribute("y", startY + nameHeight);
 
     if (versionNode) {
-        versionNode.setAttribute(
-            "style",
-            `transform: scale(1, ${TYPO.VERSION_Y_SCALE}); transform-origin: center top;`
-        );
-    }
-
-    // ===== CENTER COMBINED BLOCK =====
-    const nameHeight =
-        nameNode.getBBox().height * TYPO.NAME_Y_SCALE;
-
-    let totalHeight = nameHeight;
-
-    if (versionNode) {
-        totalHeight +=
-            TYPO.NAME_VERSION_GAP +
-            (versionNode.getBBox().height *
-             TYPO.VERSION_Y_SCALE);
-    }
-
-    const startY =
-        areaBox.y +
-        (areaBox.height - totalHeight) / 2;
-
-    nameNode.setAttribute(
-        "y",
-        startY / TYPO.NAME_Y_SCALE +
-        nameNode.getBBox().height
-    );
-
-    if (versionNode) {
-        versionNode.setAttribute(
-            "y",
-            (startY + nameHeight + TYPO.NAME_VERSION_GAP)
-            / TYPO.VERSION_Y_SCALE +
-            versionNode.getBBox().height
-        );
-    }
-
-    function createNameNode(text) {
-
-        const node = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
-
-        node.setAttribute("text-anchor", "middle");
-        node.setAttribute("font-family", "The Bystander Collection");
-        node.setAttribute("font-weight", "900");
-        node.setAttribute("fill", "#2e2e2e");
-        node.textContent = text;
-
-        return node;
-    }
-
-    function createVersionNode(text) {
-
-        const node = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
-
-        node.setAttribute("text-anchor", "middle");
-        node.setAttribute("font-family", "Brandon Grotesque Condensed");
-        node.setAttribute("font-weight", "700");
-        node.setAttribute("fill", "#2e2e2e");
-        node.textContent = text;
-
-        return node;
+        versionNode.setAttribute("x", areaBox.x + areaBox.width / 2);
+        versionNode.setAttribute("y", startY + nameHeight + gap + versionHeight);
     }
 }
 
