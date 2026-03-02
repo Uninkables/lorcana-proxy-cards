@@ -16,6 +16,32 @@ const SYMBOL_MAP = {
     "{E}": "#symbol-exert"
 };
 
+const TYPO = {
+
+    // Base font sizes
+    NAME_SIZE: 10.4,
+    VERSION_SIZE: 5.3,
+    RULE_SIZE: 2.11667,
+    FLAVOR_SIZE: 2.11667,
+
+    // Vertical scale multipliers
+    NAME_Y_SCALE: 1.1,
+    VERSION_Y_SCALE: 1.25,
+    RULE_Y_SCALE: 1.1,
+    FLAVOR_Y_SCALE: 1.1,
+
+    // Line height multipliers
+    NAME_LINE_HEIGHT: 1.05,
+    RULE_LINE_HEIGHT: 1.45,
+    FLAVOR_LINE_HEIGHT: 1.45,
+
+    // Spacing controls
+    NAME_VERSION_GAP: 2,
+    RULE_FLAVOR_GAP: -0.5,
+    SYMBOL_SPACING: 0.25,
+    ABILITY_HEADER_GAP: 0.35
+};
+
 async function loadSymbols() {
     const response = await fetch("symbols.svg");
     const svgText = await response.text();
@@ -404,7 +430,7 @@ function renderRuleLineExact(
         
             lineGroup.appendChild(symbol);
         
-            const spacing = fontSize * 0.25;
+            const spacing = fontSize * TYPO.SYMBOL_SPACING;
         
             currentX = startX + textWidth + realWidth + spacing;
         
@@ -518,7 +544,6 @@ function renderCardName(svgRoot, card) {
         nameNode.setAttribute("text-anchor", "middle");
         nameNode.setAttribute("font-family", "The Bystander Collection");
         nameNode.setAttribute("font-weight", "900");
-        nameNode.setAttribute("style", "transform: scale(1, 1.1);");
         nameNode.setAttribute("font-size", nameFontSize);
         nameNode.textContent = nameText;
 
@@ -530,7 +555,17 @@ function renderCardName(svgRoot, card) {
             nameNode.setAttribute("font-size", nameFontSize);
         }
 
-        let totalHeight = nameNode.getBBox().height;
+        const nameHeight = nameNode.getBBox().height * TYPO.NAME_Y_SCALE;
+        let totalHeight = nameHeight;
+        
+        if (versionNode) {
+            const versionHeight =
+                versionNode.getBBox().height * TYPO.VERSION_Y_SCALE;
+        
+            totalHeight +=
+                TYPO.NAME_VERSION_GAP + versionHeight;
+        }
+        
         let versionNode = null;
 
         if (versionText) {
@@ -572,9 +607,9 @@ function renderCardName(svgRoot, card) {
             versionNode.setAttribute(
                 "y",
                 startY +
-                nameNode.getBBox().height +
-                versionNode.getBBox().height +
-                2
+                nameHeight +
+                TYPO.NAME_VERSION_GAP +
+                versionNode.getBBox().height * TYPO.VERSION_Y_SCALE
             );
         }
 
@@ -631,7 +666,16 @@ function renderCardName(svgRoot, card) {
     }
 
     const lineHeight = fontSize * 1.1;
-    const totalHeight = lines.length * lineHeight;
+    const nameHeight = nameNode.getBBox().height * TYPO.NAME_Y_SCALE;
+    let totalHeight = nameHeight;
+    
+    if (versionNode) {
+        const versionHeight =
+            versionNode.getBBox().height * TYPO.VERSION_Y_SCALE;
+    
+        totalHeight +=
+            TYPO.NAME_VERSION_GAP + versionHeight;
+    }
 
     const startY =
         areaBox.y + (areaBox.height - totalHeight) / 2;
@@ -726,7 +770,15 @@ function renderCardText(svgRoot, card) {
             keywords.map(k => k.toLowerCase())
         );
     
-        const lineHeight = fontSize * 1.45;
+        const lineHeight =
+            fontSize *
+            TYPO.RULE_LINE_HEIGHT *
+            TYPO.RULE_Y_SCALE;
+
+        const flavorLineHeight =
+            fontSize *
+            TYPO.FLAVOR_LINE_HEIGHT *
+            TYPO.FLAVOR_Y_SCALE;
     
         const ruleLines = wrapTextExact(
             rulesText,
@@ -765,7 +817,7 @@ function renderCardText(svgRoot, card) {
         // -------- FLAVOR --------
         if (flavorLines.length > 0) {
 
-            currentY += lineHeight * -0.5;
+            currentY += flavorLineHeight;
     
             const divider = document.createElementNS(
                 "http://www.w3.org/2000/svg",
