@@ -559,14 +559,6 @@ function renderCardName(svgRoot, card) {
         const nameHeight = nameNode.getBBox().height * TYPO.NAME_Y_SCALE;
         let totalHeight = nameHeight;
         
-        if (versionNode) {
-            const versionHeight =
-                versionNode.getBBox().height * TYPO.VERSION_Y_SCALE;
-        
-            totalHeight +=
-                TYPO.NAME_VERSION_GAP + versionHeight;
-        }
-        
         let versionNode = null;
 
         if (versionText) {
