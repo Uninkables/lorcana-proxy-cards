@@ -701,54 +701,50 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_e672bba7d4c5402f82d9360fca1594f5",
-    "name": "Kit Cloudkicker",
-    "version": "Tough Guy",
+    "id": "crd_f199d7305e4a4b0a81d20610d4761aa9",
+    "name": "Gathering Knowledge and Wisdom",
     "layout": "normal",
-    "released_at": "2024-02-23",
+    "released_at": "2024-08-09",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_e672bba7d4c5402f82d9360fca1594f5.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209"
       }
     },
-    "cost": 3,
-    "inkwell": true,
-    "ink": "Emerald",
+    "cost": 2,
+    "inkwell": false,
+    "ink": "Amethyst",
     "inks": null,
     "type": [
-      "Character"
+      "Action"
     ],
-    "classifications": [
-      "Storyborn",
-      "Ally"
-    ],
-    "text": "SKYSURFING When you play this character, you may return chosen opposing character with 2 {S} or less to their player's hand.",
+    "classifications": null,
+    "text": "Gain 2 lore.",
     "keywords": [],
     "move_cost": null,
-    "strength": 2,
-    "willpower": 2,
-    "lore": 1,
-    "rarity": "Uncommon",
+    "strength": null,
+    "willpower": null,
+    "lore": null,
+    "rarity": "Common",
     "illustrators": [
-      "Jake Parker"
+      "Heidi Neunhoffer"
     ],
-    "collector_number": "77",
+    "collector_number": "62",
     "lang": "en",
-    "flavor_text": "\"It's been fun, guys, but I got to be going.\nYahoooo!\"",
-    "tcgplayer_id": 538357,
+    "flavor_text": "\"Just think! All this knowledge was under our noses the whole time. We only had to look in the right place.\"",
+    "tcgplayer_id": 561620,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
-      "name": "Into the Inklands"
+      "id": "set_c64f092e725a4f66966f43af3aa161b6",
+      "code": "5",
+      "name": "Shimmering Skies"
     },
     "prices": {
-      "usd": "0.06",
-      "usd_foil": "0.22"
+      "usd": "0.16",
+      "usd_foil": "0.34"
     }
   };
 
