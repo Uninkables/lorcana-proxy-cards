@@ -34,14 +34,14 @@ const TYPO = {
     FLAVOR_Y_SCALE: 1.25,
 
     // Line heights (before Y scaling)
-    RULE_LINE_HEIGHT: 1.45,
-    FLAVOR_LINE_HEIGHT: 1.45,
+    RULE_LINE_HEIGHT: 1.25,
+    FLAVOR_LINE_HEIGHT: 1.25,
 
     // Spacing controls (in px, not multipliers)
     NAME_VERSION_GAP: 1,
     RULE_FLAVOR_GAP: -0.5,
     SYMBOL_SPACING: 0.18,
-    ABILITY_SPACING: 0.35,
+    ABILITY_SPACING: 0,
 
     // Name shrink step
     NAME_SHRINK_STEP: 0.2
