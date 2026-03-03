@@ -430,7 +430,7 @@ function renderRuleLineExact(
             tspan.setAttribute("font-style", "italic");
             tspan.setAttribute("font-weight", "normal");
         } else {
-            tspan.setAttribute("font-weight", "bold");
+            //tspan.setAttribute("font-weight", "bold");
         }
 
         tspan.textContent = token;
