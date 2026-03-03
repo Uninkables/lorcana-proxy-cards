@@ -42,6 +42,7 @@ const TYPO = {
     RULE_FLAVOR_GAP: -0.5,
     SYMBOL_SPACING: 0.18,
     ABILITY_SPACING: 0,
+    ABILITY_HORIZONTAL_SPACING: 0.4,
 
     // Name shrink step
     NAME_SHRINK_STEP: 0.2
@@ -370,8 +371,11 @@ function renderRuleLineExact(
 
     const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
 
-    let textNode = createTextNode(currentX, y, fontSize, yScale, isFlavor);
+    let textNode = createTextNode(currentX, y, fontSize, yScale);
     lineGroup.appendChild(textNode);
+
+    let abilityActive = false;
+    let abilitySpacingApplied = false;
 
     for (let i = 0; i < tokens.length; i++) {
 
@@ -381,44 +385,66 @@ function renderRuleLineExact(
         if (/^\{[^}]+\}$/.test(token)) {
 
             const textWidth = textNode.getBBox().width;
-        
             const symbolX = currentX + textWidth;
-        
+
             const scale = fontSize / 105.8335;
-        
+
             const symbol = createSymbol(
                 token,
                 symbolX,
                 y,
                 fontSize
             );
-        
+
             lineGroup.appendChild(symbol);
-        
+
             const rawBBox = symbol.getBBox();
-        
             const scaledWidth = rawBBox.width * scale;
-        
+
             const spacing = fontSize * TYPO.SYMBOL_SPACING;
-        
+
             currentX = symbolX + scaledWidth + spacing;
-        
+
             textNode = createTextNode(
                 currentX,
                 y,
                 fontSize,
-                yScale,
-                isFlavor
+                yScale
             );
-        
+
             lineGroup.appendChild(textNode);
-        
+
             continue;
         }
 
-        // ===== ABILITY HEADER SPACING =====
-        if (/^[A-Z\s]+$/.test(token.trim())) {
-            currentX += fontSize * TYPO.ABILITY_SPACING;
+        const trimmed = token.trim();
+
+        const isAllCaps =
+            trimmed &&
+            trimmed === trimmed.toUpperCase() &&
+            /[A-Z]/.test(trimmed);
+
+        // Detect ability header start
+        if (!abilitySpacingApplied) {
+
+            if (isAllCaps) {
+                abilityActive = true;
+            }
+            else if (abilityActive) {
+                // We just exited the ALL CAPS header
+                currentX += fontSize * TYPO.ABILITY_SPACING;
+
+                textNode = createTextNode(
+                    currentX,
+                    y,
+                    fontSize,
+                    yScale
+                );
+
+                lineGroup.appendChild(textNode);
+
+                abilitySpacingApplied = true;
+            }
         }
 
         const tspan = document.createElementNS(
@@ -437,7 +463,7 @@ function renderRuleLineExact(
         textNode.appendChild(tspan);
     }
 
-    function createTextNode(x, y, size, scale, isFlavor) {
+    function createTextNode(x, y, size, scale) {
 
         const node = document.createElementNS(
             "http://www.w3.org/2000/svg",
