@@ -428,9 +428,9 @@ function renderRuleLineExact(
 
         if (isFlavor) {
             tspan.setAttribute("font-style", "italic");
-            tspan.setAttribute("font-weight", "normal");
+            tspan.setAttribute("font-weight", "500");
         } else {
-            tspan.setAttribute("font-weight", "bold");
+            tspan.setAttribute("font-weight", "700");
         }
 
         tspan.textContent = token;
@@ -447,7 +447,7 @@ function renderRuleLineExact(
         node.setAttribute("x", x);
         node.setAttribute("y", y / scale);
         node.setAttribute("font-size", size);
-        node.setAttribute("font-family", "Brandon Grotesque Condensed");
+        node.setAttribute("font-family", "Brandon Grotesque");
         node.setAttribute("fill", "#2e2e2e");
 
         node.setAttribute(
