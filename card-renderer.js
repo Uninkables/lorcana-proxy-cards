@@ -271,7 +271,7 @@ function wrapTextExact(text, fontSize, maxWidth) {
         "text"
     );
 
-    measurer.setAttribute("font-family", "Brandon Grotesque Condensed");
+    measurer.setAttribute("font-family", "Brandon Grotesque");
     measurer.setAttribute("font-size", fontSize);
     measurer.setAttribute("font-weight", "700");
     measurer.setAttribute("visibility", "hidden");
