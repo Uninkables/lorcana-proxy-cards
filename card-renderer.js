@@ -41,7 +41,7 @@ const TYPO = {
     NAME_VERSION_GAP: 1,
     RULE_FLAVOR_GAP: -0.5,
     SYMBOL_SPACING: 0.18,
-    ABILITY_SPACING: 0.35,
+    ABILITY_SPACING: 1,
 
     // Name shrink step
     NAME_SHRINK_STEP: 0.2
