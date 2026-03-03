@@ -352,7 +352,7 @@ function renderRuleLineExact(
     parentGroup,
     keywordSet,
     state,
-    isFlavor = false
+    isFlavor
 ) {
 
     const lineGroup = document.createElementNS(
@@ -430,7 +430,7 @@ function renderRuleLineExact(
             tspan.setAttribute("font-style", "italic");
             tspan.setAttribute("font-weight", "normal");
         } else {
-            //tspan.setAttribute("font-weight", "bold");
+            tspan.setAttribute("font-weight", "bold");
         }
 
         tspan.textContent = token;
@@ -626,7 +626,8 @@ function renderCardText(svgRoot, card) {
                 fontSize,
                 textGroup,
                 keywordSet,
-                state
+                state,
+                false
             );
     
             currentY += lineHeight;
@@ -662,7 +663,8 @@ function renderCardText(svgRoot, card) {
                     fontSize,
                     textGroup,
                     keywordSet,
-                    state
+                    state,
+                    true
                 );
     
                 currentY += lineHeight;
