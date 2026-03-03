@@ -29,7 +29,7 @@ const TYPO = {
 
     // TRUE vertical glyph scaling (actual transform scale)
     NAME_Y_SCALE: 1.1,
-    VERSION_Y_SCALE: 1.25,
+    VERSION_Y_SCALE: 1.15,
     RULE_Y_SCALE: 1.1,
     FLAVOR_Y_SCALE: 1.1,
 
