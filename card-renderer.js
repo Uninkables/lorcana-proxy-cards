@@ -761,5 +761,6 @@ async function initCard(cardData) {
     await document.fonts.load('500 italic 16px "Brandon Grotesque"');
     await document.fonts.load("10px Brandon Grotesque");
     await document.fonts.load("10px Brandon Grotesque Condensed");
+    await document.fonts.load("10px 'The Bystander Collection'");
     await loadCard(cardData);
 }
