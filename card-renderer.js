@@ -41,7 +41,7 @@ const TYPO = {
     NAME_VERSION_GAP: 1,
     RULE_FLAVOR_GAP: -0.5,
     SYMBOL_SPACING: 0.18,
-    ABILITY_SPACING: 25,
+    ABILITY_SPACING: 0.4,
 
     // Name shrink step
     NAME_SHRINK_STEP: 0.2
@@ -430,16 +430,24 @@ function renderRuleLineExact(
             }
             else if (abilityActive) {
         
-                // Insert horizontal spacing using dx
-                const spacer = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "tspan"
+                // Measure width of what has been rendered so far
+                const renderedWidth = textNode.getBBox().width;
+        
+                // Advance currentX to end of header
+                currentX = startX + renderedWidth;
+        
+                // Add configurable spacing
+                currentX += fontSize * TYPO.ABILITY_SPACING;
+        
+                // Create new text node at correct X
+                textNode = createTextNode(
+                    currentX,
+                    y,
+                    fontSize,
+                    yScale
                 );
         
-                spacer.setAttribute("dx", fontSize * TYPO.ABILITY_SPACING);
-                spacer.textContent = "";
-        
-                textNode.appendChild(spacer);
+                lineGroup.appendChild(textNode);
         
                 abilitySpacingApplied = true;
             }
