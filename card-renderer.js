@@ -422,26 +422,25 @@ function renderRuleLineExact(
             trimmed &&
             trimmed === trimmed.toUpperCase() &&
             /[A-Z]/.test(trimmed);
-
-        // Detect ability header start
+        
         if (!abilitySpacingApplied) {
-
+        
             if (isAllCaps) {
                 abilityActive = true;
             }
             else if (abilityActive) {
-                // We just exited the ALL CAPS header
-                currentX += fontSize * TYPO.ABILITY_SPACING;
-
-                textNode = createTextNode(
-                    currentX,
-                    y,
-                    fontSize,
-                    yScale
+        
+                // Insert horizontal spacing using dx
+                const spacer = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "tspan"
                 );
-
-                lineGroup.appendChild(textNode);
-
+        
+                spacer.setAttribute("dx", fontSize * TYPO.ABILITY_SPACING);
+                spacer.textContent = "";
+        
+                textNode.appendChild(spacer);
+        
                 abilitySpacingApplied = true;
             }
         }
