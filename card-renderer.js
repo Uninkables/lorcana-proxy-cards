@@ -275,6 +275,7 @@ function wrapTextExact(text, fontSize, maxWidth) {
     measurer.setAttribute("font-size", fontSize);
     measurer.setAttribute("font-weight", "700");
     measurer.setAttribute("visibility", "hidden");
+    measurer.setAttribute("style", `transform: scale(1, ${TYPO.RULE_Y_SCALE}); transform-origin: left top;`);
 
     document.querySelector("svg").appendChild(measurer);
 
@@ -476,9 +477,15 @@ function renderRuleLineExact(
             trimmed === trimmed.toUpperCase() &&
             /[A-Z]/.test(trimmed);
         
-        if (!abilitySpacingApplied) {
+        if (!isFlavor && !abilitySpacingApplied) {
+
+            const isAllCaps =
+                trimmed &&
+                trimmed.length > 1 && // prevent single-letter headers
+                trimmed === trimmed.toUpperCase() &&
+                /[A-Z]/.test(trimmed);
         
-            if (isAllCaps) {
+            if (isAllCaps && textNode.textContent.trim() === "") {
                 abilityActive = true;
             }
             else if (abilityActive) {
