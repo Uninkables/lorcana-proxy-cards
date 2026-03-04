@@ -283,21 +283,51 @@ function wrapTextExact(text, fontSize, maxWidth) {
         const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
 
         let currentLine = "";
+        let abilityActive = false;
+        let abilitySpacingAdded = false;
 
         for (const token of tokens) {
 
             const testLine = currentLine + token;
 
-            // Replace symbols with a placeholder character width
-            const measureString = testLine.replace(/\{[^}]+\}/g, "M");
+            const measureString =
+                testLine.replace(/\{[^}]+\}/g, "M");
 
             measurer.textContent = measureString;
-            const width = measurer.getBBox().width;
+
+            let width = measurer.getBBox().width;
+
+            // ---- Ability header spacing compensation ----
+            if (!abilitySpacingAdded) {
+
+                const trimmed = token.trim();
+
+                const isAllCaps =
+                    trimmed &&
+                    trimmed === trimmed.toUpperCase() &&
+                    /[A-Z]/.test(trimmed);
+
+                if (isAllCaps) {
+                    abilityActive = true;
+                }
+                else if (abilityActive) {
+                    width += fontSize * TYPO.ABILITY_SPACING;
+                    abilitySpacingAdded = true;
+                }
+            }
 
             if (width > maxWidth && currentLine !== "") {
+
                 lines.push(currentLine);
+
                 currentLine = token;
+
+                // reset detection for next line
+                abilityActive = false;
+                abilitySpacingAdded = false;
+
             } else {
+
                 currentLine = testLine;
             }
         }
