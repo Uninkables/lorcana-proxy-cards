@@ -273,7 +273,15 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
     measurer.setAttribute("font-family", "Brandon Grotesque");
     measurer.setAttribute("font-size", fontSize);
-    measurer.setAttribute("font-weight", "700");
+    measurer.setAttribute("font-weight", "400"); // base weight
+
+    const span = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "tspan"
+    );
+    
+    span.setAttribute("font-weight", "700");
+    measurer.appendChild(span);
 
     measurer.setAttribute(
         "style",
@@ -321,7 +329,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
                 } else {
 
-                    measurer.textContent = measureToken;
+                    span.textContent = measureToken;
                     width += measurer.getBBox().width;
                 }
             }
