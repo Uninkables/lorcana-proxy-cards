@@ -348,11 +348,13 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
             }
 
             // --- Reduce available width if ability exists ---
-            const effectiveMaxWidth = abilityDetectedForLine
-                ? maxWidth - (fontSize * TYPO.ABILITY_SPACING)
-                : maxWidth;
-
-            if (width > effectiveMaxWidth && currentLine !== "") {
+            let adjustedWidth = width;
+            
+            if (abilityDetectedForLine) {
+                adjustedWidth += fontSize * TYPO.ABILITY_SPACING;
+            }
+            
+            if (adjustedWidth > maxWidth && currentLine !== "") {
 
                 lines.push(currentLine);
 
@@ -363,8 +365,6 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
                 currentLine = testLine;
             }
-            console.log("Effective max width:", effectiveMaxWidth);
-            console.log("Measured width:", width);
         }
 
         lines.push(currentLine);
