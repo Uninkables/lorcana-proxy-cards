@@ -351,7 +351,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
             let adjustedWidth = width;
             
             if (abilityDetectedForLine) {
-                adjustedWidth += fontSize * TYPO.ABILITY_SPACING * 2;
+                adjustedWidth += fontSize * TYPO.ABILITY_SPACING;
             }
             
             if (adjustedWidth > maxWidth && currentLine !== "") {
