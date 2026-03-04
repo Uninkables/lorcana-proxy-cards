@@ -330,12 +330,15 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
             if (!isFlavor && currentLine.trim() === "") {
 
                 const trimmed = token.trim();
-
+            
+                const nextToken = tokens[i + 1] || "";
+            
                 const isAbility =
                     trimmed.length > 1 &&
                     trimmed === trimmed.toUpperCase() &&
-                    /[A-Z]/.test(trimmed);
-
+                    /[A-Z]/.test(trimmed) &&
+                    /^\s+$/.test(nextToken); // must be followed by space
+            
                 if (isAbility) {
                     abilityDetectedForLine = true;
                 }
