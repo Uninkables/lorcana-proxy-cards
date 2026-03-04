@@ -290,12 +290,31 @@ function wrapTextExact(text, fontSize, maxWidth) {
 
             const testLine = currentLine + token;
 
-            const measureString =
-                testLine.replace(/\{[^}]+\}/g, "M");
+            let width = 0;
 
-            measurer.textContent = measureString;
-
-            let width = measurer.getBBox().width;
+            // Split into tokens again for precise measurement
+            const measureTokens = testLine.match(/\{[^}]+\}|\S+|\s+/g) || [];
+            
+            for (const measureToken of measureTokens) {
+            
+                if (/^\{[^}]+\}$/.test(measureToken)) {
+            
+                    const symbolId = SYMBOL_MAP[measureToken];
+                    const def = document.querySelector(symbolId);
+            
+                    if (def) {
+                        const rawBBox = def.getBBox();
+                        const scale = fontSize / 105.8335;
+                        width += rawBBox.width * scale;
+                        width += fontSize * TYPO.SYMBOL_SPACING;
+                    }
+            
+                } else {
+            
+                    measurer.textContent = measureToken;
+                    width += measurer.getBBox().width;
+                }
+            }
 
             // ---- Ability header spacing compensation ----
             if (!abilitySpacingAdded) {
