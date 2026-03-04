@@ -283,11 +283,6 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
     span.setAttribute("font-weight", "700");
     measurer.appendChild(span);
 
-    measurer.setAttribute(
-        "style",
-        `transform: scale(1, ${TYPO.RULE_Y_SCALE}); transform-origin: left top;`
-    );
-
     measurer.setAttribute("visibility", "hidden");
 
     document.querySelector("svg").appendChild(measurer);
