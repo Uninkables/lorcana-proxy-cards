@@ -261,7 +261,7 @@ function clearDivider(svgRoot) {
 // WRAP TEXT
 // -----------------------------
 
-function wrapTextExact(text, fontSize, maxWidth) {
+function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
     const lines = [];
     const paragraphs = text.split("\n");
@@ -274,8 +274,13 @@ function wrapTextExact(text, fontSize, maxWidth) {
     measurer.setAttribute("font-family", "Brandon Grotesque");
     measurer.setAttribute("font-size", fontSize);
     measurer.setAttribute("font-weight", "700");
+
+    measurer.setAttribute(
+        "style",
+        `transform: scale(1, ${TYPO.RULE_Y_SCALE}); transform-origin: left top;`
+    );
+
     measurer.setAttribute("visibility", "hidden");
-    measurer.setAttribute("style", `transform: scale(1, ${TYPO.RULE_Y_SCALE}); transform-origin: left top;`);
 
     document.querySelector("svg").appendChild(measurer);
 
@@ -284,71 +289,69 @@ function wrapTextExact(text, fontSize, maxWidth) {
         const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
 
         let currentLine = "";
-        let abilityActive = false;
-        let abilitySpacingAdded = false;
+        let abilityDetectedForLine = false;
 
-        for (const token of tokens) {
+        for (let i = 0; i < tokens.length; i++) {
 
+            const token = tokens[i];
             const testLine = currentLine + token;
 
+            // --- Measure actual width including symbols ---
             let width = 0;
-
-            // Split into tokens again for precise measurement
             const measureTokens = testLine.match(/\{[^}]+\}|\S+|\s+/g) || [];
-            
-            for (const measureToken of measureTokens) {
-            
+
+            for (let j = 0; j < measureTokens.length; j++) {
+
+                const measureToken = measureTokens[j];
+
                 if (/^\{[^}]+\}$/.test(measureToken)) {
-            
+
                     const symbolId = SYMBOL_MAP[measureToken];
                     const def = document.querySelector(symbolId);
-            
+
                     if (def) {
                         const rawBBox = def.getBBox();
                         const scale = fontSize / 105.8335;
                         width += rawBBox.width * scale;
 
-                        // Only add symbol spacing if not last token
-                        if (measureToken !== measureTokens[measureTokens.length - 1]) {
+                        if (j < measureTokens.length - 1) {
                             width += fontSize * TYPO.SYMBOL_SPACING;
                         }
                     }
-            
+
                 } else {
-            
+
                     measurer.textContent = measureToken;
                     width += measurer.getBBox().width;
                 }
             }
 
-            // ---- Ability header spacing compensation ----
-            if (!abilitySpacingAdded) {
+            // --- Detect ability header ONLY at start of line ---
+            if (!isFlavor && currentLine.trim() === "") {
 
                 const trimmed = token.trim();
 
-                const isAllCaps =
-                    trimmed &&
+                const isAbility =
+                    trimmed.length > 1 &&
                     trimmed === trimmed.toUpperCase() &&
                     /[A-Z]/.test(trimmed);
 
-                if (isAllCaps) {
-                    abilityActive = true;
-                }
-                else if (abilityActive) {
-                    width += fontSize * TYPO.ABILITY_SPACING;
-                    abilitySpacingAdded = true;
+                if (isAbility) {
+                    abilityDetectedForLine = true;
                 }
             }
 
-            if (width > maxWidth && currentLine !== "") {
+            // --- Reduce available width if ability exists ---
+            const effectiveMaxWidth = abilityDetectedForLine
+                ? maxWidth - (fontSize * TYPO.ABILITY_SPACING)
+                : maxWidth;
+
+            if (width > effectiveMaxWidth && currentLine !== "") {
 
                 lines.push(currentLine);
 
                 currentLine = token;
-
-                // reset detection for next line
-                abilityActive = false;
-                abilitySpacingAdded = false;
+                abilityDetectedForLine = false;
 
             } else {
 
@@ -360,7 +363,6 @@ function wrapTextExact(text, fontSize, maxWidth) {
     }
 
     measurer.remove();
-
     return lines;
 }
 
