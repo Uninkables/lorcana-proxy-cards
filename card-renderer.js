@@ -847,7 +847,7 @@ const testCard = {
     },
     "set": {
       "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
+      "code": "8",
       "name": "Into the Inklands"
     },
     "prices": {
