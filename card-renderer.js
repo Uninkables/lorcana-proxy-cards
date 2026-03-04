@@ -306,7 +306,11 @@ function wrapTextExact(text, fontSize, maxWidth) {
                         const rawBBox = def.getBBox();
                         const scale = fontSize / 105.8335;
                         width += rawBBox.width * scale;
-                        width += fontSize * TYPO.SYMBOL_SPACING;
+
+                        // Only add symbol spacing if not last token
+                        if (measureToken !== measureTokens[measureTokens.length - 1]) {
+                            width += fontSize * TYPO.SYMBOL_SPACING;
+                        }
                     }
             
                 } else {
