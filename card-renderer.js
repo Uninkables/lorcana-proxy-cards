@@ -351,7 +351,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
             let adjustedWidth = width;
             
             if (abilityDetectedForLine) {
-                adjustedWidth += fontSize * TYPO.ABILITY_SPACING;
+                adjustedWidth += TYPO.ABILITY_SPACING;
             }
             
             if (adjustedWidth > maxWidth && currentLine !== "") {
@@ -507,7 +507,7 @@ function renderRuleLineExact(
                 currentX = startX + renderedWidth;
         
                 // Add configurable spacing
-                currentX += fontSize * TYPO.ABILITY_SPACING;
+                currentX += TYPO.ABILITY_SPACING;
         
                 // Create new text node at correct X
                 textNode = createTextNode(
