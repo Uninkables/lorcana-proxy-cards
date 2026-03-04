@@ -360,13 +360,12 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
                 currentLine = testLine;
             }
+            console.log("Effective max width:", effectiveMaxWidth);
+            console.log("Measured width:", width);
         }
 
         lines.push(currentLine);
     }
-
-    console.log("Effective max width:", effectiveMaxWidth);
-    console.log("Measured width:", width);
 
     measurer.remove();
     return lines;
