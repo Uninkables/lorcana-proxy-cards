@@ -971,39 +971,43 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_c6b673289f9a4d2680a50dc6be9605dc",
-    "name": "Starlight Vial",
+    "id": "crd_fabf6b8091ab49a1b2dccff0b1bb66ab",
+    "name": "Hydros",
+    "version": "Ice Titan",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_c6b673289f9a4d2680a50dc6be9605dc.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_c6b673289f9a4d2680a50dc6be9605dc.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_c6b673289f9a4d2680a50dc6be9605dc.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747"
       }
     },
-    "cost": 4,
-    "inkwell": false,
-    "ink": "Emerald",
+    "cost": 3,
+    "inkwell": true,
+    "ink": "Amethyst",
     "inks": null,
     "type": [
-      "Item"
+      "Character"
     ],
-    "classifications": null,
-    "text": "EFFICIENT ENERGY {E} — You pay 2 {I} less for the next action you play this turn.\nTRAP 2 {I}, Banish this item — Draw 2 cards, then choose and discard a card.",
+    "classifications": [
+      "Storyborn",
+      "Titan"
+    ],
+    "text": "BLIZZARD {E} — Exert chosen character.",
     "keywords": [],
     "move_cost": null,
-    "strength": null,
-    "willpower": null,
-    "lore": null,
-    "rarity": "Rare",
+    "strength": 2,
+    "willpower": 2,
+    "lore": 2,
+    "rarity": "Uncommon",
     "illustrators": [
-      "Billy Wimblett"
+      "Alice Pisoni"
     ],
-    "collector_number": "99",
+    "collector_number": "39",
     "lang": "en",
-    "flavor_text": "In the wrong hands, this vial of magic could be disastrous.",
-    "tcgplayer_id": 539086,
+    "flavor_text": "\"Freeze Zeus!\"",
+    "tcgplayer_id": 537614,
     "legalities": {
       "core": "legal"
     },
@@ -1013,8 +1017,8 @@ const testCard = {
       "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.09",
-      "usd_foil": "0.22"
+      "usd": "0.07",
+      "usd_foil": "0.2"
     }
   };
 
