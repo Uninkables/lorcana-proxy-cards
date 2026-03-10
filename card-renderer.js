@@ -955,51 +955,53 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
-    "name": "Has Set My Heaaaaaaart . . .",
+    "id": "crd_5b7424c24743452289505b89cdf16f9b",
+    "name": "Look at This Family",
     "layout": "normal",
-    "released_at": "2024-02-23",
+    "released_at": "2024-05-17",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_5b7424c24743452289505b89cdf16f9b.avif?1716052430",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_5b7424c24743452289505b89cdf16f9b.avif?1716052430",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_5b7424c24743452289505b89cdf16f9b.avif?1716052430"
       }
     },
-    "cost": 2,
+    "cost": 7,
     "inkwell": true,
-    "ink": "Emerald",
+    "ink": "Amber",
     "inks": null,
     "type": [
       "Action",
       "Song"
     ],
     "classifications": null,
-    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
-    "keywords": [],
+    "text": "Sing Together 7 (Any number of your or your teammates' characters with total cost 7 or more may {E} to sing this song for free.)\nLook at the top 5 cards of your deck. You may reveal up to 2 character cards and put them into your hand. Put the rest on the bottom of your deck in any order.",
+    "keywords": [
+      "Sing Together"
+    ],
     "move_cost": null,
     "strength": null,
     "willpower": null,
     "lore": null,
-    "rarity": "Uncommon",
+    "rarity": "Rare",
     "illustrators": [
-      "Hyuna Lee"
+      "Giulia Riva"
     ],
-    "collector_number": "94",
+    "collector_number": "28",
     "lang": "en",
-    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
-    "tcgplayer_id": 539085,
+    "flavor_text": "",
+    "tcgplayer_id": 547845,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
-      "name": "Into the Inklands"
+      "id": "set_8f4cbf5aef324eb295c4add5673e684f",
+      "code": "4",
+      "name": "Ursula's Return"
     },
     "prices": {
-      "usd": "0.04",
-      "usd_foil": "0.15"
+      "usd": "0.14",
+      "usd_foil": "0.44"
     }
   };
 
