@@ -352,6 +352,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
             
             if (abilityDetectedForLine) {
                 adjustedWidth += fontSize * TYPO.ABILITY_SPACING;
+                console.log(adjustedWidth);
             }
             
             if (adjustedWidth > maxWidth && currentLine !== "") {
