@@ -971,55 +971,51 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_e572046b12da49769e2e492828d61636",
-    "name": "Anna",
-    "version": "Diplomatic Queen",
+    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
+    "name": "Has Set My Heaaaaaaart . . .",
     "layout": "normal",
-    "released_at": "2024-08-09",
+    "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_e572046b12da49769e2e492828d61636.avif?1723917209",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_e572046b12da49769e2e492828d61636.avif?1723917209",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_e572046b12da49769e2e492828d61636.avif?1723917209"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
       }
     },
-    "cost": 3,
-    "inkwell": false,
+    "cost": 2,
+    "inkwell": true,
     "ink": "Emerald",
     "inks": null,
     "type": [
-      "Character"
+      "Action",
+      "Song"
     ],
-    "classifications": [
-      "Storyborn",
-      "Hero",
-      "Queen"
-    ],
-    "text": "ROYAL RESOLUTION When you play this character, you may pay 2 {I} to choose one: \n• Each opponent chooses and discards a card. \n• Chosen character gets +2 {S} this turn. \n• Banish chosen damaged character.",
+    "classifications": null,
+    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
     "keywords": [],
     "move_cost": null,
-    "strength": 2,
-    "willpower": 3,
-    "lore": 2,
-    "rarity": "Legendary",
+    "strength": null,
+    "willpower": null,
+    "lore": null,
+    "rarity": "Uncommon",
     "illustrators": [
-      "Dylan Bonner / Celeste Jamneck"
+      "Hyuna Lee"
     ],
-    "collector_number": "85",
+    "collector_number": "94",
     "lang": "en",
-    "flavor_text": null,
-    "tcgplayer_id": 561472,
+    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
+    "tcgplayer_id": 539085,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_c64f092e725a4f66966f43af3aa161b6",
-      "code": "5",
-      "name": "Shimmering Skies"
+      "id": "set_10a1db03fe66417c9912494b94463e8e",
+      "code": "3",
+      "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.97",
-      "usd_foil": "2.85"
+      "usd": "0.04",
+      "usd_foil": "0.15"
     }
   };
 
