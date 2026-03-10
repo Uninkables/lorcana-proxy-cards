@@ -972,51 +972,57 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
-    "name": "Has Set My Heaaaaaaart . . .",
+    "id": "crd_ebdef6b29bb74afaa3e5efea83fe89c7",
+    "name": "Basil",
+    "version": "Great Mouse Detective",
     "layout": "normal",
-    "released_at": "2024-02-23",
+    "released_at": "2023-11-17",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_ebdef6b29bb74afaa3e5efea83fe89c7.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_ebdef6b29bb74afaa3e5efea83fe89c7.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_ebdef6b29bb74afaa3e5efea83fe89c7.avif?1709690747"
       }
     },
-    "cost": 2,
+    "cost": 6,
     "inkwell": true,
-    "ink": "Emerald",
+    "ink": "Sapphire",
     "inks": null,
     "type": [
-      "Action",
-      "Song"
+      "Character"
     ],
-    "classifications": null,
-    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
-    "keywords": [],
+    "classifications": [
+      "Floodborn",
+      "Hero",
+      "Detective"
+    ],
+    "text": "Shift 5 (You may pay 5 {I} to play this on top of one of your characters named Basil.)\nTHERE'S ALWAYS A CHANCE If you used Shift to play this character, you may draw 2 cards when he enters play.",
+    "keywords": [
+      "Shift"
+    ],
     "move_cost": null,
-    "strength": null,
-    "willpower": null,
-    "lore": null,
-    "rarity": "Uncommon",
+    "strength": 3,
+    "willpower": 4,
+    "lore": 3,
+    "rarity": "Super_rare",
     "illustrators": [
-      "Hyuna Lee"
+      "Bill Robinson"
     ],
-    "collector_number": "94",
+    "collector_number": "138",
     "lang": "en",
-    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
-    "tcgplayer_id": 539085,
+    "flavor_text": "A solution always presents itself.",
+    "tcgplayer_id": 525232,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
-      "name": "Into the Inklands"
+      "id": "set_142d2dfb5d4b4b739a1017dc4bb0fcd2",
+      "code": "2",
+      "name": "Rise of the Floodborn"
     },
     "prices": {
-      "usd": "0.04",
-      "usd_foil": "0.15"
+      "usd": "0.21",
+      "usd_foil": "0.63"
     }
   };
 
