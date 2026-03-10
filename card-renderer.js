@@ -502,29 +502,33 @@ function renderRuleLineExact(
             /[A-Z]/.test(trimmed);
         
         if (!isFlavor && !abilitySpacingApplied) {
-
+        
             const isAllCaps =
                 trimmed &&
-                trimmed.length > 1 &&               // prevent single-letter headers
-                /^[A-Z]/.test(trimmed) &&           // must START with a letter
-                trimmed === trimmed.toUpperCase() && 
+                trimmed.length > 1 &&
+                /^[A-Z]/.test(trimmed) &&
+                trimmed === trimmed.toUpperCase() &&
                 /[A-Z]/.test(trimmed);
         
-            if (isAllCaps && textNode.textContent.trim() === "") {
+            // Detect start of ability header
+            if (!abilityActive && isAllCaps && textNode.textContent.trim() === "") {
                 abilityActive = true;
             }
+        
+            // Continue header while tokens remain ALL CAPS
+            else if (abilityActive && isAllCaps) {
+                // still inside ability header
+            }
+        
+            // Header ended
             else if (abilityActive) {
         
-                // Measure width of what has been rendered so far
                 const renderedWidth = textNode.getBBox().width;
         
-                // Advance currentX to end of header
                 currentX = startX + renderedWidth;
         
-                // Add configurable spacing
                 currentX += TYPO.ABILITY_SPACING;
         
-                // Create new text node at correct X
                 textNode = createTextNode(
                     currentX,
                     y,
@@ -535,6 +539,7 @@ function renderRuleLineExact(
                 lineGroup.appendChild(textNode);
         
                 abilitySpacingApplied = true;
+                abilityActive = false;
             }
         }
 
@@ -543,7 +548,19 @@ function renderRuleLineExact(
             "tspan"
         );
 
-        if (isFlavor) {
+        // Detect reminder text start/end
+        let reminderActive = false;
+
+        if (token.includes("(")) {
+            reminderActive = true;
+        }
+        
+        if (token.includes(")")) {
+            // closing parenthesis still italic
+            setTimeout(() => reminderActive = false, 0);
+        }
+        
+        if (isFlavor || reminderActive) {
             tspan.setAttribute("font-style", "italic");
             tspan.setAttribute("font-weight", "500");
         } else {
