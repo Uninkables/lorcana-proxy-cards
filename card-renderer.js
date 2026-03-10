@@ -363,6 +363,12 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
                 divider.setAttribute("y2", 60.000004);
                 divider.setAttribute("stroke", "#ababab");
                 divider.setAttribute("stroke-width", "0.1");
+
+                const textGroup = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "g"
+                );
+                textGroup.appendChild(divider);
             }
             
             if (adjustedWidth > maxWidth && currentLine !== "") {
