@@ -453,7 +453,7 @@ function renderRuleLineExact(
 
     let abilityActive = false;
     let abilitySpacingApplied = false;
-    let reminderActive = state.reminderActive || false;
+    let reminderActive = state.reminderActive;
 
     for (let i = 0; i < tokens.length; i++) {
 
@@ -884,6 +884,10 @@ function renderCardText(svgRoot, card) {
         const state = { insideParentheses: false };
     
         // -------- RULES --------
+        const state = {
+            reminderActive: false
+        };
+        
         for (const line of ruleLines) {
     
             renderRuleLineExact(
