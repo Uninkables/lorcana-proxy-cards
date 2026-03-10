@@ -479,7 +479,7 @@ function renderRuleLineExact(
             const rawBBox = symbol.getBBox();
             const scaledWidth = rawBBox.width * scale;
 
-            if (token === "{INK}") {
+            if (token === "{I}") {
                 scaledWidth += fontSize * 0.12;
             }
 
