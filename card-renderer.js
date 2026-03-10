@@ -955,53 +955,56 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_5b7424c24743452289505b89cdf16f9b",
-    "name": "Look at This Family",
+    "id": "crd_f6c83c36dbe04bdcb19ee7bd9d0479cd",
+    "name": "Calhoun",
+    "version": "Marine Sergeant",
     "layout": "normal",
-    "released_at": "2024-05-17",
+    "released_at": "2024-11-15",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_5b7424c24743452289505b89cdf16f9b.avif?1716052430",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_5b7424c24743452289505b89cdf16f9b.avif?1716052430",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_5b7424c24743452289505b89cdf16f9b.avif?1716052430"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_f6c83c36dbe04bdcb19ee7bd9d0479cd.avif?1730901319",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_f6c83c36dbe04bdcb19ee7bd9d0479cd.avif?1730901319",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_f6c83c36dbe04bdcb19ee7bd9d0479cd.avif?1730901319"
       }
     },
-    "cost": 7,
-    "inkwell": true,
-    "ink": "Amber",
+    "cost": 2,
+    "inkwell": false,
+    "ink": "Steel",
     "inks": null,
     "type": [
-      "Action",
-      "Song"
+      "Character"
     ],
-    "classifications": null,
-    "text": "Sing Together 7 (Any number of your or your teammates' characters with total cost 7 or more may {E} to sing this song for free.)\nLook at the top 5 cards of your deck. You may reveal up to 2 character cards and put them into your hand. Put the rest on the bottom of your deck in any order.",
+    "classifications": [
+      "Storyborn",
+      "Hero"
+    ],
+    "text": "Resist +1 (Damage dealt to this character is reduced by 1.)\nLEVEL UP During your turn, whenever this character banishes another character in a challenge, gain 2 lore.",
     "keywords": [
-      "Sing Together"
+      "Resist"
     ],
     "move_cost": null,
-    "strength": null,
-    "willpower": null,
-    "lore": null,
+    "strength": 3,
+    "willpower": 2,
+    "lore": 1,
     "rarity": "Rare",
     "illustrators": [
-      "Giulia Riva"
+      "Kevin Sidharta"
     ],
-    "collector_number": "28",
+    "collector_number": "191",
     "lang": "en",
-    "flavor_text": "",
-    "tcgplayer_id": 547845,
+    "flavor_text": null,
+    "tcgplayer_id": 592017,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_8f4cbf5aef324eb295c4add5673e684f",
-      "code": "4",
-      "name": "Ursula's Return"
+      "id": "set_0df34ab314e04a479ef3538fd6c3e4e1",
+      "code": "6",
+      "name": "Azurite Sea"
     },
     "prices": {
-      "usd": "0.14",
-      "usd_foil": "0.44"
+      "usd": "4.48",
+      "usd_foil": "5.46"
     }
   };
 
