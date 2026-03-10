@@ -971,21 +971,21 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_d9f3b86af85f48579ed9d0d7ce0de129",
-    "name": "Ariel",
-    "version": "On Human Legs",
+    "id": "crd_e572046b12da49769e2e492828d61636",
+    "name": "Anna",
+    "version": "Diplomatic Queen",
     "layout": "normal",
-    "released_at": "2023-08-18",
+    "released_at": "2024-08-09",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_e572046b12da49769e2e492828d61636.avif?1723917209",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_e572046b12da49769e2e492828d61636.avif?1723917209",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_e572046b12da49769e2e492828d61636.avif?1723917209"
       }
     },
-    "cost": 4,
-    "inkwell": true,
-    "ink": "Amber",
+    "cost": 3,
+    "inkwell": false,
+    "ink": "Emerald",
     "inks": null,
     "type": [
       "Character"
@@ -993,33 +993,33 @@ const testCard = {
     "classifications": [
       "Storyborn",
       "Hero",
-      "Princess"
+      "Queen"
     ],
-    "text": "VOICELESS This character can't {E} to sing songs.",
+    "text": "ROYAL RESOLUTION When you play this character, you may pay 2 {I} to choose one: \n• Each opponent chooses and discards a card. \n• Chosen character gets +2 {S} this turn. \n• Banish chosen damaged character.",
     "keywords": [],
     "move_cost": null,
-    "strength": 3,
-    "willpower": 4,
+    "strength": 2,
+    "willpower": 3,
     "lore": 2,
-    "rarity": "Uncommon",
+    "rarity": "Legendary",
     "illustrators": [
-      "Matthew Robert Davies"
+      "Dylan Bonner / Celeste Jamneck"
     ],
-    "collector_number": "1",
+    "collector_number": "85",
     "lang": "en",
-    "flavor_text": "\"...\"",
-    "tcgplayer_id": 494102,
+    "flavor_text": null,
+    "tcgplayer_id": 561472,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
-      "code": "1",
-      "name": "The First Chapter"
+      "id": "set_c64f092e725a4f66966f43af3aa161b6",
+      "code": "5",
+      "name": "Shimmering Skies"
     },
     "prices": {
-      "usd": "0.09",
-      "usd_foil": "0.43"
+      "usd": "0.97",
+      "usd_foil": "2.85"
     }
   };
 
