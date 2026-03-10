@@ -972,57 +972,55 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_ebdef6b29bb74afaa3e5efea83fe89c7",
-    "name": "Basil",
-    "version": "Great Mouse Detective",
+    "id": "crd_e572046b12da49769e2e492828d61636",
+    "name": "Anna",
+    "version": "Diplomatic Queen",
     "layout": "normal",
-    "released_at": "2023-11-17",
+    "released_at": "2024-08-09",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_ebdef6b29bb74afaa3e5efea83fe89c7.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_ebdef6b29bb74afaa3e5efea83fe89c7.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_ebdef6b29bb74afaa3e5efea83fe89c7.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_e572046b12da49769e2e492828d61636.avif?1723917209",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_e572046b12da49769e2e492828d61636.avif?1723917209",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_e572046b12da49769e2e492828d61636.avif?1723917209"
       }
     },
-    "cost": 6,
-    "inkwell": true,
-    "ink": "Sapphire",
+    "cost": 3,
+    "inkwell": false,
+    "ink": "Emerald",
     "inks": null,
     "type": [
       "Character"
     ],
     "classifications": [
-      "Floodborn",
+      "Storyborn",
       "Hero",
-      "Detective"
+      "Queen"
     ],
-    "text": "Shift 5 (You may pay 5 {I} to play this on top of one of your characters named Basil.)\nTHERE'S ALWAYS A CHANCE If you used Shift to play this character, you may draw 2 cards when he enters play.",
-    "keywords": [
-      "Shift"
-    ],
+    "text": "ROYAL RESOLUTION When you play this character, you may pay 2 {I} to choose one: \n• Each opponent chooses and discards a card. \n• Chosen character gets +2 {S} this turn. \n• Banish chosen damaged character.",
+    "keywords": [],
     "move_cost": null,
-    "strength": 3,
-    "willpower": 4,
-    "lore": 3,
-    "rarity": "Super_rare",
+    "strength": 2,
+    "willpower": 3,
+    "lore": 2,
+    "rarity": "Legendary",
     "illustrators": [
-      "Bill Robinson"
+      "Dylan Bonner / Celeste Jamneck"
     ],
-    "collector_number": "138",
+    "collector_number": "85",
     "lang": "en",
-    "flavor_text": "A solution always presents itself.",
-    "tcgplayer_id": 525232,
+    "flavor_text": null,
+    "tcgplayer_id": 561472,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_142d2dfb5d4b4b739a1017dc4bb0fcd2",
-      "code": "2",
-      "name": "Rise of the Floodborn"
+      "id": "set_c64f092e725a4f66966f43af3aa161b6",
+      "code": "5",
+      "name": "Shimmering Skies"
     },
     "prices": {
-      "usd": "0.21",
-      "usd_foil": "0.63"
+      "usd": "0.97",
+      "usd_foil": "2.85"
     }
   };
 
