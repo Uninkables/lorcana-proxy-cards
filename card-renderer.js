@@ -972,45 +972,43 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_f478c96f7b1b45b790d74395480da563",
-    "name": "Piglet",
-    "version": "Pooh Pirate Captain",
+    "id": "crd_fabf6b8091ab49a1b2dccff0b1bb66ab",
+    "name": "Hydros",
+    "version": "Ice Titan",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_f478c96f7b1b45b790d74395480da563.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_f478c96f7b1b45b790d74395480da563.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_f478c96f7b1b45b790d74395480da563.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747"
       }
     },
-    "cost": 2,
+    "cost": 3,
     "inkwell": true,
-    "ink": "Amber",
+    "ink": "Amethyst",
     "inks": null,
     "type": [
       "Character"
     ],
     "classifications": [
-      "Dreamborn",
-      "Hero",
-      "Pirate",
-      "Captain"
+      "Storyborn",
+      "Titan"
     ],
-    "text": "AND I'M THE CAPTAIN! While you have 2 or more other characters in play, this character gets +2 {L}.",
+    "text": "BLIZZARD {E} — Exert chosen character.",
     "keywords": [],
     "move_cost": null,
     "strength": 2,
     "willpower": 2,
-    "lore": 1,
-    "rarity": "Super_rare",
+    "lore": 2,
+    "rarity": "Uncommon",
     "illustrators": [
-      "Grace Tran"
+      "Alice Pisoni"
     ],
-    "collector_number": "16",
+    "collector_number": "39",
     "lang": "en",
-    "flavor_text": "\"Ahoy! There's lore out there, and I'm g-gonna\nfind it!\"",
-    "tcgplayer_id": 531822,
+    "flavor_text": "\"Freeze Zeus!\"",
+    "tcgplayer_id": 537614,
     "legalities": {
       "core": "legal"
     },
@@ -1020,8 +1018,8 @@ const testCard = {
       "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.53",
-      "usd_foil": "1.49"
+      "usd": "0.07",
+      "usd_foil": "0.2"
     }
   };
 
