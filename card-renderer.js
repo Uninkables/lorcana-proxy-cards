@@ -974,26 +974,27 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_1784510055ec43e49b13b2837192c1d1",
-    "name": "Robin's Bow",
+    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
+    "name": "Has Set My Heaaaaaaart . . .",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
       }
     },
-    "cost": 3,
-    "inkwell": false,
+    "cost": 2,
+    "inkwell": true,
     "ink": "Emerald",
     "inks": null,
     "type": [
-      "Item"
+      "Action",
+      "Song"
     ],
     "classifications": null,
-    "text": "FOREST'S GIFT {E} — Deal 1 damage to chosen damaged character or location.\nA BIT OF A LARK Whenever a character of yours named Robin Hood quests, you may ready this item.",
+    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
@@ -1001,12 +1002,12 @@ const testCard = {
     "lore": null,
     "rarity": "Uncommon",
     "illustrators": [
-      "McKay Anderson"
+      "Hyuna Lee"
     ],
-    "collector_number": "98",
+    "collector_number": "94",
     "lang": "en",
-    "flavor_text": "\"The forest always provides just what you need.\"\n—Robin Hood",
-    "tcgplayer_id": 537827,
+    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
+    "tcgplayer_id": 539085,
     "legalities": {
       "core": "legal"
     },
@@ -1016,8 +1017,8 @@ const testCard = {
       "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.07",
-      "usd_foil": "0.24"
+      "usd": "0.04",
+      "usd_foil": "0.15"
     }
   };
 
