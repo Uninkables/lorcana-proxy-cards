@@ -971,43 +971,39 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_fabf6b8091ab49a1b2dccff0b1bb66ab",
-    "name": "Hydros",
-    "version": "Ice Titan",
+    "id": "crd_1784510055ec43e49b13b2837192c1d1",
+    "name": "Robin's Bow",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747"
       }
     },
     "cost": 3,
-    "inkwell": true,
-    "ink": "Amethyst",
+    "inkwell": false,
+    "ink": "Emerald",
     "inks": null,
     "type": [
-      "Character"
+      "Item"
     ],
-    "classifications": [
-      "Storyborn",
-      "Titan"
-    ],
-    "text": "BLIZZARD {E} — Exert chosen character.",
+    "classifications": null,
+    "text": "FOREST'S GIFT {E} — Deal 1 damage to chosen damaged character or location.\nA BIT OF A LARK Whenever a character of yours named Robin Hood quests, you may ready this item.",
     "keywords": [],
     "move_cost": null,
-    "strength": 2,
-    "willpower": 2,
-    "lore": 2,
+    "strength": null,
+    "willpower": null,
+    "lore": null,
     "rarity": "Uncommon",
     "illustrators": [
-      "Alice Pisoni"
+      "McKay Anderson"
     ],
-    "collector_number": "39",
+    "collector_number": "98",
     "lang": "en",
-    "flavor_text": "\"Freeze Zeus!\"",
-    "tcgplayer_id": 537614,
+    "flavor_text": "\"The forest always provides just what you need.\"\n—Robin Hood",
+    "tcgplayer_id": 537827,
     "legalities": {
       "core": "legal"
     },
@@ -1018,7 +1014,7 @@ const testCard = {
     },
     "prices": {
       "usd": "0.07",
-      "usd_foil": "0.2"
+      "usd_foil": "0.24"
     }
   };
 
