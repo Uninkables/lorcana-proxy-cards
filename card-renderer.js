@@ -955,28 +955,26 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_8ca0325f7667410d8b83628e02028294",
-    "name": "Distract",
+    "id": "crd_f199d7305e4a4b0a81d20610d4761aa9",
+    "name": "Gathering Knowledge and Wisdom",
     "layout": "normal",
-    "released_at": "2026-02-13",
+    "released_at": "2024-08-09",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_8ca0325f7667410d8b83628e02028294.avif?1770259940",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_8ca0325f7667410d8b83628e02028294.avif?1770259940",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_8ca0325f7667410d8b83628e02028294.avif?1770259940"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209"
       }
     },
     "cost": 2,
-    "inkwell": true,
-    "ink": "Sapphire",
-    "inks": [
-      "Sapphire"
-    ],
+    "inkwell": false,
+    "ink": "Amethyst",
+    "inks": null,
     "type": [
       "Action"
     ],
     "classifications": null,
-    "text": "Chosen character gets -2 {S} this turn. Draw a card.",
+    "text": "Gain 2 lore.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
@@ -984,23 +982,23 @@ const testCard = {
     "lore": null,
     "rarity": "Common",
     "illustrators": [
-      "Andrea Parisi"
+      "Heidi Neunhoffer"
     ],
-    "collector_number": "164",
+    "collector_number": "62",
     "lang": "en",
-    "flavor_text": "\"Be off with you, spirits! Can't a man enjoy his meal in peace?\"",
-    "tcgplayer_id": 676228,
+    "flavor_text": "\"Just think! All this knowledge was under our noses the whole time. We only had to look in the right place.\"",
+    "tcgplayer_id": 561620,
     "legalities": {
-      "core": "not_legal"
+      "core": "legal"
     },
     "set": {
-      "id": "set_c794231df3e14fce9f63c19c59241ee3",
-      "code": "11",
-      "name": "Winterspell"
+      "id": "set_c64f092e725a4f66966f43af3aa161b6",
+      "code": "5",
+      "name": "Shimmering Skies"
     },
     "prices": {
-      "usd": "0.07",
-      "usd_foil": "0.23"
+      "usd": "0.16",
+      "usd_foil": "0.34"
     }
   };
 
