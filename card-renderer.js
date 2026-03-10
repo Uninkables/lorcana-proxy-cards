@@ -972,55 +972,56 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_e572046b12da49769e2e492828d61636",
-    "name": "Anna",
-    "version": "Diplomatic Queen",
+    "id": "crd_c9465de418104f1fab0483d5c168266b",
+    "name": "Finnick",
+    "version": "Tiny Terror",
     "layout": "normal",
-    "released_at": "2024-08-09",
+    "released_at": "2025-11-07",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_e572046b12da49769e2e492828d61636.avif?1723917209",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_e572046b12da49769e2e492828d61636.avif?1723917209",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_e572046b12da49769e2e492828d61636.avif?1723917209"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_c9465de418104f1fab0483d5c168266b.avif?1761752303",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_c9465de418104f1fab0483d5c168266b.avif?1761752303",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_c9465de418104f1fab0483d5c168266b.avif?1761752303"
       }
     },
-    "cost": 3,
-    "inkwell": false,
+    "cost": 1,
+    "inkwell": true,
     "ink": "Emerald",
-    "inks": null,
+    "inks": [
+      "Emerald"
+    ],
     "type": [
       "Character"
     ],
     "classifications": [
       "Storyborn",
-      "Hero",
-      "Queen"
+      "Ally"
     ],
-    "text": "ROYAL RESOLUTION When you play this character, you may pay 2 {I} to choose one: \n• Each opponent chooses and discards a card. \n• Chosen character gets +2 {S} this turn. \n• Banish chosen damaged character.",
+    "text": "YOU BETTER RUN When you play this character, you may pay 2 {I} to return chosen opposing character with 2 {S} or less to their player's hand.",
     "keywords": [],
     "move_cost": null,
-    "strength": 2,
-    "willpower": 3,
-    "lore": 2,
-    "rarity": "Legendary",
+    "strength": 1,
+    "willpower": 2,
+    "lore": 1,
+    "rarity": "Common",
     "illustrators": [
-      "Dylan Bonner / Celeste Jamneck"
+      "Mario Oscar Gabriele"
     ],
-    "collector_number": "85",
+    "collector_number": "74",
     "lang": "en",
     "flavor_text": null,
-    "tcgplayer_id": 561472,
+    "tcgplayer_id": 658876,
     "legalities": {
-      "core": "legal"
+      "core": "not_legal"
     },
     "set": {
-      "id": "set_c64f092e725a4f66966f43af3aa161b6",
-      "code": "5",
-      "name": "Shimmering Skies"
+      "id": "set_8b7f731a52bf4478a0c41f09c7f74a2a",
+      "code": "10",
+      "name": "Whispers in the Well"
     },
     "prices": {
-      "usd": "0.97",
-      "usd_foil": "2.85"
+      "usd": "0.09",
+      "usd_foil": "0.18"
     }
   };
 
