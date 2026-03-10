@@ -463,7 +463,11 @@ function renderRuleLineExact(
         if (/^\{[^}]+\}$/.test(token)) {
 
             const textWidth = textNode.getBBox().width;
-            const symbolX = currentX + textWidth;
+            const inkSymbolOffset = 0;
+            if(token === "{I}") {
+                inkSymbolOffset = 1.6;
+            }
+            const symbolX = currentX + textWidth + inkSymbolOffset;
 
             const scale = fontSize / 105.8335;
 
