@@ -955,51 +955,50 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
-    "name": "Has Set My Heaaaaaaart . . .",
+    "id": "crd_2a71e5ea621f41ce9028d6551c153764",
+    "name": "Falling Down the Rabbit Hole",
     "layout": "normal",
-    "released_at": "2024-02-23",
+    "released_at": "2023-11-17",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_2a71e5ea621f41ce9028d6551c153764.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_2a71e5ea621f41ce9028d6551c153764.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_2a71e5ea621f41ce9028d6551c153764.avif?1709690747"
       }
     },
-    "cost": 2,
-    "inkwell": true,
-    "ink": "Emerald",
+    "cost": 4,
+    "inkwell": false,
+    "ink": "Sapphire",
     "inks": null,
     "type": [
-      "Action",
-      "Song"
+      "Action"
     ],
     "classifications": null,
-    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
+    "text": "Each player chooses one of their characters and puts them into their inkwell facedown and exerted.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
     "willpower": null,
     "lore": null,
-    "rarity": "Uncommon",
+    "rarity": "Rare",
     "illustrators": [
-      "Hyuna Lee"
+      "Lissette Carrera"
     ],
-    "collector_number": "94",
+    "collector_number": "162",
     "lang": "en",
-    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
-    "tcgplayer_id": 539085,
+    "flavor_text": "Down, down, down she went, floating in a swirl of ink. How curious!",
+    "tcgplayer_id": 526208,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
-      "name": "Into the Inklands"
+      "id": "set_142d2dfb5d4b4b739a1017dc4bb0fcd2",
+      "code": "2",
+      "name": "Rise of the Floodborn"
     },
     "prices": {
-      "usd": "0.04",
-      "usd_foil": "0.15"
+      "usd": "0.16",
+      "usd_foil": "0.36"
     }
   };
 
