@@ -971,40 +971,39 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
-    "name": "Has Set My Heaaaaaaart . . .",
+    "id": "crd_c6b673289f9a4d2680a50dc6be9605dc",
+    "name": "Starlight Vial",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_c6b673289f9a4d2680a50dc6be9605dc.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_c6b673289f9a4d2680a50dc6be9605dc.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_c6b673289f9a4d2680a50dc6be9605dc.avif?1709690747"
       }
     },
-    "cost": 2,
-    "inkwell": true,
+    "cost": 4,
+    "inkwell": false,
     "ink": "Emerald",
     "inks": null,
     "type": [
-      "Action",
-      "Song"
+      "Item"
     ],
     "classifications": null,
-    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
+    "text": "EFFICIENT ENERGY {E} — You pay 2 {I} less for the next action you play this turn.\nTRAP 2 {I}, Banish this item — Draw 2 cards, then choose and discard a card.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
     "willpower": null,
     "lore": null,
-    "rarity": "Uncommon",
+    "rarity": "Rare",
     "illustrators": [
-      "Hyuna Lee"
+      "Billy Wimblett"
     ],
-    "collector_number": "94",
+    "collector_number": "99",
     "lang": "en",
-    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
-    "tcgplayer_id": 539085,
+    "flavor_text": "In the wrong hands, this vial of magic could be disastrous.",
+    "tcgplayer_id": 539086,
     "legalities": {
       "core": "legal"
     },
@@ -1014,8 +1013,8 @@ const testCard = {
       "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.04",
-      "usd_foil": "0.15"
+      "usd": "0.09",
+      "usd_foil": "0.22"
     }
   };
 
