@@ -972,46 +972,39 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_58e889f440504f44b3283ed76f3f54a4",
-    "name": "Prince Eric",
-    "version": "Ursula's Groom",
+    "id": "crd_8bea9b8848964337b64e2ceed5c41302",
+    "name": "Hidden Inkcaster",
     "layout": "normal",
     "released_at": "2024-05-17",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430"
       }
     },
-    "cost": 6,
-    "inkwell": true,
-    "ink": "Amber",
+    "cost": 2,
+    "inkwell": false,
+    "ink": "Emerald",
     "inks": null,
     "type": [
-      "Character"
+      "Item"
     ],
-    "classifications": [
-      "Floodborn",
-      "Hero",
-      "Prince"
-    ],
-    "text": "Shift 4 (You may pay 4 {I} to play this on top of one of your characters named Prince Eric.)\nUNDER VANESSA'S SPELL While you have a character named Ursula in play, this character gains Bodyguard and gets +2 {W}. (An opposing character who challenges one of your characters must choose one with Bodyguard if able.)",
-    "keywords": [
-      "Shift"
-    ],
+    "classifications": null,
+    "text": "FRESH INK When you play this item, draw a card.\nUNEXPECTED TREASURE All cards in your hand count as having {IW}.",
+    "keywords": [],
     "move_cost": null,
-    "strength": 5,
-    "willpower": 5,
-    "lore": 2,
-    "rarity": "Uncommon",
+    "strength": null,
+    "willpower": null,
+    "lore": null,
+    "rarity": "Common",
     "illustrators": [
-      "Lisanne Koeteeuw"
+      "Adam Fenton"
     ],
-    "collector_number": "22",
+    "collector_number": "98",
     "lang": "en",
-    "flavor_text": "",
-    "tcgplayer_id": 550561,
+    "flavor_text": "\"It looks like it's been here forever.\"\n-Flounder",
+    "tcgplayer_id": 549437,
     "legalities": {
       "core": "legal"
     },
@@ -1022,7 +1015,7 @@ const testCard = {
     },
     "prices": {
       "usd": "0.07",
-      "usd_foil": "0.28"
+      "usd_foil": "0.19"
     }
   };
 
