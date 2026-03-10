@@ -881,8 +881,6 @@ function renderCardText(svgRoot, card) {
     
         let currentY = areaBox.y;
     
-        const state = { insideParentheses: false };
-    
         // -------- RULES --------
         const state = {
             reminderActive: false
