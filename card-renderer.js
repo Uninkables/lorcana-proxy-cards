@@ -955,50 +955,51 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_f199d7305e4a4b0a81d20610d4761aa9",
-    "name": "Gathering Knowledge and Wisdom",
+    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
+    "name": "Has Set My Heaaaaaaart . . .",
     "layout": "normal",
-    "released_at": "2024-08-09",
+    "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_f199d7305e4a4b0a81d20610d4761aa9.avif?1723917209"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
       }
     },
     "cost": 2,
-    "inkwell": false,
-    "ink": "Amethyst",
+    "inkwell": true,
+    "ink": "Emerald",
     "inks": null,
     "type": [
-      "Action"
+      "Action",
+      "Song"
     ],
     "classifications": null,
-    "text": "Gain 2 lore.",
+    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
     "willpower": null,
     "lore": null,
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "illustrators": [
-      "Heidi Neunhoffer"
+      "Hyuna Lee"
     ],
-    "collector_number": "62",
+    "collector_number": "94",
     "lang": "en",
-    "flavor_text": "\"Just think! All this knowledge was under our noses the whole time. We only had to look in the right place.\"",
-    "tcgplayer_id": 561620,
+    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
+    "tcgplayer_id": 539085,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_c64f092e725a4f66966f43af3aa161b6",
-      "code": "5",
-      "name": "Shimmering Skies"
+      "id": "set_10a1db03fe66417c9912494b94463e8e",
+      "code": "3",
+      "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.16",
-      "usd_foil": "0.34"
+      "usd": "0.04",
+      "usd_foil": "0.15"
     }
   };
 
