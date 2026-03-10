@@ -453,6 +453,7 @@ function renderRuleLineExact(
 
     let abilityActive = false;
     let abilitySpacingApplied = false;
+    let reminderActive = false;
 
     for (let i = 0; i < tokens.length; i++) {
 
@@ -549,8 +550,6 @@ function renderRuleLineExact(
         );
 
         // Detect reminder text start/end
-        let reminderActive = false;
-
         if (token.includes("(")) {
             reminderActive = true;
         }
