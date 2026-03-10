@@ -465,7 +465,7 @@ function renderRuleLineExact(
             const textWidth = textNode.getBBox().width;
             let inkSymbolOffset = 0;
             if(token === "{I}") {
-                inkSymbolOffset = 1.6;
+                inkSymbolOffset = 1.62;
                 console.log("Ink symbol found.");
             }
             else {
