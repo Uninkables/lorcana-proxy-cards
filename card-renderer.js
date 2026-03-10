@@ -466,6 +466,10 @@ function renderRuleLineExact(
             const inkSymbolOffset = 0;
             if(token === "{I}") {
                 inkSymbolOffset = 1.6;
+                console.log("Ink symbol found.");
+            }
+            else {
+                console.log("Ink symbol was not found.");
             }
             const symbolX = currentX + textWidth + inkSymbolOffset;
 
