@@ -972,54 +972,55 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_fabf6b8091ab49a1b2dccff0b1bb66ab",
-    "name": "Hydros",
-    "version": "Ice Titan",
+    "id": "crd_d9f3b86af85f48579ed9d0d7ce0de129",
+    "name": "Ariel",
+    "version": "On Human Legs",
     "layout": "normal",
-    "released_at": "2024-02-23",
+    "released_at": "2023-08-18",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_fabf6b8091ab49a1b2dccff0b1bb66ab.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747"
       }
     },
-    "cost": 3,
+    "cost": 4,
     "inkwell": true,
-    "ink": "Amethyst",
+    "ink": "Amber",
     "inks": null,
     "type": [
       "Character"
     ],
     "classifications": [
       "Storyborn",
-      "Titan"
+      "Hero",
+      "Princess"
     ],
-    "text": "BLIZZARD {E} — Exert chosen character.",
+    "text": "VOICELESS This character can't {E} to sing songs.",
     "keywords": [],
     "move_cost": null,
-    "strength": 2,
-    "willpower": 2,
+    "strength": 3,
+    "willpower": 4,
     "lore": 2,
     "rarity": "Uncommon",
     "illustrators": [
-      "Alice Pisoni"
+      "Matthew Robert Davies"
     ],
-    "collector_number": "39",
+    "collector_number": "1",
     "lang": "en",
-    "flavor_text": "\"Freeze Zeus!\"",
-    "tcgplayer_id": 537614,
+    "flavor_text": "\"...\"",
+    "tcgplayer_id": 494102,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
-      "name": "Into the Inklands"
+      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
+      "code": "1",
+      "name": "The First Chapter"
     },
     "prices": {
-      "usd": "0.07",
-      "usd_foil": "0.2"
+      "usd": "0.09",
+      "usd_foil": "0.43"
     }
   };
 
