@@ -22,8 +22,18 @@ const SYMBOL_MAP = {
 const TYPO = {
 
     // Base font sizes
-    NAME_SIZE: 10.4,
-    VERSION_SIZE: 5.3,
+    NAME_FONT_SIZE: 10.4,
+    VERSION_FONT_SIZE: 5.3,
+    
+    MIN_NAME_FONT_SIZE: 4,
+    MIN_VERSION_FONT_SIZE: 2,
+    
+    NAME_SHRINK_STEP: 0.2,
+    VERSION_SHRINK_STEP: 0.2,
+    
+    MAX_NAME_LINES: 3,
+    NAME_LINE_HEIGHT: 1.05,
+    
     RULE_SIZE: 2.2,
     FLAVOR_SIZE: 2.2,
 
@@ -581,75 +591,201 @@ function renderCardName(svgRoot, card) {
     const versionText = card.version || "";
 
     // ---------- CONFIG ----------
-    let nameFontSize = 10.4;
-    let versionFontSize = 5.3;
+    let nameFontSize = TYPO.NAME_FONT_SIZE;
+    let versionFontSize = TYPO.VERSION_FONT_SIZE;
 
     const NAME_Y_SCALE = TYPO.NAME_Y_SCALE;
     const VERSION_Y_SCALE = TYPO.VERSION_Y_SCALE;
 
-    // ---------- CREATE NODE HELPERS ----------
-    function createNameNode(size) {
+    const NAME_LINE_HEIGHT = TYPO.NAME_LINE_HEIGHT;
+    const MAX_NAME_LINES = TYPO.MAX_NAME_LINES;
+
+    const words = nameText.split(" ");
+
+    // ---------- NODE HELPERS ----------
+
+    function createNameNode(text, size) {
+
         const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
+
         node.setAttribute("font-family", "The Bystander Collection");
         node.setAttribute("font-size", size);
         node.setAttribute("text-anchor", "middle");
         node.setAttribute("fill", "#2e2e2e");
-        node.setAttribute("style", `transform: scale(1, ${NAME_Y_SCALE}); transform-origin: center;`);
-        node.textContent = nameText;
+
+        node.setAttribute(
+            "style",
+            `transform: scale(1, ${NAME_Y_SCALE}); transform-origin: center;`
+        );
+
+        node.textContent = text;
+
         return node;
     }
 
     function createVersionNode(size) {
+
         const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
+
         node.setAttribute("font-family", "Brandon Grotesque Condensed");
         node.setAttribute("font-size", size);
         node.setAttribute("text-anchor", "middle");
         node.setAttribute("fill", "#2e2e2e");
-        node.setAttribute("style", `transform: scale(1, ${VERSION_Y_SCALE}); transform-origin: center;`);
+
+        node.setAttribute(
+            "style",
+            `transform: scale(1, ${VERSION_Y_SCALE}); transform-origin: center;`
+        );
+
         node.textContent = versionText;
+
         return node;
     }
 
-    // ---------- FIT NAME WIDTH ----------
-    let nameNode = createNameNode(nameFontSize);
-    nameGroup.appendChild(nameNode);
+    // ---------- MEASURER ----------
 
-    while (nameNode.getBBox().width > areaBox.width && nameFontSize > 4) {
-        nameFontSize -= 0.2;
-        nameNode.setAttribute("font-size", nameFontSize);
+    const measurer = document.createElementNS("http://www.w3.org/2000/svg", "text");
+
+    measurer.setAttribute("font-family", "The Bystander Collection");
+
+    svgRoot.appendChild(measurer);
+
+    function measure(text, size) {
+
+        measurer.setAttribute("font-size", size);
+        measurer.textContent = text;
+
+        return measurer.getBBox().width;
     }
 
-    // ---------- FIT VERSION WIDTH ----------
+    // ---------- NAME FITTING ----------
+
+    let nameLines = [nameText];
+
+    // Characters / Locations → NO WRAPPING
+    if (versionText) {
+
+        while (measure(nameText, nameFontSize) > areaBox.width && nameFontSize > TYPO.MIN_NAME_FONT_SIZE) {
+            nameFontSize -= TYPO.NAME_SHRINK_STEP;
+        }
+
+    }
+
+    // Actions / Items → WRAPPING ALLOWED
+    else {
+
+        function wrapName(size) {
+
+            const lines = [];
+            let current = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+
+                const test = current + " " + words[i];
+
+                if (measure(test, size) <= areaBox.width) {
+
+                    current = test;
+
+                } else {
+
+                    lines.push(current);
+                    current = words[i];
+                }
+            }
+
+            lines.push(current);
+
+            if (lines.length <= MAX_NAME_LINES) return lines;
+
+            return null;
+        }
+
+        while (nameFontSize > TYPO.MIN_NAME_FONT_SIZE) {
+
+            if (measure(nameText, nameFontSize) <= areaBox.width) {
+
+                nameLines = [nameText];
+                break;
+
+            }
+
+            const wrapped = wrapName(nameFontSize);
+
+            if (wrapped) {
+
+                nameLines = wrapped;
+                break;
+            }
+
+            nameFontSize -= TYPO.NAME_SHRINK_STEP;
+        }
+    }
+
+    measurer.remove();
+
+    // ---------- CREATE NAME NODES ----------
+
+    const nameNodes = [];
+
+    nameLines.forEach(line => {
+
+        const node = createNameNode(line, nameFontSize);
+
+        nameGroup.appendChild(node);
+
+        nameNodes.push(node);
+    });
+
+    // ---------- VERSION FIT ----------
+
     let versionNode = null;
 
     if (versionText) {
+
         versionNode = createVersionNode(versionFontSize);
+
         nameGroup.appendChild(versionNode);
 
-        while (versionNode.getBBox().width > areaBox.width && versionFontSize > 2) {
-            versionFontSize -= 0.2;
+        while (
+            versionNode.getBBox().width > areaBox.width &&
+            versionFontSize > TYPO.MIN_VERSION_FONT_SIZE
+        ) {
+
+            versionFontSize -= TYPO.VERSION_SHRINK_STEP;
             versionNode.setAttribute("font-size", versionFontSize);
         }
     }
 
-    // ---------- POSITION + CENTER AS BLOCK ----------
-    const nameHeight = nameNode.getBBox().height;
+    // ---------- POSITIONING ----------
+
+    const lineHeight = nameFontSize * NAME_LINE_HEIGHT;
+    const nameHeight = nameLines.length * lineHeight;
+
     const versionHeight = versionNode ? versionNode.getBBox().height : 0;
 
-    const gap = TYPO.NAME_VERSION_GAP;
+    const gap = versionNode ? TYPO.NAME_VERSION_GAP : 0;
 
-    const totalHeight = versionNode
-        ? nameHeight + gap + versionHeight
-        : nameHeight;
+    const totalHeight = nameHeight + gap + versionHeight;
 
     const startY = areaBox.y + (areaBox.height - totalHeight) / 2;
 
-    nameNode.setAttribute("x", areaBox.x + areaBox.width / 2);
-    nameNode.setAttribute("y", startY + nameHeight);
+    const centerX = areaBox.x + areaBox.width / 2;
+
+    nameNodes.forEach((node, i) => {
+
+        node.setAttribute("x", centerX);
+        node.setAttribute("y", startY + (i + 1) * lineHeight);
+    });
 
     if (versionNode) {
-        versionNode.setAttribute("x", areaBox.x + areaBox.width / 2);
-        versionNode.setAttribute("y", startY + nameHeight + gap + versionHeight);
+
+        versionNode.setAttribute("x", centerX);
+
+        versionNode.setAttribute(
+            "y",
+            startY + nameHeight + gap + versionHeight
+        );
     }
 }
 
