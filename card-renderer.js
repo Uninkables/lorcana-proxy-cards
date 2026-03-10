@@ -972,56 +972,57 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_c9465de418104f1fab0483d5c168266b",
-    "name": "Finnick",
-    "version": "Tiny Terror",
+    "id": "crd_58e889f440504f44b3283ed76f3f54a4",
+    "name": "Prince Eric",
+    "version": "Ursula's Groom",
     "layout": "normal",
-    "released_at": "2025-11-07",
+    "released_at": "2024-05-17",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_c9465de418104f1fab0483d5c168266b.avif?1761752303",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_c9465de418104f1fab0483d5c168266b.avif?1761752303",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_c9465de418104f1fab0483d5c168266b.avif?1761752303"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430"
       }
     },
-    "cost": 1,
+    "cost": 6,
     "inkwell": true,
-    "ink": "Emerald",
-    "inks": [
-      "Emerald"
-    ],
+    "ink": "Amber",
+    "inks": null,
     "type": [
       "Character"
     ],
     "classifications": [
-      "Storyborn",
-      "Ally"
+      "Floodborn",
+      "Hero",
+      "Prince"
     ],
-    "text": "YOU BETTER RUN When you play this character, you may pay 2 {I} to return chosen opposing character with 2 {S} or less to their player's hand.",
-    "keywords": [],
+    "text": "Shift 4 (You may pay 4 {I} to play this on top of one of your characters named Prince Eric.)\nUNDER VANESSA'S SPELL While you have a character named Ursula in play, this character gains Bodyguard and gets +2 {W}. (An opposing character who challenges one of your characters must choose one with Bodyguard if able.)",
+    "keywords": [
+      "Shift"
+    ],
     "move_cost": null,
-    "strength": 1,
-    "willpower": 2,
-    "lore": 1,
-    "rarity": "Common",
+    "strength": 5,
+    "willpower": 5,
+    "lore": 2,
+    "rarity": "Uncommon",
     "illustrators": [
-      "Mario Oscar Gabriele"
+      "Lisanne Koeteeuw"
     ],
-    "collector_number": "74",
+    "collector_number": "22",
     "lang": "en",
-    "flavor_text": null,
-    "tcgplayer_id": 658876,
+    "flavor_text": "",
+    "tcgplayer_id": 550561,
     "legalities": {
-      "core": "not_legal"
+      "core": "legal"
     },
     "set": {
-      "id": "set_8b7f731a52bf4478a0c41f09c7f74a2a",
-      "code": "10",
-      "name": "Whispers in the Well"
+      "id": "set_8f4cbf5aef324eb295c4add5673e684f",
+      "code": "4",
+      "name": "Ursula's Return"
     },
     "prices": {
-      "usd": "0.09",
-      "usd_foil": "0.18"
+      "usd": "0.07",
+      "usd_foil": "0.28"
     }
   };
 
