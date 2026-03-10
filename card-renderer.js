@@ -24,6 +24,9 @@ const TYPO = {
     // Base font sizes
     NAME_FONT_SIZE: 10.4,
     VERSION_FONT_SIZE: 5.3,
+
+    ACTION_WRAP_THRESHOLD: 7.6,
+    ACTION_MAX_FONT_SIZE: 8.0,
     
     MIN_NAME_FONT_SIZE: 4,
     MIN_VERSION_FONT_SIZE: 2,
@@ -675,49 +678,59 @@ function renderCardName(svgRoot, card) {
     else {
 
         function wrapName(size) {
-
+    
             const lines = [];
             let current = words[0];
-
+    
             for (let i = 1; i < words.length; i++) {
-
+    
                 const test = current + " " + words[i];
-
+    
                 if (measure(test, size) <= areaBox.width) {
-
+    
                     current = test;
-
+    
                 } else {
-
+    
                     lines.push(current);
                     current = words[i];
                 }
             }
-
+    
             lines.push(current);
-
+    
             if (lines.length <= MAX_NAME_LINES) return lines;
-
+    
             return null;
         }
-
+    
         while (nameFontSize > TYPO.MIN_NAME_FONT_SIZE) {
-
+    
+            // Try single line first
             if (measure(nameText, nameFontSize) <= areaBox.width) {
-
                 nameLines = [nameText];
                 break;
-
             }
-
-            const wrapped = wrapName(nameFontSize);
-
-            if (wrapped) {
-
-                nameLines = wrapped;
-                break;
+    
+            // Allow wrapping once threshold reached
+            if (nameFontSize <= TYPO.ACTION_WRAP_THRESHOLD) {
+    
+                const wrapped = wrapName(nameFontSize);
+    
+                if (wrapped) {
+    
+                    nameLines = wrapped;
+    
+                    // prevent oversized wrapped titles
+                    nameFontSize = Math.min(
+                        nameFontSize,
+                        TYPO.ACTION_MAX_FONT_SIZE
+                    );
+    
+                    break;
+                }
             }
-
+    
             nameFontSize -= TYPO.NAME_SHRINK_STEP;
         }
     }
