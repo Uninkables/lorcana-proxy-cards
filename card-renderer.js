@@ -505,8 +505,9 @@ function renderRuleLineExact(
 
             const isAllCaps =
                 trimmed &&
-                trimmed.length > 1 && // prevent single-letter headers
-                trimmed === trimmed.toUpperCase() &&
+                trimmed.length > 1 &&               // prevent single-letter headers
+                /^[A-Z]/.test(trimmed) &&           // must START with a letter
+                trimmed === trimmed.toUpperCase() && 
                 /[A-Z]/.test(trimmed);
         
             if (isAllCaps && textNode.textContent.trim() === "") {
