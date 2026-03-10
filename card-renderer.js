@@ -352,23 +352,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
             
             if (abilityDetectedForLine) {
                 adjustedWidth += fontSize * TYPO.ABILITY_SPACING * 2;
-                const divider = document.createElementNS(
-                "http://www.w3.org/2000/svg",
-                "line"
-                );
-        
-                divider.setAttribute("x1", 3.6999998);
-                divider.setAttribute("x2", 3.6999998 + adjustedWidth);
-                divider.setAttribute("y1", 60.000004);
-                divider.setAttribute("y2", 60.000004);
-                divider.setAttribute("stroke", "#ababab");
-                divider.setAttribute("stroke-width", "0.1");
-
-                const textGroup = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "g"
-                );
-                textGroup.appendChild(divider);
+                console.log(adjustedWidth);
             }
             
             if (adjustedWidth > maxWidth && currentLine !== "") {
