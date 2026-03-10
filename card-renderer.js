@@ -972,50 +972,56 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_8bea9b8848964337b64e2ceed5c41302",
-    "name": "Hidden Inkcaster",
+    "id": "crd_f478c96f7b1b45b790d74395480da563",
+    "name": "Piglet",
+    "version": "Pooh Pirate Captain",
     "layout": "normal",
-    "released_at": "2024-05-17",
+    "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_f478c96f7b1b45b790d74395480da563.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_f478c96f7b1b45b790d74395480da563.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_f478c96f7b1b45b790d74395480da563.avif?1709690747"
       }
     },
     "cost": 2,
-    "inkwell": false,
-    "ink": "Emerald",
+    "inkwell": true,
+    "ink": "Amber",
     "inks": null,
     "type": [
-      "Item"
+      "Character"
     ],
-    "classifications": null,
-    "text": "FRESH INK When you play this item, draw a card.\nUNEXPECTED TREASURE All cards in your hand count as having {IW}.",
+    "classifications": [
+      "Dreamborn",
+      "Hero",
+      "Pirate",
+      "Captain"
+    ],
+    "text": "AND I'M THE CAPTAIN! While you have 2 or more other characters in play, this character gets +2 {L}.",
     "keywords": [],
     "move_cost": null,
-    "strength": null,
-    "willpower": null,
-    "lore": null,
-    "rarity": "Common",
+    "strength": 2,
+    "willpower": 2,
+    "lore": 1,
+    "rarity": "Super_rare",
     "illustrators": [
-      "Adam Fenton"
+      "Grace Tran"
     ],
-    "collector_number": "98",
+    "collector_number": "16",
     "lang": "en",
-    "flavor_text": "\"It looks like it's been here forever.\"\n-Flounder",
-    "tcgplayer_id": 549437,
+    "flavor_text": "\"Ahoy! There's lore out there, and I'm g-gonna\nfind it!\"",
+    "tcgplayer_id": 531822,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_8f4cbf5aef324eb295c4add5673e684f",
-      "code": "4",
-      "name": "Ursula's Return"
+      "id": "set_10a1db03fe66417c9912494b94463e8e",
+      "code": "3",
+      "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.07",
-      "usd_foil": "0.19"
+      "usd": "0.53",
+      "usd_foil": "1.49"
     }
   };
 
