@@ -956,56 +956,51 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_f6c83c36dbe04bdcb19ee7bd9d0479cd",
-    "name": "Calhoun",
-    "version": "Marine Sergeant",
+    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
+    "name": "Has Set My Heaaaaaaart . . .",
     "layout": "normal",
-    "released_at": "2024-11-15",
+    "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_f6c83c36dbe04bdcb19ee7bd9d0479cd.avif?1730901319",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_f6c83c36dbe04bdcb19ee7bd9d0479cd.avif?1730901319",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_f6c83c36dbe04bdcb19ee7bd9d0479cd.avif?1730901319"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
       }
     },
     "cost": 2,
-    "inkwell": false,
-    "ink": "Steel",
+    "inkwell": true,
+    "ink": "Emerald",
     "inks": null,
     "type": [
-      "Character"
+      "Action",
+      "Song"
     ],
-    "classifications": [
-      "Storyborn",
-      "Hero"
-    ],
-    "text": "Resist +1 (Damage dealt to this character is reduced by 1.)\nLEVEL UP During your turn, whenever this character banishes another character in a challenge, gain 2 lore.",
-    "keywords": [
-      "Resist"
-    ],
+    "classifications": null,
+    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
+    "keywords": [],
     "move_cost": null,
-    "strength": 3,
-    "willpower": 2,
-    "lore": 1,
-    "rarity": "Rare",
+    "strength": null,
+    "willpower": null,
+    "lore": null,
+    "rarity": "Uncommon",
     "illustrators": [
-      "Kevin Sidharta"
+      "Hyuna Lee"
     ],
-    "collector_number": "191",
+    "collector_number": "94",
     "lang": "en",
-    "flavor_text": null,
-    "tcgplayer_id": 592017,
+    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
+    "tcgplayer_id": 539085,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_0df34ab314e04a479ef3538fd6c3e4e1",
-      "code": "6",
-      "name": "Azurite Sea"
+      "id": "set_10a1db03fe66417c9912494b94463e8e",
+      "code": "3",
+      "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "4.48",
-      "usd_foil": "5.46"
+      "usd": "0.04",
+      "usd_foil": "0.15"
     }
   };
 
