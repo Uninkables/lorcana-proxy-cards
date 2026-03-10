@@ -463,7 +463,7 @@ function renderRuleLineExact(
         if (/^\{[^}]+\}$/.test(token)) {
 
             const textWidth = textNode.getBBox().width;
-            const symbolX = currentX + textWidth + (fontSize * TYPO.SYMBOL_PAD);
+            const symbolX = currentX + textWidth;
 
             const scale = fontSize / 105.8335;
 
@@ -478,10 +478,6 @@ function renderRuleLineExact(
 
             const rawBBox = symbol.getBBox();
             const scaledWidth = rawBBox.width * scale;
-
-            if (token === "{I}") {
-                scaledWidth += fontSize * 0.12;
-            }
 
             const spacing = fontSize * TYPO.SYMBOL_SPACING;
 
