@@ -489,7 +489,7 @@ function renderRuleLineExact(
 
             const spacing = fontSize * TYPO.SYMBOL_SPACING;
 
-            currentX = symbolX + scaledWidth + spacing;
+            currentX = symbolX + scaledWidth + spacing - inkSymbolOffset;
 
             textNode = createTextNode(
                 currentX,
