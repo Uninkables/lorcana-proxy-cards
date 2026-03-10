@@ -55,6 +55,7 @@ const TYPO = {
     RULE_FLAVOR_GAP: -0.5,
     SYMBOL_SPACING: 0.18,
     ABILITY_SPACING: 0.8,
+    SYMBOL_PAD: 0.08,
 
     // Name shrink step
     NAME_SHRINK_STEP: 0.2
@@ -453,7 +454,7 @@ function renderRuleLineExact(
 
     let abilityActive = false;
     let abilitySpacingApplied = false;
-    let reminderActive = false;
+    let reminderActive = state.reminderActive || false;
 
     for (let i = 0; i < tokens.length; i++) {
 
@@ -463,7 +464,7 @@ function renderRuleLineExact(
         if (/^\{[^}]+\}$/.test(token)) {
 
             const textWidth = textNode.getBBox().width;
-            const symbolX = currentX + textWidth;
+            const symbolX = currentX + textWidth + (fontSize * TYPO.SYMBOL_PAD);
 
             const scale = fontSize / 105.8335;
 
@@ -511,17 +512,14 @@ function renderRuleLineExact(
                 trimmed === trimmed.toUpperCase() &&
                 /[A-Z]/.test(trimmed);
         
-            // Detect start of ability header
+            const isWhitespace = /^\s+$/.test(token);
+        
             if (!abilityActive && isAllCaps && textNode.textContent.trim() === "") {
                 abilityActive = true;
             }
-        
-            // Continue header while tokens remain ALL CAPS
-            else if (abilityActive && isAllCaps) {
+            else if (abilityActive && (isAllCaps || isWhitespace)) {
                 // still inside ability header
             }
-        
-            // Header ended
             else if (abilityActive) {
         
                 const renderedWidth = textNode.getBBox().width;
@@ -555,9 +553,10 @@ function renderRuleLineExact(
         }
         
         if (token.includes(")")) {
-            // closing parenthesis still italic
-            setTimeout(() => reminderActive = false, 0);
+            reminderActive = false;
         }
+        
+        state.reminderActive = reminderActive;
         
         if (isFlavor || reminderActive) {
             tspan.setAttribute("font-style", "italic");
