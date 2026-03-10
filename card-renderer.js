@@ -273,7 +273,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
     measurer.setAttribute("font-family", "Brandon Grotesque");
     measurer.setAttribute("font-size", fontSize);
-    measurer.setAttribute("font-weight", "400"); // base weight
+    measurer.setAttribute("font-weight", "700"); // base weight
 
     const span = document.createElementNS(
         "http://www.w3.org/2000/svg",
