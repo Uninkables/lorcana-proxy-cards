@@ -976,51 +976,58 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_86e375807dee4e26ab3254c11e7eed00",
-    "name": "Has Set My Heaaaaaaart . . .",
+    "id": "crd_ab901cb3afed4b95b0bbca4350b0d4d7",
+    "name": "Hades",
+    "version": "King of Olympus",
     "layout": "normal",
-    "released_at": "2024-02-23",
+    "released_at": "2023-08-18",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_86e375807dee4e26ab3254c11e7eed00.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_ab901cb3afed4b95b0bbca4350b0d4d7.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_ab901cb3afed4b95b0bbca4350b0d4d7.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_ab901cb3afed4b95b0bbca4350b0d4d7.avif?1709690747"
       }
     },
-    "cost": 2,
-    "inkwell": true,
-    "ink": "Emerald",
+    "cost": 8,
+    "inkwell": false,
+    "ink": "Amber",
     "inks": null,
     "type": [
-      "Action",
-      "Song"
+      "Character"
     ],
-    "classifications": null,
-    "text": "(A character with cost 2 or more can {E} to sing this song for free.)\nBanish chosen item.",
-    "keywords": [],
+    "classifications": [
+      "Floodborn",
+      "Villain",
+      "King",
+      "Deity"
+    ],
+    "text": "Shift 6 (You may pay 6 {I} to play this on top of one of your characters named Hades.)\nSINISTER PLOT This character gets +1 {L} for each other Villain character you have in play.",
+    "keywords": [
+      "Shift"
+    ],
     "move_cost": null,
-    "strength": null,
-    "willpower": null,
-    "lore": null,
-    "rarity": "Uncommon",
+    "strength": 6,
+    "willpower": 7,
+    "lore": 1,
+    "rarity": "Rare",
     "illustrators": [
-      "Hyuna Lee"
+      "Alex Accorsi"
     ],
-    "collector_number": "94",
+    "collector_number": "5",
     "lang": "en",
-    "flavor_text": "He's not real smart\nAnd yet, he's touched my little cowhide heart",
-    "tcgplayer_id": 539085,
+    "flavor_text": "\"Oh hey, I'm gonna need new business cards.\"",
+    "tcgplayer_id": 485364,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
-      "name": "Into the Inklands"
+      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
+      "code": "1",
+      "name": "The First Chapter"
     },
     "prices": {
-      "usd": "0.04",
-      "usd_foil": "0.15"
+      "usd": "0.25",
+      "usd_foil": "0.32"
     }
   };
 
