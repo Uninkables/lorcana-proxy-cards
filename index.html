@@ -11,12 +11,6 @@
 <h2>Search Cards to Add</h2>
 
 <div class="search-controls">
-  <label class="rarity-toggle">
-    <input type="checkbox" id="showHighRarity">
-    <span class="slider"></span>
-    <span class="toggle-text">Show Epic & Enchanted</span>
-  </label>
-
   <input type="text" id="cardSearch" placeholder="Search for card..." />
 </div>
 
@@ -41,31 +35,30 @@ fetch("cards.json")
 const searchInput = document.getElementById("cardSearch");
 const resultsDiv = document.getElementById("searchResults");
 const selectedDiv = document.getElementById("selectedCards");
-const showHighRarityCheckbox = document.getElementById("showHighRarity");
 
 searchInput.addEventListener("input", () => {
   const query = searchInput.value.toLowerCase();
   resultsDiv.innerHTML = "";
 
-showHighRarityCheckbox.addEventListener("change", () => {
-  searchInput.dispatchEvent(new Event("input"));
-});
-  
   if (!query) return;
 
   cards
     .filter(c => {
       const matchesSearch =
         `${c.name} - ${c.version}`.toLowerCase().includes(query);
-
+    
+      if (!matchesSearch) return false;
+    
+      // ---- Filter rarity ----
       const blockedRarities = ["Epic", "Enchanted"];
-      const isBlocked = blockedRarities.includes(c.rarity);
-      
-      const showHighRarity = showHighRarityCheckbox.checked;
-  
-      if (!showHighRarity && isBlocked) return false;
-  
-      return matchesSearch;
+      if (blockedRarities.includes(c.rarity)) return false;
+    
+      // ---- Filter Locations ----
+      if (Array.isArray(c.type) && c.type.includes("Location")) {
+        return false;
+      }
+    
+      return true;
     })
     .slice(0, 20)
     .forEach(card => {
@@ -314,5 +307,6 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
