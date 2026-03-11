@@ -1012,19 +1012,19 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_7b875417a470447eb4d998d9b634580b",
-    "name": "HeiHei",
-    "version": "Boat Snack",
+    "id": "crd_d9f3b86af85f48579ed9d0d7ce0de129",
+    "name": "Ariel",
+    "version": "On Human Legs",
     "layout": "normal",
     "released_at": "2023-08-18",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_7b875417a470447eb4d998d9b634580b.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_7b875417a470447eb4d998d9b634580b.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_7b875417a470447eb4d998d9b634580b.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747"
       }
     },
-    "cost": 1,
+    "cost": 4,
     "inkwell": true,
     "ink": "Amber",
     "inks": null,
@@ -1033,24 +1033,23 @@ const testCard = {
     ],
     "classifications": [
       "Storyborn",
-      "Ally"
+      "Hero",
+      "Princess"
     ],
-    "text": "Support (Whenever this character quests, you may add their {S} to another chosen character's {S} this turn.)",
-    "keywords": [
-      "Support"
-    ],
+    "text": "VOICELESS This character can't {E} to sing songs.",
+    "keywords": [],
     "move_cost": null,
-    "strength": 1,
-    "willpower": 2,
-    "lore": 1,
-    "rarity": "Common",
+    "strength": 3,
+    "willpower": 4,
+    "lore": 2,
+    "rarity": "Uncommon",
     "illustrators": [
-      "Jenna Gray"
+      "Matthew Robert Davies"
     ],
-    "collector_number": "7",
+    "collector_number": "1",
     "lang": "en",
-    "flavor_text": "\"Sometimes, our strengths lie beneath the surface. Far beneath, in some cases....\"\n—Moana",
-    "tcgplayer_id": 493479,
+    "flavor_text": "\"...\"",
+    "tcgplayer_id": 494102,
     "legalities": {
       "core": "legal"
     },
@@ -1060,8 +1059,8 @@ const testCard = {
       "name": "The First Chapter"
     },
     "prices": {
-      "usd": "0.04",
-      "usd_foil": "0.22"
+      "usd": "0.09",
+      "usd_foil": "0.43"
     }
   };
 
