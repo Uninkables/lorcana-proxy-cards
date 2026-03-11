@@ -1012,19 +1012,19 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_58e889f440504f44b3283ed76f3f54a4",
-    "name": "Prince Eric",
-    "version": "Ursula's Groom",
+    "id": "crd_7b875417a470447eb4d998d9b634580b",
+    "name": "HeiHei",
+    "version": "Boat Snack",
     "layout": "normal",
-    "released_at": "2024-05-17",
+    "released_at": "2023-08-18",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_58e889f440504f44b3283ed76f3f54a4.avif?1716052430"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_7b875417a470447eb4d998d9b634580b.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_7b875417a470447eb4d998d9b634580b.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_7b875417a470447eb4d998d9b634580b.avif?1709690747"
       }
     },
-    "cost": 6,
+    "cost": 1,
     "inkwell": true,
     "ink": "Amber",
     "inks": null,
@@ -1032,37 +1032,36 @@ const testCard = {
       "Character"
     ],
     "classifications": [
-      "Floodborn",
-      "Hero",
-      "Prince"
+      "Storyborn",
+      "Ally"
     ],
-    "text": "Shift 4 (You may pay 4 {I} to play this on top of one of your characters named Prince Eric.)\nUNDER VANESSA'S SPELL While you have a character named Ursula in play, this character gains Bodyguard and gets +2 {W}. (An opposing character who challenges one of your characters must choose one with Bodyguard if able.)",
+    "text": "Support (Whenever this character quests, you may add their {S} to another chosen character's {S} this turn.)",
     "keywords": [
-      "Shift"
+      "Support"
     ],
     "move_cost": null,
-    "strength": 5,
-    "willpower": 5,
-    "lore": 2,
-    "rarity": "Uncommon",
+    "strength": 1,
+    "willpower": 2,
+    "lore": 1,
+    "rarity": "Common",
     "illustrators": [
-      "Lisanne Koeteeuw"
+      "Jenna Gray"
     ],
-    "collector_number": "22",
+    "collector_number": "7",
     "lang": "en",
-    "flavor_text": "",
-    "tcgplayer_id": 550561,
+    "flavor_text": "\"Sometimes, our strengths lie beneath the surface. Far beneath, in some cases....\"\n—Moana",
+    "tcgplayer_id": 493479,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_8f4cbf5aef324eb295c4add5673e684f",
-      "code": "4",
-      "name": "Ursula's Return"
+      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
+      "code": "1",
+      "name": "The First Chapter"
     },
     "prices": {
-      "usd": "0.07",
-      "usd_foil": "0.28"
+      "usd": "0.04",
+      "usd_foil": "0.22"
     }
   };
 
