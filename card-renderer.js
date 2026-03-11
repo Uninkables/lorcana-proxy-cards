@@ -1012,55 +1012,50 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_d9f3b86af85f48579ed9d0d7ce0de129",
-    "name": "Ariel",
-    "version": "On Human Legs",
+    "id": "crd_b4342b1e77754c4caec6596f27f963b2",
+    "name": "Lucky Dime",
     "layout": "normal",
-    "released_at": "2023-08-18",
+    "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_d9f3b86af85f48579ed9d0d7ce0de129.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_b4342b1e77754c4caec6596f27f963b2.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_b4342b1e77754c4caec6596f27f963b2.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_b4342b1e77754c4caec6596f27f963b2.avif?1709690747"
       }
     },
-    "cost": 4,
-    "inkwell": true,
-    "ink": "Amber",
+    "cost": 7,
+    "inkwell": false,
+    "ink": "Sapphire",
     "inks": null,
     "type": [
-      "Character"
+      "Item"
     ],
-    "classifications": [
-      "Storyborn",
-      "Hero",
-      "Princess"
-    ],
-    "text": "VOICELESS This character can't {E} to sing songs.",
+    "classifications": null,
+    "text": "NUMBER ONE {E}, 2 {I} — Choose a character of yours and gain lore equal to their {L}.",
     "keywords": [],
     "move_cost": null,
-    "strength": 3,
-    "willpower": 4,
-    "lore": 2,
-    "rarity": "Uncommon",
+    "strength": null,
+    "willpower": null,
+    "lore": null,
+    "rarity": "Legendary",
     "illustrators": [
-      "Matthew Robert Davies"
+      "Leonardo Giammichele"
     ],
-    "collector_number": "1",
+    "collector_number": "165",
     "lang": "en",
-    "flavor_text": "\"...\"",
-    "tcgplayer_id": 494102,
+    "flavor_text": "This one simple coin changed Scrooge's life forever.",
+    "tcgplayer_id": 536272,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
-      "code": "1",
-      "name": "The First Chapter"
+      "id": "set_10a1db03fe66417c9912494b94463e8e",
+      "code": "3",
+      "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.09",
-      "usd_foil": "0.43"
+      "usd": "1.83",
+      "usd_foil": "3.14"
     }
   };
 
