@@ -1012,58 +1012,50 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_ab901cb3afed4b95b0bbca4350b0d4d7",
-    "name": "Hades",
-    "version": "King of Olympus",
+    "id": "crd_8bea9b8848964337b64e2ceed5c41302",
+    "name": "Hidden Inkcaster",
     "layout": "normal",
-    "released_at": "2023-08-18",
+    "released_at": "2024-05-17",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_ab901cb3afed4b95b0bbca4350b0d4d7.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_ab901cb3afed4b95b0bbca4350b0d4d7.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_ab901cb3afed4b95b0bbca4350b0d4d7.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_8bea9b8848964337b64e2ceed5c41302.avif?1716052430"
       }
     },
-    "cost": 8,
+    "cost": 2,
     "inkwell": false,
-    "ink": "Amber",
+    "ink": "Emerald",
     "inks": null,
     "type": [
-      "Character"
+      "Item"
     ],
-    "classifications": [
-      "Floodborn",
-      "Villain",
-      "King",
-      "Deity"
-    ],
-    "text": "Shift 6 (You may pay 6 {I} to play this on top of one of your characters named Hades.)\nSINISTER PLOT This character gets +1 {L} for each other Villain character you have in play.",
-    "keywords": [
-      "Shift"
-    ],
+    "classifications": null,
+    "text": "FRESH INK When you play this item, draw a card.\nUNEXPECTED TREASURE All cards in your hand count as having {IW}.",
+    "keywords": [],
     "move_cost": null,
-    "strength": 6,
-    "willpower": 7,
-    "lore": 1,
-    "rarity": "Rare",
+    "strength": null,
+    "willpower": null,
+    "lore": null,
+    "rarity": "Common",
     "illustrators": [
-      "Alex Accorsi"
+      "Adam Fenton"
     ],
-    "collector_number": "5",
+    "collector_number": "98",
     "lang": "en",
-    "flavor_text": "\"Oh hey, I'm gonna need new business cards.\"",
-    "tcgplayer_id": 485364,
+    "flavor_text": "\"It looks like it's been here forever.\"\n-Flounder",
+    "tcgplayer_id": 549437,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
-      "code": "1",
-      "name": "The First Chapter"
+      "id": "set_8f4cbf5aef324eb295c4add5673e684f",
+      "code": "4",
+      "name": "Ursula's Return"
     },
     "prices": {
-      "usd": "0.25",
-      "usd_foil": "0.32"
+      "usd": "0.07",
+      "usd_foil": "0.19"
     }
   };
 
