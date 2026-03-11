@@ -1012,39 +1012,39 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_1784510055ec43e49b13b2837192c1d1",
-    "name": "Robin's Bow",
+    "id": "crd_8355f42d81564fc288c8e67b0f04628c",
+    "name": "Ba-Boom!",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_8355f42d81564fc288c8e67b0f04628c.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_8355f42d81564fc288c8e67b0f04628c.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_8355f42d81564fc288c8e67b0f04628c.avif?1709690747"
       }
     },
-    "cost": 3,
-    "inkwell": false,
-    "ink": "Emerald",
+    "cost": 2,
+    "inkwell": true,
+    "ink": "Steel",
     "inks": null,
     "type": [
-      "Item"
+      "Action"
     ],
     "classifications": null,
-    "text": "FOREST'S GIFT {E} — Deal 1 damage to chosen damaged character or location.\nA BIT OF A LARK Whenever a character of yours named Robin Hood quests, you may ready this item.",
+    "text": "Deal 2 damage to chosen character or location.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
     "willpower": null,
     "lore": null,
-    "rarity": "Uncommon",
+    "rarity": "Common",
     "illustrators": [
-      "McKay Anderson"
+      "Heidi Neunhoffer"
     ],
-    "collector_number": "98",
+    "collector_number": "196",
     "lang": "en",
-    "flavor_text": "\"The forest always provides just what you need.\"\n—Robin Hood",
-    "tcgplayer_id": 537827,
+    "flavor_text": "Bigger than your average boom!",
+    "tcgplayer_id": 537636,
     "legalities": {
       "core": "legal"
     },
@@ -1054,8 +1054,8 @@ const testCard = {
       "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.07",
-      "usd_foil": "0.24"
+      "usd": "0.06",
+      "usd_foil": "0.22"
     }
   };
 
