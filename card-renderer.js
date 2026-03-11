@@ -70,12 +70,12 @@ const TYPO = {
     },
 
     SYMBOL_ADVANCE: {
-        "{I}":   0.1,
-        "{L}":   0.1,
-        "{S}":   0.1,
-        "{W}":   0.1,
-        "{E}":   0.1,
-        "{IW}":  0.1
+        "{I}":   -1.4,
+        "{L}":   0.6,
+        "{S}":   0,
+        "{W}":   0,
+        "{E}":   0,
+        "{IW}":  0
     }
 };
 
@@ -517,7 +517,7 @@ function renderRuleLineExact(
                 symbolX +
                 scaledWidth +
                 spacing +
-                (fontSize * advance);
+                advance;
         
             textNode = createTextNode(
                 currentX,
