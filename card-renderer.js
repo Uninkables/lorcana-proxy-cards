@@ -453,25 +453,20 @@ function renderRuleLineExact(
 
     let abilityActive = false;
     let abilitySpacingApplied = false;
-    let reminderActive = state.reminderActive;
+
+    let reminderActive = state.reminderActive || false;
 
     for (let i = 0; i < tokens.length; i++) {
 
         const token = tokens[i];
 
-        // ===== SYMBOL =====
+        // =========================
+        // SYMBOL
+        // =========================
         if (/^\{[^}]+\}$/.test(token)) {
 
             const textWidth = textNode.getBBox().width;
-            let inkSymbolOffset = 0;
-            if(token === "{I}") {
-                inkSymbolOffset = 1.62;
-                console.log("Ink symbol found.");
-            }
-            else {
-                console.log("Ink symbol was not found.");
-            }
-            const symbolX = currentX + textWidth + inkSymbolOffset;
+            const symbolX = currentX + textWidth;
 
             const scale = fontSize / 105.8335;
 
@@ -489,7 +484,7 @@ function renderRuleLineExact(
 
             const spacing = fontSize * TYPO.SYMBOL_SPACING;
 
-            currentX = symbolX + scaledWidth + spacing - inkSymbolOffset;
+            currentX = symbolX + scaledWidth + spacing;
 
             textNode = createTextNode(
                 currentX,
@@ -504,49 +499,56 @@ function renderRuleLineExact(
         }
 
         const trimmed = token.trim();
+        const isWhitespace = /^\s+$/.test(token);
 
         const isAllCaps =
             trimmed &&
+            trimmed.length > 1 &&
+            /^[A-Z]/.test(trimmed) &&
             trimmed === trimmed.toUpperCase() &&
             /[A-Z]/.test(trimmed);
-        
+
+        // =========================
+        // ABILITY HEADER DETECTION
+        // =========================
         if (!isFlavor && !abilitySpacingApplied) {
-        
-            const isAllCaps =
-                trimmed &&
-                trimmed.length > 1 &&
-                /^[A-Z]/.test(trimmed) &&
-                trimmed === trimmed.toUpperCase() &&
-                /[A-Z]/.test(trimmed);
-        
-            const isWhitespace = /^\s+$/.test(token);
-        
+
             if (!abilityActive && isAllCaps && textNode.textContent.trim() === "") {
                 abilityActive = true;
             }
+
             else if (abilityActive && (isAllCaps || isWhitespace)) {
-                // still inside ability header
+                // still inside header
             }
+
             else if (abilityActive) {
-        
+
                 const renderedWidth = textNode.getBBox().width;
-        
+
                 currentX = startX + renderedWidth;
-        
-                currentX += TYPO.ABILITY_SPACING;
-        
+
+                currentX += fontSize * TYPO.ABILITY_SPACING;
+
                 textNode = createTextNode(
                     currentX,
                     y,
                     fontSize,
                     yScale
                 );
-        
+
                 lineGroup.appendChild(textNode);
-        
+
                 abilitySpacingApplied = true;
                 abilityActive = false;
             }
+        }
+
+        // =========================
+        // REMINDER TEXT DETECTION
+        // =========================
+
+        if (token.includes("(")) {
+            reminderActive = true;
         }
 
         const tspan = document.createElementNS(
@@ -554,17 +556,6 @@ function renderRuleLineExact(
             "tspan"
         );
 
-        // Detect reminder text start/end
-        if (token.includes("(")) {
-            reminderActive = true;
-        }
-        
-        if (token.includes(")")) {
-            reminderActive = false;
-        }
-        
-        state.reminderActive = reminderActive;
-        
         if (isFlavor || reminderActive) {
             tspan.setAttribute("font-style", "italic");
             tspan.setAttribute("font-weight", "500");
@@ -574,9 +565,17 @@ function renderRuleLineExact(
 
         tspan.textContent = token;
         textNode.appendChild(tspan);
+
+        if (token.includes(")")) {
+            reminderActive = false;
+        }
     }
 
+    state.reminderActive = reminderActive;
+
     function createTextNode(x, y, size, scale) {
+
+        scale = scale || 1;
 
         const node = document.createElementNS(
             "http://www.w3.org/2000/svg",
