@@ -448,7 +448,8 @@ function renderRuleLineExact(
     parentGroup,
     keywordSet,
     state,
-    isFlavor
+    isFlavor,
+    allowAbilityHeaders
 ) {
 
     const lineGroup = document.createElementNS(
@@ -544,7 +545,7 @@ function renderRuleLineExact(
         // =========================
         // ABILITY HEADER DETECTION
         // =========================
-        if (!isFlavor && !abilitySpacingApplied) {
+        if (allowAbilityHeaders && !isFlavor && !abilitySpacingApplied) {
 
             if (!abilityActive && isAllCaps && textNode.textContent.trim() === "") {
                 abilityActive = true;
@@ -885,6 +886,11 @@ function renderCardText(svgRoot, card) {
         "g"
     );
 
+    const allowAbilityHeaders =
+        card.type === "Character" ||
+        card.type === "Item" ||
+        card.type === "Location";
+
     cardText.appendChild(textGroup);
 
     function renderAtSize(fontSize) {
@@ -936,7 +942,8 @@ function renderCardText(svgRoot, card) {
                 textGroup,
                 keywordSet,
                 state,
-                false
+                false,
+                allowAbilityHeaders
             );
     
             currentY += lineHeight;
@@ -973,7 +980,8 @@ function renderCardText(svgRoot, card) {
                     textGroup,
                     keywordSet,
                     state,
-                    true
+                    true,
+                    allowAbilityHeaders
                 );
     
                 currentY += lineHeight;
