@@ -1012,39 +1012,39 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_b4342b1e77754c4caec6596f27f963b2",
-    "name": "Lucky Dime",
+    "id": "crd_1784510055ec43e49b13b2837192c1d1",
+    "name": "Robin's Bow",
     "layout": "normal",
     "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_b4342b1e77754c4caec6596f27f963b2.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_b4342b1e77754c4caec6596f27f963b2.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_b4342b1e77754c4caec6596f27f963b2.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747"
       }
     },
-    "cost": 7,
+    "cost": 3,
     "inkwell": false,
-    "ink": "Sapphire",
+    "ink": "Emerald",
     "inks": null,
     "type": [
       "Item"
     ],
     "classifications": null,
-    "text": "NUMBER ONE {E}, 2 {I} — Choose a character of yours and gain lore equal to their {L}.",
+    "text": "FOREST'S GIFT {E} — Deal 1 damage to chosen damaged character or location.\nA BIT OF A LARK Whenever a character of yours named Robin Hood quests, you may ready this item.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
     "willpower": null,
     "lore": null,
-    "rarity": "Legendary",
+    "rarity": "Uncommon",
     "illustrators": [
-      "Leonardo Giammichele"
+      "McKay Anderson"
     ],
-    "collector_number": "165",
+    "collector_number": "98",
     "lang": "en",
-    "flavor_text": "This one simple coin changed Scrooge's life forever.",
-    "tcgplayer_id": 536272,
+    "flavor_text": "\"The forest always provides just what you need.\"\n—Robin Hood",
+    "tcgplayer_id": 537827,
     "legalities": {
       "core": "legal"
     },
@@ -1054,8 +1054,8 @@ const testCard = {
       "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "1.83",
-      "usd_foil": "3.14"
+      "usd": "0.07",
+      "usd_foil": "0.24"
     }
   };
 
