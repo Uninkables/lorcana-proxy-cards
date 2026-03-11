@@ -68,6 +68,15 @@ const TYPO = {
         "{E}":   { x: 0, y: 0 },
         "{IW}":  { x: 0, y: 0 }
     },
+
+    SYMBOL_ADVANCE: {
+        "{I}":   0.1,
+        "{L}":   0.1,
+        "{S}":   0.1,
+        "{W}":   0.1,
+        "{E}":   0.1,
+        "{IW}":  0.1
+    }
 };
 
 async function loadSymbols() {
@@ -477,6 +486,7 @@ function renderRuleLineExact(
             const textWidth = textNode.getBBox().width;
         
             const offset = TYPO.SYMBOL_OFFSETS?.[token] || { x: 0, y: 0 };
+            const advance = TYPO.SYMBOL_ADVANCE?.[token] || 0;
         
             const symbolX =
                 currentX +
@@ -503,7 +513,11 @@ function renderRuleLineExact(
         
             const spacing = fontSize * TYPO.SYMBOL_SPACING;
         
-            currentX = symbolX + scaledWidth + spacing;
+            currentX =
+                symbolX +
+                scaledWidth +
+                spacing +
+                (fontSize * advance);
         
             textNode = createTextNode(
                 currentX,
