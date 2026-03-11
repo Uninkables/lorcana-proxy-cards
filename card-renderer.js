@@ -1020,50 +1020,50 @@ function renderCardText(svgRoot, card) {
 // -----------------------------
 
 const testCard = {
-    "id": "crd_4ab0c55e07324d30903f51b7bbd41c8d",
-    "name": "Dinglehopper",
+    "id": "crd_1784510055ec43e49b13b2837192c1d1",
+    "name": "Robin's Bow",
     "layout": "normal",
-    "released_at": "2023-08-18",
+    "released_at": "2024-02-23",
     "image_uris": {
       "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_4ab0c55e07324d30903f51b7bbd41c8d.avif?1709690747"
+        "small": "https://cards.lorcast.io/card/digital/small/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
+        "normal": "https://cards.lorcast.io/card/digital/normal/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
+        "large": "https://cards.lorcast.io/card/digital/large/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747"
       }
     },
-    "cost": 1,
-    "inkwell": true,
-    "ink": "Amber",
+    "cost": 3,
+    "inkwell": false,
+    "ink": "Emerald",
     "inks": null,
     "type": [
       "Item"
     ],
     "classifications": null,
-    "text": "STRAIGHTEN HAIR {E} — Remove up to 1 damage from chosen character.",
+    "text": "FOREST'S GIFT {E} — Deal 1 damage to chosen damaged character or location.\nA BIT OF A LARK Whenever a character of yours named Robin Hood quests, you may ready this item.",
     "keywords": [],
     "move_cost": null,
     "strength": null,
     "willpower": null,
     "lore": null,
-    "rarity": "Common",
+    "rarity": "Uncommon",
     "illustrators": [
-      "Eri Welli"
+      "McKay Anderson"
     ],
-    "collector_number": "32",
+    "collector_number": "98",
     "lang": "en",
-    "flavor_text": "Enjoy the finest of human hairstyles!",
-    "tcgplayer_id": 492733,
+    "flavor_text": "\"The forest always provides just what you need.\"\n—Robin Hood",
+    "tcgplayer_id": 537827,
     "legalities": {
       "core": "legal"
     },
     "set": {
-      "id": "set_7ecb0e0c71af496a9e0110e23824e0a5",
-      "code": "1",
-      "name": "The First Chapter"
+      "id": "set_10a1db03fe66417c9912494b94463e8e",
+      "code": "3",
+      "name": "Into the Inklands"
     },
     "prices": {
-      "usd": "0.06",
-      "usd_foil": "0.17"
+      "usd": "0.07",
+      "usd_foil": "0.24"
     }
   };
 
