@@ -58,7 +58,16 @@ const TYPO = {
     SYMBOL_PAD: 0.08,
 
     // Name shrink step
-    NAME_SHRINK_STEP: 0.2
+    NAME_SHRINK_STEP: 0.2,
+
+    SYMBOL_OFFSETS: {
+        "{I}":   { x: 1.62, y: 0 },
+        "{L}":   { x: -0.3, y: -0.25 },
+        "{S}":   { x: 0, y: 0 },
+        "{W}":   { x: 0, y: 0 },
+        "{E}":   { x: 0, y: 0 },
+        "{IW}":  { x: 0, y: 0 }
+    },
 };
 
 async function loadSymbols() {
@@ -466,35 +475,45 @@ function renderRuleLineExact(
         if (/^\{[^}]+\}$/.test(token)) {
 
             const textWidth = textNode.getBBox().width;
-            const symbolX = currentX + textWidth;
-
+        
+            const offset = TYPO.SYMBOL_OFFSETS?.[token] || { x: 0, y: 0 };
+        
+            const symbolX =
+                currentX +
+                textWidth +
+                (fontSize * offset.x);
+        
+            const symbolY =
+                y +
+                (fontSize * offset.y);
+        
             const scale = fontSize / 105.8335;
-
+        
             const symbol = createSymbol(
                 token,
                 symbolX,
-                y,
+                symbolY,
                 fontSize
             );
-
+        
             lineGroup.appendChild(symbol);
-
+        
             const rawBBox = symbol.getBBox();
             const scaledWidth = rawBBox.width * scale;
-
+        
             const spacing = fontSize * TYPO.SYMBOL_SPACING;
-
+        
             currentX = symbolX + scaledWidth + spacing;
-
+        
             textNode = createTextNode(
                 currentX,
                 y,
                 fontSize,
                 yScale
             );
-
+        
             lineGroup.appendChild(textNode);
-
+        
             continue;
         }
 
