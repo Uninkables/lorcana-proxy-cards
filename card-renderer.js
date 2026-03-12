@@ -1067,6 +1067,7 @@ const testCard = {
     }
   };
 
+/*
 initCard(testCard);
 
 async function initCard(cardData) {
@@ -1079,5 +1080,6 @@ async function initCard(cardData) {
     await document.fonts.load("10px 'The Bystander Collection'");
     await loadCard(cardData);
 }
+*/
 
-window.renderCard = renderCard;
+window.loadCard = loadCard;
