@@ -24,6 +24,20 @@
 <script src="card-renderer.js"></script>
   
 <script>
+
+async function ensureFontsLoaded() {
+
+  await document.fonts.ready;
+  
+  await document.fonts.load('700 16px "Brandon Grotesque"');
+  await document.fonts.load('900 16px "Brandon Grotesque"');
+  await document.fonts.load('500 italic 16px "Brandon Grotesque"');
+  
+  await document.fonts.load("10px Brandon Grotesque");
+  await document.fonts.load("10px Brandon Grotesque Condensed");
+  await document.fonts.load("10px 'The Bystander Collection'");
+}
+  
 let cards = [];
 const selected = new Map();
 
@@ -186,30 +200,23 @@ document.getElementById("printSheetBtn")
 
 async function renderCardToImage(card) {
 
-  // Find your SVG template
-  const template = document.querySelector("#card-template");
+  // Wait for fonts so measurements are correct
+  await document.fonts.ready;
 
-  if (!template) {
-    throw new Error("Card template SVG not found.");
+  // Render card using your existing renderer
+  await loadCard(card);
+
+  // Grab the rendered SVG
+  const svg = document.querySelector("svg");
+
+  if (!svg) {
+    throw new Error("Renderer SVG not found.");
   }
 
-  // Clone the template
-  const svg = template.cloneNode(true);
+  const clone = svg.cloneNode(true);
 
-  // Put it offscreen so renderer can access elements
-  const container = document.createElement("div");
-  container.style.position = "absolute";
-  container.style.left = "-9999px";
-  container.appendChild(svg);
-
-  document.body.appendChild(container);
-
-  // Render card into the cloned template
-  await loadCard(card, svg);
-
-  // Serialize SVG
   const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(svg);
+  const svgString = serializer.serializeToString(clone);
 
   const blob = new Blob([svgString], {
     type: "image/svg+xml;charset=utf-8"
@@ -225,21 +232,25 @@ async function renderCardToImage(card) {
   });
 
   const canvas = document.createElement("canvas");
+
   canvas.width = 750;
   canvas.height = 1050;
 
   const ctx = canvas.getContext("2d");
+
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
   const dataURL = canvas.toDataURL("image/jpeg", 1.0);
 
   URL.revokeObjectURL(url);
-  container.remove();
 
   return dataURL;
 }
 
 async function generatePrintSheet() {
+
+  await ensureFontsLoaded();
+  
   const { jsPDF } = window.jspdf;
 
   const expandedCards = [];
@@ -361,4 +372,5 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
