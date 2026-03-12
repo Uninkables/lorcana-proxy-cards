@@ -217,8 +217,6 @@ async function renderCardToImage(card) {
   // Grab the rendered SVG
   const svg = document.querySelector("svg");
 
-  const canvas = await html2canvas(svg);
-
   if (!svg) {
     throw new Error("Renderer SVG not found.");
   }
@@ -241,7 +239,7 @@ async function renderCardToImage(card) {
     img.src = url;
   });
 
-  const canvas = document.createElement("canvas");
+  const canvas = await html2canvas(svg);
 
   canvas.width = 750;
   canvas.height = 1050;
@@ -384,6 +382,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
