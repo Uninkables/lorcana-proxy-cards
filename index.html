@@ -183,6 +183,48 @@ function updateQty(key, newQty) {
 document.getElementById("printSheetBtn")
   .addEventListener("click", generatePrintSheet);
 
+async function renderCardToImage(card) {
+
+  // Create offscreen container
+  const container = document.createElement("div");
+  container.style.position = "absolute";
+  container.style.left = "-9999px";
+  document.body.appendChild(container);
+
+  // Render card using your renderer
+  const svg = await renderCard(card);
+  container.appendChild(svg);
+
+  // Serialize SVG
+  const serializer = new XMLSerializer();
+  const svgString = serializer.serializeToString(svg);
+
+  const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(svgBlob);
+
+  const img = new Image();
+
+  await new Promise(resolve => {
+    img.onload = resolve;
+    img.src = url;
+  });
+
+  // Draw to canvas
+  const canvas = document.createElement("canvas");
+  canvas.width = 750;
+  canvas.height = 1050;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  const dataURL = canvas.toDataURL("image/jpeg", 1.0);
+
+  URL.revokeObjectURL(url);
+  container.remove();
+
+  return dataURL;
+}
+
 async function generatePrintSheet() {
   const { jsPDF } = window.jspdf;
 
@@ -256,11 +298,8 @@ async function generatePrintSheet() {
         const y = startY + row * cardHeight;
         
         try {
-          const proxiedUrl =
-            "https://lorcana-image-proxy.jtb2854.workers.dev/?url=" +
-            encodeURIComponent(card.image_uris.digital.large);
         
-          const imgData = await loadImageAsDataURL(proxiedUrl);
+          const imgData = await renderCardToImage(card);
         
           doc.addImage(
             imgData,
@@ -270,8 +309,9 @@ async function generatePrintSheet() {
             cardWidth,
             cardHeight
           );
+        
         } catch (e) {
-          console.error("Image failed:", e);
+          console.error("Card render failed:", e);
         }
         cardIndex++;
       }
@@ -307,6 +347,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
