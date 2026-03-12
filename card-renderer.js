@@ -114,7 +114,14 @@ async function loadCard(cardData, svgRoot = document) {
     const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
     const svgElement = svgDoc.documentElement;
 
-    const target = svgRoot.querySelector("#card-container");
+    let target = svgRoot.querySelector("#card-container");
+
+    if (!target) {
+        target = document.createElement("div");
+        target.id = "card-container";
+        svgRoot.appendChild(target);
+    }
+    
     target.innerHTML = "";
     target.appendChild(svgElement);
 
