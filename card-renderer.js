@@ -114,8 +114,9 @@ async function loadCard(cardData, svgRoot = document) {
     const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
     const svgElement = svgDoc.documentElement;
 
-    svgRoot.getElementById("card-container").innerHTML = "";
-    svgRoot.getElementById("card-container").appendChild(svgElement);
+    const target = svgRoot.querySelector("#card-container");
+    target.innerHTML = "";
+    target.appendChild(svgElement);
 
     // Shared fields
     applyCommonFields(svgElement, cardData);
