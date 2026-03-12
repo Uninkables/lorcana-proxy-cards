@@ -200,67 +200,72 @@ document.getElementById("printSheetBtn")
 
 async function renderCardToImage(card) {
 
-  // Wait for fonts so measurements are correct
-  await document.fonts.ready;
   await ensureFontsLoaded();
+  await document.fonts.ready;
 
+  // Hidden render container
   const renderRoot = document.createElement("div");
-  renderRoot.id = "card";
+  renderRoot.id = "card-render-root";
   renderRoot.style.position = "absolute";
-  renderRoot.style.left = "-9999px";
-  
+  renderRoot.style.left = "-10000px";
+  renderRoot.style.top = "0px";
+
+  // Container expected by your renderer
+  const cardContainer = document.createElement("div");
+  cardContainer.id = "card";
+
+  renderRoot.appendChild(cardContainer);
   document.body.appendChild(renderRoot);
 
-  // Render card using your existing renderer
-  await loadCard(card);
+  try {
 
-  // Grab the rendered SVG
-  const svg = document.querySelector("svg");
+    // Render the SVG card
+    await loadCard(card);
 
-  if (!svg) {
-    throw new Error("Renderer SVG not found.");
+    const svg = cardContainer.querySelector("svg");
+
+    if (!svg) {
+      throw new Error("Renderer SVG not found.");
+    }
+
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(svg);
+
+    const img = new Image();
+
+    const svgBlob = new Blob([svgString], {
+      type: "image/svg+xml;charset=utf-8"
+    });
+
+    const url = URL.createObjectURL(svgBlob);
+
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+      img.src = url;
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 750;
+    canvas.height = 1050;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    URL.revokeObjectURL(url);
+
+    return canvas.toDataURL("image/jpeg", 1.0);
+
+  } finally {
+    renderRoot.remove();
   }
-
-  const clone = svg.cloneNode(true);
-
-  const serializer = new XMLSerializer();
-  const svgString = serializer.serializeToString(clone);
-
-  const blob = new Blob([svgString], {
-    type: "image/svg+xml;charset=utf-8"
-  });
-
-  const url = URL.createObjectURL(blob);
-
-  const img = new Image();
-
-  await new Promise(resolve => {
-    img.onload = resolve;
-    img.src = url;
-  });
-
-  const canvas = await html2canvas(svg);
-
-  canvas.width = 750;
-  canvas.height = 1050;
-
-  const ctx = canvas.getContext("2d");
-
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-  renderRoot.remove();
-
-  const dataURL = canvas.toDataURL("image/jpeg", 1.0);
-
-  URL.revokeObjectURL(url);
-
-  return dataURL;
 }
 
 async function generatePrintSheet() {
 
   await ensureFontsLoaded();
-  
+  await document.fonts.ready;
+
   const { jsPDF } = window.jspdf;
 
   const expandedCards = [];
@@ -286,13 +291,12 @@ async function generatePrintSheet() {
   const pageHeight = 11;
 
   const cardHeight = 3.45;
-  const cardWidth = cardHeight * (2.5/3.5)
+  const cardWidth = cardHeight * (2.5 / 3.5);
 
   const cols = 3;
   const rows = 3;
-  const cardsPerPage = 9;
+  const cardsPerPage = cols * rows;
 
-  // Center the 3x3 grid on page
   const totalGridWidth = cardWidth * cols;
   const totalGridHeight = cardHeight * rows;
 
@@ -306,22 +310,18 @@ async function generatePrintSheet() {
 
     if (page > 0) doc.addPage();
 
-    // ---- DRAW CUT LINES (extend full grid edges) ----
-    doc.setLineWidth(0.01); // ~1px thin
+    doc.setLineWidth(0.01);
 
-    // Vertical lines
     for (let c = 0; c <= cols; c++) {
       const x = startX + c * cardWidth;
       doc.line(x, 0, x, pageHeight);
     }
 
-    // Horizontal lines
     for (let r = 0; r <= rows; r++) {
       const y = startY + r * cardHeight;
       doc.line(0, y, pageWidth, y);
     }
 
-    // ---- PLACE CARDS ----
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
 
@@ -331,11 +331,11 @@ async function generatePrintSheet() {
 
         const x = startX + col * cardWidth;
         const y = startY + row * cardHeight;
-        
+
         try {
-        
+
           const imgData = await renderCardToImage(card);
-        
+
           doc.addImage(
             imgData,
             "JPEG",
@@ -344,10 +344,11 @@ async function generatePrintSheet() {
             cardWidth,
             cardHeight
           );
-        
-        } catch (e) {
-          console.error("Card render failed:", e);
+
+        } catch (err) {
+          console.error("Card render failed:", err);
         }
+
         cardIndex++;
       }
     }
@@ -382,6 +383,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
