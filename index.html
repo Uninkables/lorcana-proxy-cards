@@ -186,22 +186,36 @@ document.getElementById("printSheetBtn")
 
 async function renderCardToImage(card) {
 
-  // Create offscreen container
+  // Find your SVG template
+  const template = document.querySelector("#card-template");
+
+  if (!template) {
+    throw new Error("Card template SVG not found.");
+  }
+
+  // Clone the template
+  const svg = template.cloneNode(true);
+
+  // Put it offscreen so renderer can access elements
   const container = document.createElement("div");
   container.style.position = "absolute";
   container.style.left = "-9999px";
+  container.appendChild(svg);
+
   document.body.appendChild(container);
 
-  // Render card using your renderer
-  const svg = await loadCard(card);
-  container.appendChild(svg);
+  // Render card into the cloned template
+  await loadCard(card, svg);
 
   // Serialize SVG
   const serializer = new XMLSerializer();
   const svgString = serializer.serializeToString(svg);
 
-  const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
-  const url = URL.createObjectURL(svgBlob);
+  const blob = new Blob([svgString], {
+    type: "image/svg+xml;charset=utf-8"
+  });
+
+  const url = URL.createObjectURL(blob);
 
   const img = new Image();
 
@@ -210,7 +224,6 @@ async function renderCardToImage(card) {
     img.src = url;
   });
 
-  // Draw to canvas
   const canvas = document.createElement("canvas");
   canvas.width = 750;
   canvas.height = 1050;
@@ -348,3 +361,4 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
