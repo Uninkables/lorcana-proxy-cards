@@ -193,7 +193,7 @@ async function renderCardToImage(card) {
   document.body.appendChild(container);
 
   // Render card using your renderer
-  const svg = await renderCard(card);
+  const svg = await loadCard(card);
   container.appendChild(svg);
 
   // Serialize SVG
@@ -348,6 +348,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
