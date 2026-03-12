@@ -202,12 +202,22 @@ async function renderCardToImage(card) {
 
   // Wait for fonts so measurements are correct
   await document.fonts.ready;
+  await ensureFontsLoaded();
+
+  const renderRoot = document.createElement("div");
+  renderRoot.id = "card";
+  renderRoot.style.position = "absolute";
+  renderRoot.style.left = "-9999px";
+  
+  document.body.appendChild(renderRoot);
 
   // Render card using your existing renderer
   await loadCard(card);
 
   // Grab the rendered SVG
   const svg = document.querySelector("svg");
+
+  const canvas = await html2canvas(svg);
 
   if (!svg) {
     throw new Error("Renderer SVG not found.");
@@ -239,6 +249,8 @@ async function renderCardToImage(card) {
   const ctx = canvas.getContext("2d");
 
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  renderRoot.remove();
 
   const dataURL = canvas.toDataURL("image/jpeg", 1.0);
 
@@ -372,5 +384,6 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
