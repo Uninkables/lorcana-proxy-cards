@@ -1079,3 +1079,5 @@ async function initCard(cardData) {
     await document.fonts.load("10px 'The Bystander Collection'");
     await loadCard(cardData);
 }
+
+window.renderCard = renderCard;
