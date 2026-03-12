@@ -37,6 +37,68 @@ async function ensureFontsLoaded() {
   await document.fonts.load("10px Brandon Grotesque Condensed");
   await document.fonts.load("10px 'The Bystander Collection'");
 }
+
+async function embedFonts(svg) {
+
+  const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+
+  style.textContent = `
+  @font-face {
+    font-family: 'The Bystander Collection';
+    src: url('fonts/BystanderSans-Bold.ttf') format('truetype');
+    font-style: bold;
+  }
+  
+  @font-face {
+    font-family: 'Brandon Grotesque';
+    src: url('fonts/brandon-grotesque-bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Brandon Grotesque';
+    src: url('fonts/brandon-grotesque-black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Brandon Grotesque';
+    src: url('fonts/brandon-grotesque-medium-italic.otf') format('opentype');
+    font-weight: 500;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Brandon Grotesque Condensed';
+    src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
+    font-weight: normal;
+  }
+  
+  @font-face {
+    font-family: 'Brandon Grotesque Condensed';
+    src: url('fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Avenir Next Cyr';
+    src: url('fonts/AvenirNextCyr-Bold.ttf') format('truetype');
+    font-weight: bold;
+  }
+  
+  @font-face {
+    font-family: 'Avenir Next Cyr';
+    src: url('fonts/AvenirNextCyr-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+  }
+  `;
+
+  svg.insertBefore(style, svg.firstChild);
+}
   
 let cards = [];
 const selected = new Map();
@@ -227,6 +289,8 @@ async function renderCardToImage(card) {
       throw new Error("Rendered SVG not found.");
     }
 
+    await embedFonts(svg);
+
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(svg);
 
@@ -309,18 +373,6 @@ async function generatePrintSheet() {
 
     if (page > 0) doc.addPage();
 
-    doc.setLineWidth(0.01);
-
-    for (let c = 0; c <= cols; c++) {
-      const x = startX + c * cardWidth;
-      doc.line(x, 0, x, pageHeight);
-    }
-
-    for (let r = 0; r <= rows; r++) {
-      const y = startY + r * cardHeight;
-      doc.line(0, y, pageWidth, y);
-    }
-
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
 
@@ -350,6 +402,18 @@ async function generatePrintSheet() {
 
         cardIndex++;
       }
+    }
+
+    doc.setLineWidth(0.01);
+
+    for (let c = 0; c <= cols; c++) {
+      const x = startX + c * cardWidth;
+      doc.line(x, 0, x, pageHeight);
+    }
+
+    for (let r = 0; r <= rows; r++) {
+      const y = startY + r * cardHeight;
+      doc.line(0, y, pageWidth, y);
     }
   }
 
@@ -382,6 +446,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
