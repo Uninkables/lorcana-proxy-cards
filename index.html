@@ -209,28 +209,34 @@ async function renderCardToImage(card) {
   renderRoot.style.left = "-10000px";
   renderRoot.style.top = "0";
 
-  renderRoot.innerHTML = `<div id="card"></div>`;
+  // The container your renderer expects
+  const container = document.createElement("div");
+  container.id = "card-container";
 
+  renderRoot.appendChild(container);
   document.body.appendChild(renderRoot);
 
   try {
 
-    // Use your existing renderer
-    await loadCard(card);
+    // IMPORTANT: pass container as svgRoot
+    await loadCard(card, container);
 
-    const svg = renderRoot.querySelector("svg");
+    const svg = container.querySelector("svg");
 
     if (!svg) {
-      throw new Error("Renderer SVG not found.");
+      throw new Error("Rendered SVG not found.");
     }
 
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(svg);
 
-    const img = new Image();
+    const blob = new Blob([svgString], {
+      type: "image/svg+xml;charset=utf-8"
+    });
 
-    const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
     const url = URL.createObjectURL(blob);
+
+    const img = new Image();
 
     await new Promise((resolve, reject) => {
       img.onload = resolve;
@@ -376,6 +382,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
