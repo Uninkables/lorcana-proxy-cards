@@ -89,7 +89,7 @@ async function loadSymbols() {
     document.body.appendChild(svgDoc.documentElement);
 }
 
-function loadCard(cardData, svgRoot = document) {
+async function loadCard(cardData, svgRoot = document) {
 
     const primaryType = getPrimaryType(cardData);
 
