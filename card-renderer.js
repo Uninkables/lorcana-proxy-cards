@@ -89,7 +89,7 @@ async function loadSymbols() {
     document.body.appendChild(svgDoc.documentElement);
 }
 
-async function loadCard(cardData) {
+function loadCard(cardData, svgRoot = document) {
 
     const primaryType = getPrimaryType(cardData);
 
@@ -114,8 +114,8 @@ async function loadCard(cardData) {
     const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
     const svgElement = svgDoc.documentElement;
 
-    document.getElementById("card-container").innerHTML = "";
-    document.getElementById("card-container").appendChild(svgElement);
+    svgRoot.getElementById("card-container").innerHTML = "";
+    svgRoot.getElementById("card-container").appendChild(svgElement);
 
     // Shared fields
     applyCommonFields(svgElement, cardData);
