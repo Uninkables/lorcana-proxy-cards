@@ -18,6 +18,7 @@
 
 <h2>Selected Cards</h2>
 <button class="btnPrimary" id="printSheetBtn">Generate Sheet</button>
+<button onclick="previewPrintSheet()">Preview Sheet (Debug)</button>
 <div id="selectedCards"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -416,6 +417,108 @@ async function renderCardToImage(card) {
   }
 }
 
+async function previewPrintSheet() {
+
+  await ensureFontsLoaded();
+  await document.fonts.ready;
+
+  const expandedCards = [];
+
+  for (const { card, quantity } of selected.values()) {
+    for (let i = 0; i < quantity; i++) {
+      expandedCards.push(card);
+    }
+  }
+
+  if (expandedCards.length === 0) {
+    alert("No cards selected.");
+    return;
+  }
+
+  const previewWindow = window.open("", "_blank");
+
+  previewWindow.document.write(`
+    <html>
+    <head>
+      <title>Card Sheet Preview</title>
+      <style>
+        body {
+          margin:0;
+          background:#ccc;
+          display:flex;
+          justify-content:center;
+        }
+
+        .page {
+          width:8.5in;
+          height:11in;
+          background:white;
+          position:relative;
+          box-shadow:0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .card {
+          position:absolute;
+        }
+
+        .gridline {
+          position:absolute;
+          background:black;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="page" id="page"></div>
+    </body>
+    </html>
+  `);
+
+  previewWindow.document.close();
+
+  const page = previewWindow.document.getElementById("page");
+
+  const cardHeight = 3.45;
+  const cardWidth = cardHeight * (2.5/3.5);
+
+  const cols = 3;
+  const rows = 3;
+
+  const totalGridWidth = cardWidth * cols;
+  const totalGridHeight = cardHeight * rows;
+
+  const startX = (8.5 - totalGridWidth) / 2;
+  const startY = (11 - totalGridHeight) / 2;
+
+  let cardIndex = 0;
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+
+      if (cardIndex >= expandedCards.length) break;
+
+      const card = expandedCards[cardIndex];
+
+      const x = startX + col * cardWidth;
+      const y = startY + row * cardHeight;
+
+      const container = previewWindow.document.createElement("div");
+
+      container.className = "card";
+      container.style.left = x + "in";
+      container.style.top = y + "in";
+      container.style.width = cardWidth + "in";
+      container.style.height = cardHeight + "in";
+
+      page.appendChild(container);
+
+      await loadCard(card, container);
+
+      cardIndex++;
+
+    }
+  }
+}
+
 async function generatePrintSheet() {
 
   await ensureFontsLoaded();
@@ -538,6 +641,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
