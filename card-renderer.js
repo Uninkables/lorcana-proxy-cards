@@ -308,14 +308,12 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
     const lines = [];
     const paragraphs = text.split("\n");
 
-    const measurer = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "text"
-    );
+    const measurer = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-    measurer.setAttribute("font-family", "Brandon Grotesque");
-    measurer.setAttribute("font-size", fontSize);
-    measurer.setAttribute("font-weight", "400"); // base weight
+    const svg = document.querySelector("svg");
+    if (!svg) return [];
+    
+    svg.appendChild(measurer);
 
     const span = document.createElementNS(
         "http://www.w3.org/2000/svg",
@@ -721,7 +719,7 @@ function renderCardName(svgRoot, card) {
     measurer.setAttribute("font-size", nameFontSize);
     measurer.setAttribute("visibility", "hidden");
 
-    svgRoot.querySelector("svg").appendChild(measurer);
+    svgRoot.appendChild(measurer);
 
     function measure(text, size) {
 
