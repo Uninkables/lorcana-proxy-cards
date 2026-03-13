@@ -331,7 +331,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
     measurer.setAttribute("visibility", "hidden");
 
-    document.querySelector("svg").appendChild(measurer);
+    svgRoot.ownerDocument.querySelector("svg").appendChild(measurer);
 
     for (const paragraph of paragraphs) {
 
