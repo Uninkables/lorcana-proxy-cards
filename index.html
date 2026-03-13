@@ -38,6 +38,24 @@ async function ensureFontsLoaded() {
   await document.fonts.load("10px 'The Bystander Collection'");
 }
 
+async function forceSVGFontLoad(svg) {
+
+  const texts = svg.querySelectorAll("text");
+
+  for (const el of texts) {
+
+    const font = window.getComputedStyle(el).font;
+
+    try {
+      await document.fonts.load(font);
+    } catch (e) {
+      console.warn("Font load failed:", font);
+    }
+
+  }
+
+}
+
 async function embedFonts(svg) {
 
   const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
@@ -359,6 +377,8 @@ async function renderCardToImage(card) {
 
     inlinePageCSS(svg);
 
+    await forceSVGFontLoad(svg);
+
     await embedFonts(svg);
 
     const serializer = new XMLSerializer();
@@ -516,6 +536,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
