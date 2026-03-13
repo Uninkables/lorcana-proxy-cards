@@ -472,7 +472,7 @@
        id="layer10"
        style="display:inline"><text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:1.43374px;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#737373;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+         style="font-style:normal;font-variant:normal;font-family:'Avenir Next Cyr';font-weight:bold;font-stretch:normal;font-size:1.43374px;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#737373;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
          x="6.2954416"
          y="77.657654"
          id="artist"
@@ -482,7 +482,7 @@
            x="6.2954416"
            y="77.657654">Artist</tspan></text><text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:450;font-stretch:normal;font-size:1.68118px;text-align:start;letter-spacing:-0.03175px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+         style="font-style:normal;font-variant:normal;font-family:'Avenir Next Cyr';font-weight:450;font-stretch:normal;font-size:1.68118px;text-align:start;letter-spacing:-0.03175px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
          x="3.016438"
          y="77.948112"
          id="card-and-set-text"
