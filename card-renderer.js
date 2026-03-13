@@ -91,10 +91,6 @@ async function loadSymbols() {
 
 async function loadCard(cardData, svgRoot = document) {
 
-    const doc = svgRoot.ownerDocument || svgRoot;
-
-    const document = doc;
-
     await document.fonts.ready;
     
     const primaryType = getPrimaryType(cardData);
@@ -331,7 +327,9 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
     measurer.setAttribute("visibility", "hidden");
 
-    document.querySelector("svg").appendChild(measurer);
+    const svg = document.querySelector("svg");
+    if (!svg) return [];
+    svg.appendChild(measurer);
 
     for (const paragraph of paragraphs) {
 
@@ -356,7 +354,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
                 if (/^\{[^}]+\}$/.test(measureToken)) {
 
                     const symbolId = SYMBOL_MAP[measureToken];
-                    const def = document.querySelector(symbolId);
+                    const def = document.querySelector(symbolId) || document.getElementById(symbolId);
 
                     if (def) {
                         const rawBBox = def.getBBox();
@@ -720,8 +718,10 @@ function renderCardName(svgRoot, card) {
     const measurer = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
     measurer.setAttribute("font-family", "The Bystander Collection");
+    measurer.setAttribute("font-size", nameFontSize);
+    measurer.setAttribute("visibility", "hidden");
 
-    svgRoot.appendChild(measurer);
+    svgRoot.querySelector("svg").appendChild(measurer);
 
     function measure(text, size) {
 
