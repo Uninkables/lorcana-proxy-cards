@@ -91,6 +91,10 @@ async function loadSymbols() {
 
 async function loadCard(cardData, svgRoot = document) {
 
+    const doc = svgRoot.ownerDocument || svgRoot;
+
+    const document = doc;
+
     await document.fonts.ready;
     
     const primaryType = getPrimaryType(cardData);
