@@ -883,6 +883,7 @@ function renderCardText(svgRoot, card) {
     cardText.innerHTML = "";
 
     const areaBox = textArea.getBBox();
+    console.log("textArea bbox: ", areaBox);
     const maxWidth = areaBox.width;
 
     const rulesText = card.text || "";
