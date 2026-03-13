@@ -130,6 +130,43 @@ async function embedFonts(svg) {
 
   svg.insertBefore(style, svg.firstChild);
 }
+
+function inlinePageCSS(svg) {
+
+  let css = "";
+
+  for (const sheet of document.styleSheets) {
+
+    try {
+      const rules = sheet.cssRules;
+
+      for (const rule of rules) {
+
+        if (
+          rule.type === CSSRule.FONT_FACE_RULE ||
+          rule.type === CSSRule.STYLE_RULE
+        ) {
+          css += rule.cssText + "\n";
+        }
+
+      }
+
+    } catch (e) {
+      // Ignore cross-origin stylesheets
+      continue;
+    }
+
+  }
+
+  const style = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "style"
+  );
+
+  style.textContent = css;
+
+  svg.insertBefore(style, svg.firstChild);
+}
   
 let cards = [];
 const selected = new Map();
@@ -320,6 +357,8 @@ async function renderCardToImage(card) {
       throw new Error("Rendered SVG not found.");
     }
 
+    inlinePageCSS(svg);
+
     await embedFonts(svg);
 
     const serializer = new XMLSerializer();
@@ -477,6 +516,7 @@ async function loadImageAsDataURL(url) {
 </script>  
 </body>
 </html>
+
 
 
 
