@@ -362,7 +362,7 @@
        id="layer13"
        style="display:inline">
 
-       <g id="name"></g>
+       <g id="name" style="font-family:'The Bystander Collection';"></g>
               
        <rect
          style="display:inline;fill:none;stroke-width:5;paint-order:markers fill stroke;stroke:none;stroke-dasharray:none"
