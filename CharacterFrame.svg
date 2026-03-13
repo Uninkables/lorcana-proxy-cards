@@ -539,9 +539,9 @@
            x="34.496929"
            y="53.673164">Classifications</tspan></text></g><g
        id="layer13"
-       style="display:inline">
-         <g id="version" style="font-family:'Brandon Grotesque Condensed';"></g>
-         <g id="name" style="font-family:'The Bystander Collection';"></g>
+       style="display:inline;font-family:'The Bystander Collection';">
+         <g id="version"></g>
+         <g id="name"></g>
          <rect
            style="display:inline;fill:none;stroke-width:5;paint-order:markers fill stroke;stroke:none;stroke-dasharray:none"
            id="name-text-area"
