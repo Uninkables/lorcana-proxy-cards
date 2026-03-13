@@ -883,8 +883,12 @@ function renderCardText(svgRoot, card) {
     cardText.innerHTML = "";
 
     const areaBox = textArea.getBBox();
-    console.log("textArea bbox: ", areaBox);
     const maxWidth = areaBox.width;
+
+    if (areaBox.width === 0 || areaBox.height ===0) {
+        console.warn("card-text-area bbox invalid ", areaBox);
+        return;
+    }
 
     const rulesText = card.text || "";
     const flavorText = card.flavor_text || "";
