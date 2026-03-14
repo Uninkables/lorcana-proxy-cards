@@ -89,9 +89,15 @@ async function loadSymbols() {
     document.body.appendChild(svgDoc.documentElement);
 }
 
+async function ensureFontsLoaded() {
+    if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+    }
+}
+
 async function loadCard(cardData, svgRoot = document) {
 
-    await document.fonts.ready;
+    await ensureFontsLoaded();
     
     const primaryType = getPrimaryType(cardData);
 
