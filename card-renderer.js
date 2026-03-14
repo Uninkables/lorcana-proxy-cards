@@ -324,7 +324,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
     const svg = document.querySelector("svg");
     if (!svg) {
-        console.warn("SVG not found in wrapTextExact using document.querySelector("svg")");
+        console.warn("SVG not found in wrapTextExact using document.querySelector(svg)");
         return [];
     }
     
