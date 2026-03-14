@@ -325,9 +325,6 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
 
     measurer.setAttribute("visibility", "hidden");
 
-    if (!svg) return [];
-    svg.appendChild(measurer);
-
     for (const paragraph of paragraphs) {
 
         const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
@@ -366,7 +363,7 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
                 } else {
 
                     span.textContent = measureToken;
-                    width += measurer.getBBox().width;
+                    width += span.getBBox().width;
                 }
             }
 
