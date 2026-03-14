@@ -887,10 +887,13 @@ function renderCardText(svgRoot, card) {
     const textArea = svgRoot.querySelector("#card-text-area");
     const cardText = svgRoot.querySelector("#card-text");
 
-    console.log("textArea: ", textArea);
-    console.log("cardText: ", cardText);
-
-    if (!textArea || !cardText) return;
+    if (!textArea || !cardText) {
+        console.warn("Missing text container", {
+            textArea,
+            cardText
+        });
+        return;
+    }
 
     cardText.innerHTML = "";
 
