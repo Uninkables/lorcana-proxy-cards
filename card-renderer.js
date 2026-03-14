@@ -323,7 +323,10 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
     const measurer = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
     const svg = document.querySelector("svg");
-    if (!svg) return [];
+    if (!svg) {
+        console.warn("SVG not found in wrapTextExact using document.querySelector("svg")");
+        return [];
+    }
     
     svg.appendChild(measurer);
 
@@ -335,7 +338,10 @@ function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
     span.setAttribute("font-weight", "700");
     measurer.appendChild(span);
 
-    measurer.setAttribute("visibility", "hidden");
+    measurer.setAttribute("opacity", "0");
+    measurer.setAttribute("pointer-events", "none");
+    measurer.setAttribute("x", "-9999");
+    measurer.setAttribute("y", "-9999");
 
     for (const paragraph of paragraphs) {
 
