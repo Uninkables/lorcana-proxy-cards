@@ -190,7 +190,8 @@ pre {
 @font-face {
   font-family: 'The Bystander Collection';
   src: url('fonts/BystanderSans-Bold.ttf') format('truetype');
-  font-style: bold;
+  font-style: normal;
+  font-weight: bold;
 }
 
 @font-face {
