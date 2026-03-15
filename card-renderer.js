@@ -320,7 +320,7 @@ function wrapTextExact(svgRoot, text, fontSize, maxWidth, isFlavor = false) {
     const lines = [];
     const paragraphs = text.split("\n");
 
-    const measurer = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    const measurer = svgRoot.createElementNS("http://www.w3.org/2000/svg", "text");
 
     if (!svgRoot) {
         console.warn("The root of the SVG was not found.");
@@ -476,7 +476,7 @@ function renderRuleLineExact(
     allowAbilityHeaders
 ) {
 
-    const lineGroup = document.createElementNS(
+    const lineGroup = svgRoot.createElementNS(
         "http://www.w3.org/2000/svg",
         "g"
     );
@@ -610,7 +610,7 @@ function renderRuleLineExact(
             reminderActive = true;
         }
 
-        const tspan = document.createElementNS(
+        const tspan = svgRoot.createElementNS(
             "http://www.w3.org/2000/svg",
             "tspan"
         );
@@ -636,7 +636,7 @@ function renderRuleLineExact(
 
         scale = scale || 1;
 
-        const node = document.createElementNS(
+        const node = svgRoot.createElementNS(
             "http://www.w3.org/2000/svg",
             "text"
         );
@@ -690,7 +690,7 @@ function renderCardName(svgRoot, card) {
 
     function createNameNode(text, size) {
 
-        const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const node = svgRoot.createElementNS("http://www.w3.org/2000/svg", "text");
 
         node.setAttribute("font-family", "The Bystander Collection");
         node.setAttribute("font-size", size);
@@ -709,7 +709,7 @@ function renderCardName(svgRoot, card) {
 
     function createVersionNode(size) {
 
-        const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const node = svgRoot.createElementNS("http://www.w3.org/2000/svg", "text");
 
         node.setAttribute("font-family", "Brandon Grotesque Condensed");
         node.setAttribute("font-size", size);
@@ -728,7 +728,7 @@ function renderCardName(svgRoot, card) {
 
     // ---------- MEASURER ----------
 
-    const measurer = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    const measurer = svgRoot.createElementNS("http://www.w3.org/2000/svg", "text");
 
     measurer.setAttribute("font-family", "The Bystander Collection");
     measurer.setAttribute("font-size", nameFontSize);
@@ -919,7 +919,7 @@ function renderCardText(svgRoot, card) {
     let fontSize = 2.11667;
 
     // Create text group inside #card-text
-    const textGroup = document.createElementNS(
+    const textGroup = svgRoot.createElementNS(
         "http://www.w3.org/2000/svg",
         "g"
     );
@@ -999,7 +999,7 @@ function renderCardText(svgRoot, card) {
 
             currentY += flavorLineHeight * TYPO.RULE_FLAVOR_GAP;
     
-            const divider = document.createElementNS(
+            const divider = svgRoot.createElementNS(
                 "http://www.w3.org/2000/svg",
                 "line"
             );
