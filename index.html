@@ -67,7 +67,8 @@ async function embedFonts(svg) {
   @font-face {
     font-family: 'The Bystander Collection';
     src: url('./fonts/BystanderSans-Bold.ttf') format('truetype');
-    font-style: bold;
+    font-style: normal;
+    font-weight: bold;
   }
   
   @font-face {
@@ -149,7 +150,7 @@ async function embedFonts(svg) {
   }
   `;
 
-  svg.insertBefore(style, svg.firstChild);
+  svg.prepend(style);
 }
 
 function inlinePageCSS(svg) {
@@ -381,6 +382,8 @@ async function renderCardToImage(card) {
     svg.getBBox();
 
     const svgClone = svg.cloneNode(true);
+
+    await embedFonts(svgClone);
     
     svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     svgClone.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
