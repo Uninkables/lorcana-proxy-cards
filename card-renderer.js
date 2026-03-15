@@ -691,7 +691,7 @@ function renderCardName(svgRoot, card) {
 
         const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-        node.style.fontFamily = "The Bystander Collection";
+        node.setAttribute("font-family", "Brandon Grotesque");
         //node.setAttribute("font-family", "The Bystander Collection");
         node.setAttribute("font-size", size);
         node.setAttribute("text-anchor", "middle");
@@ -711,7 +711,7 @@ function renderCardName(svgRoot, card) {
 
         const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-        node.style.fontFamily = "Brandon Grotesque Condensed";
+        node.setAttribute("font-family", "Brandon Grotesque");
         //node.setAttribute("font-family", "Brandon Grotesque Condensed");
         node.setAttribute("font-size", size);
         node.setAttribute("text-anchor", "middle");
