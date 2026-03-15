@@ -377,7 +377,13 @@ async function renderCardToImage(card) {
 
     // Serialize SVG
     const serializer = new XMLSerializer();
-    const svgString = serializer.serializeToString(svg);
+
+    const svgClone = svg.cloneNode(true);
+    
+    svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    svgClone.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+    
+    const svgString = serializer.serializeToString(svgClone);
 
     const blob = new Blob(
         [svgString],
