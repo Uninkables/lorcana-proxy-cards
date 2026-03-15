@@ -1,3 +1,57 @@
+@font-face {
+  font-family: 'The Bystander Collection';
+  src: url('fonts/BystanderSans-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Brandon Grotesque';
+  src: url('fonts/brandon-grotesque-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Brandon Grotesque';
+  src: url('fonts/brandon-grotesque-black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Brandon Grotesque';
+  src: url('fonts/brandon-grotesque-medium-italic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Brandon Grotesque Condensed';
+  src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Brandon Grotesque Condensed';
+  src: url('fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next Cyr';
+  src: url('fonts/AvenirNextCyr-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Avenir Next Cyr';
+  src: url('fonts/AvenirNextCyr-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
 body {
   font-family: system-ui, sans-serif;
 }
@@ -185,60 +239,6 @@ pre {
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 0.83em;
-}
-
-@font-face {
-  font-family: 'The Bystander Collection';
-  src: url('fonts/BystanderSans-Bold.ttf') format('truetype');
-  font-style: normal;
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: 'Brandon Grotesque';
-  src: url('fonts/brandon-grotesque-bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Brandon Grotesque';
-  src: url('fonts/brandon-grotesque-black.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Brandon Grotesque';
-  src: url('fonts/brandon-grotesque-medium-italic.otf') format('opentype');
-  font-weight: 500;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'Brandon Grotesque Condensed';
-  src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: 'Brandon Grotesque Condensed';
-  src: url('fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf') format('opentype');
-  font-weight: bold;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'Avenir Next Cyr';
-  src: url('fonts/AvenirNextCyr-Bold.ttf') format('truetype');
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: 'Avenir Next Cyr';
-  src: url('fonts/AvenirNextCyr-BoldItalic.ttf') format('truetype');
-  font-weight: bold;
-  font-style: italic;
 }
 
 #name {
