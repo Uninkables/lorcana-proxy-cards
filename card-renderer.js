@@ -315,20 +315,19 @@ function clearDivider(svgRoot) {
 // WRAP TEXT
 // -----------------------------
 
-function wrapTextExact(text, fontSize, maxWidth, isFlavor = false) {
+function wrapTextExact(svgRoot, text, fontSize, maxWidth, isFlavor = false) {
 
     const lines = [];
     const paragraphs = text.split("\n");
 
     const measurer = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-    const svg = document.querySelector("svg");
-    if (!svg) {
-        console.warn("SVG not found in wrapTextExact using document.querySelector(svg)");
+    if (!svgRoot) {
+        console.warn("The root of the SVG was not found.");
         return [];
     }
     
-    svg.appendChild(measurer);
+    svgRoot.appendChild(measurer);
 
     const span = document.createElementNS(
         "http://www.w3.org/2000/svg",
@@ -949,6 +948,7 @@ function renderCardText(svgRoot, card) {
             TYPO.FLAVOR_Y_SCALE;
     
         const ruleLines = wrapTextExact(
+            svgRoot,
             rulesText,
             fontSize,
             maxWidth
@@ -958,7 +958,7 @@ function renderCardText(svgRoot, card) {
         console.log("ruleLines:", ruleLines);
     
         const flavorLines = flavorText
-            ? wrapTextExact(flavorText, fontSize, maxWidth)
+            ? wrapTextExact(svgRoot, flavorText, fontSize, maxWidth, true)
             : [];
 
         console.log("flavorLines:", flavorLines);
