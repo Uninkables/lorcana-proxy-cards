@@ -378,9 +378,8 @@ function wrapTextExact(svgRoot, text, fontSize, maxWidth, isFlavor = false) {
                     }
 
                 } else {
-
-                    span.textContent = measureToken;
-                    width += span.getBBox().width;
+                    span.textContent = testLine;
+                    width = measurer.getBBox().width;
                 }
             }
 
