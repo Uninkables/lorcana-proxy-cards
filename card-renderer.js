@@ -433,18 +433,18 @@ function wrapTextExact(svgRoot, text, fontSize, maxWidth, isFlavor = false) {
 // CREATE SYMBOL
 // -----------------------------
 
-function createSymbol(token, x, y, fontSize) {
+function createSymbol(svgRoot, token, x, y, fontSize) {
 
     const symbolId = SYMBOL_MAP[token];
     if (!symbolId) {
         console.warn("Unknown symbol token:", token);
-        return document.createElementNS("http://www.w3.org/2000/svg", "g");
+        return svgRoot.createElementNS("http://www.w3.org/2000/svg", "g");
     }
 
     const def = svgRoot.querySelector(symbolId);
     if (!def) {
         console.warn("Symbol definition not found:", symbolId);
-        return document.createElementNS("http://www.w3.org/2000/svg", "g");
+        return svgRoot.createElementNS("http://www.w3.org/2000/svg", "g");
     }
 
     const clone = def.cloneNode(true);
