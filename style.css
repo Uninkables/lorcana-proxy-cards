@@ -56,6 +56,10 @@ h1 {
   font-family: 'The Bystander Collection';
 }
 
+h2 {
+  font-family: 'Brandon Grotesque Condensed';
+}
+
 body {
   font-family: system-ui, sans-serif;
 }
