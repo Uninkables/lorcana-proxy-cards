@@ -375,6 +375,8 @@ async function renderCardToImage(card) {
     // Allow SVG layout to finish
     await new Promise(requestAnimationFrame);
     await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
 
     // Serialize SVG
     const serializer = new XMLSerializer();
