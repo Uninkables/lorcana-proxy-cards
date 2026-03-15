@@ -378,6 +378,8 @@ async function renderCardToImage(card) {
     // Serialize SVG
     const serializer = new XMLSerializer();
 
+    svg.getBBox();
+
     const svgClone = svg.cloneNode(true);
     
     svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
