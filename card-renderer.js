@@ -365,7 +365,7 @@ function wrapTextExact(svgRoot, text, fontSize, maxWidth, isFlavor = false) {
                 if (/^\{[^}]+\}$/.test(measureToken)) {
 
                     const symbolId = SYMBOL_MAP[measureToken];
-                    const def = document.querySelector(symbolId) || document.getElementById(symbolId);
+                    const def = svgRoot.querySelector(symbolId);
 
                     if (def) {
                         const rawBBox = def.getBBox();
@@ -441,7 +441,7 @@ function createSymbol(token, x, y, fontSize) {
         return document.createElementNS("http://www.w3.org/2000/svg", "g");
     }
 
-    const def = document.querySelector(symbolId);
+    const def = svgRoot.querySelector(symbolId);
     if (!def) {
         console.warn("Symbol definition not found:", symbolId);
         return document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -464,6 +464,7 @@ function createSymbol(token, x, y, fontSize) {
 // -----------------------------
 
 function renderRuleLineExact(
+    svgRoot,
     line,
     startX,
     y,
@@ -524,6 +525,7 @@ function renderRuleLineExact(
             const scale = fontSize / 105.8335;
         
             const symbol = createSymbol(
+                svgRoot,
                 token,
                 symbolX,
                 symbolY,
@@ -977,6 +979,7 @@ function renderCardText(svgRoot, card) {
         for (const line of ruleLines) {
     
             renderRuleLineExact(
+                svgRoot,
                 line,
                 areaBox.x,
                 currentY,
@@ -1015,6 +1018,7 @@ function renderCardText(svgRoot, card) {
             for (const line of flavorLines) {
     
                 renderRuleLineExact(
+                    svgRoot,
                     line,
                     areaBox.x,
                     currentY,
