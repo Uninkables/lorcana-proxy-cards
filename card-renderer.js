@@ -956,14 +956,14 @@ function renderCardText(svgRoot, card) {
             maxWidth
         );
 
-        console.log("rulesText:", rulesText);
-        console.log("ruleLines:", ruleLines);
+        //console.log("rulesText:", rulesText);
+        //console.log("ruleLines:", ruleLines);
     
         const flavorLines = flavorText
             ? wrapTextExact(svgRoot, flavorText, fontSize, maxWidth, true)
             : [];
 
-        console.log("flavorLines:", flavorLines);
+        //console.log("flavorLines:", flavorLines);
     
         const totalHeight =
             (ruleLines.length * lineHeight) +
