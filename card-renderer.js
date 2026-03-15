@@ -966,8 +966,9 @@ function renderCardText(svgRoot, card) {
         console.log("flavorLines:", flavorLines);
     
         const totalHeight =
-            (ruleLines.length + flavorLines.length) * lineHeight +
-            (flavorLines.length > 0 ? lineHeight * 0.5 : 0);
+            (ruleLines.length * lineHeight) +
+            (flavorLines.length * flavorLineHeight) +
+            (flavorLines.length > 0 ? flavorLineHeight * TYPO.RULE_FLAVOR_GAP : 0);
     
         let currentY = areaBox.y;
     
