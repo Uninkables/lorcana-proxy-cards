@@ -346,7 +346,7 @@ function wrapTextExact(svgRoot, text, fontSize, maxWidth, isFlavor = false) {
 
     for (const paragraph of paragraphs) {
 
-        const tokens = paragraph.match(/\{[^}]+\}|\S+|\s+/g) || [];
+        const tokens = paragraph.match(/\{[^}]+\}|[^\s{]+|\s+/g) || [];
 
         let currentLine = "";
         let abilityDetectedForLine = false;
@@ -358,7 +358,7 @@ function wrapTextExact(svgRoot, text, fontSize, maxWidth, isFlavor = false) {
 
             // --- Measure actual width including symbols ---
             let width = 0;
-            const measureTokens = testLine.match(/\{[^}]+\}|\S+|\s+/g) || [];
+            const measureTokens = testLine.match(/\{[^}]+\}|[^\s{]+|\s+/g) || [];
 
             for (let j = 0; j < measureTokens.length; j++) {
 
@@ -490,7 +490,7 @@ function renderRuleLineExact(
 
     let currentX = startX;
 
-    const tokens = line.match(/\{[^}]+\}|\S+|\s+/g) || [];
+    const tokens = line.match(/\{[^}]+\}|[^\s{]+|\s+/g) || [];
 
     let textNode = createTextNode(currentX, y, fontSize, yScale);
     lineGroup.appendChild(textNode);
