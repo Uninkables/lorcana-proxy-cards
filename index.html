@@ -412,10 +412,13 @@ async function previewPrintSheet() {
 
   const previewWindow = window.open("", "_blank");
 
+  const baseUrl = window.location.href.replace(/[^/]*$/, '');
   previewWindow.document.write(`
     <html>
     <head>
       <title>Card Sheet Preview</title>
+      <base href="${baseUrl}">
+      <link rel="stylesheet" href="style.css">
       <style>
         body {
           margin:0;
@@ -423,7 +426,6 @@ async function previewPrintSheet() {
           display:flex;
           justify-content:center;
         }
-
         .page {
           width:8.5in;
           height:11in;
@@ -431,11 +433,9 @@ async function previewPrintSheet() {
           position:relative;
           box-shadow:0 0 10px rgba(0,0,0,0.3);
         }
-
         .card {
           position:absolute;
         }
-
         .gridline {
           position:absolute;
           background:black;
