@@ -437,6 +437,9 @@ async function previewPrintSheet() {
   await ensureFontsLoaded();
   await document.fonts.ready;
 
+  await new Promise(requestAnimationFrame);
+  await new Promise(requestAnimationFrame);
+
   const expandedCards = [];
 
   for (const { card, quantity } of selected.values()) {
@@ -538,6 +541,9 @@ async function generatePrintSheet() {
 
   await ensureFontsLoaded();
   await document.fonts.ready;
+
+  await new Promise(requestAnimationFrame);
+  await new Promise(requestAnimationFrame);
 
   const { jsPDF } = window.jspdf;
 
