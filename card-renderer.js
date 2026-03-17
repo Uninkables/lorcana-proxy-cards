@@ -642,7 +642,7 @@ function renderRuleLineExact(
         node.setAttribute("x", x);
         node.setAttribute("y", y / scale);
         node.setAttribute("font-size", size);
-        node.setAttribute("font-family", "'Brandon Grotesque'");
+        node.setAttribute("font-family", "'The Bystander Collection'");
         node.setAttribute("fill", "#2e2e2e");
 
         node.setAttribute(
