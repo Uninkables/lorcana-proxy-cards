@@ -201,7 +201,7 @@ searchInput.addEventListener("input", () => {
     
       const title = document.createElement("div");
       title.className = "card-title";
-      title.textContent = `${card.name} - ${card.version}`;
+      title.textContent = card.version ? `${card.name} - ${card.version}` : card.name;
     
       const sub = document.createElement("div");
       sub.className = "card-sub";
@@ -259,7 +259,7 @@ function renderSelected() {
 
     const title = document.createElement("div");
     title.className = "card-title";
-    title.textContent = `${card.name} - ${card.version}`;
+    title.textContent = card.version ? `${card.name} - ${card.version}` : card.name;
 
     const sub = document.createElement("div");
     sub.className = "card-sub";
