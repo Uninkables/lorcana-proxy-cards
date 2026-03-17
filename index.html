@@ -383,8 +383,6 @@ async function renderCardToImage(card) {
 
     const svgClone = svg.cloneNode(true);
 
-    console.log(svgClone.outerHTML);
-
     await embedFonts(svgClone);
     
     svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
