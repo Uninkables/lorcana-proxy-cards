@@ -734,7 +734,7 @@ function renderCardName(svgRoot, card) {
 
     const measurer = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-    measurer.setAttribute("font-family", "The Bystander Collection");
+    measurer.setAttribute("font-family", "'The Bystander Collection'");
     measurer.setAttribute("font-size", nameFontSize);
     measurer.setAttribute("visibility", "hidden");
 
