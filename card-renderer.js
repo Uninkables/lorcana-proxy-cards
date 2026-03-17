@@ -327,6 +327,9 @@ function wrapTextExact(svgRoot, text, fontSize, maxWidth, isFlavor = false) {
     }
     
     svgRoot.appendChild(measurer);
+    
+    measurer.setAttribute("font-size", fontSize);
+    measurer.setAttribute("font-family", "'Brandon Grotesque'");
 
     const span = document.createElementNS(
         "http://www.w3.org/2000/svg",
