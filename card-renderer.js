@@ -210,7 +210,7 @@ function applyCommonFields(svgRoot, card) {
         Common: "rarity-common",
         Uncommon: "rarity-uncommon",
         Rare: "rarity-rare",
-        "Super Rare": "rarity-superrare",
+        "Super_rare": "rarity-superrare",
         Legendary: "rarity-legendary"
     };
 
