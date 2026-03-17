@@ -59,98 +59,57 @@ async function forceSVGFontLoad(svg) {
 
 }
 
+// Cache so fonts are only fetched once across multiple cards
+const _fontCache = {};
+  
+async function fetchFontAsDataURI(path, mimeType) {
+    if (_fontCache[path]) return _fontCache[path];
+    const response = await fetch(path);
+    const buffer = await response.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    const dataURI = `data:${mimeType};base64,${btoa(binary)}`;
+    _fontCache[path] = dataURI;
+    return dataURI;
+}
+
 async function embedFonts(svg) {
 
-  const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    const fonts = [
+        { family: 'The Bystander Collection', path: '/fonts/BystanderSans-Bold.ttf', mime: 'font/truetype',  format: 'truetype',  weight: '700', style: 'normal' },
+        { family: 'Brandon Grotesque', path: '/fonts/brandon-grotesque-bold.otf', mime: 'font/opentype',  format: 'opentype',  weight: '700', style: 'normal' },
+        { family: 'Brandon Grotesque', path: '/fonts/brandon-grotesque-black.otf', mime: 'font/opentype',  format: 'opentype',  weight: '900', style: 'normal' },
+        { family: 'Brandon Grotesque', path: '/fonts/brandon-grotesque-medium-italic.otf', mime: 'font/opentype',  format: 'opentype',  weight: '500', style: 'italic' },
+        { family: 'Brandon Grotesque Condensed', path: '/fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf', mime: 'font/opentype',  format: 'opentype',  weight: '700', style: 'normal' },
+        { family: 'Brandon Grotesque Condensed', path: '/fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf', mime: 'font/opentype', format: 'opentype', weight: 'bold', style: 'italic' },
+        { family: 'Avenir Next Cyr', path: '/fonts/AvenirNextCyr-Bold.ttf', mime: 'font/truetype',  format: 'truetype',  weight: 'bold',   style: 'normal' },
+        { family: 'Avenir Next Cyr', path: '/fonts/AvenirNextCyr-BoldItalic.ttf', mime: 'font/truetype',  format: 'truetype',  weight: 'bold',   style: 'italic' },
+    ];
 
-  style.textContent = `
-  @font-face {
-    font-family: 'The Bystander Collection';
-    src: url('/fonts/BystanderSans-Bold.ttf') format('truetype');
-    font-style: normal;
-    font-weight: bold;
-  }
-  
-  @font-face {
-    font-family: 'Brandon Grotesque';
-    src: url('/fonts/brandon-grotesque-bold.otf') format('opentype');
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Brandon Grotesque';
-    src: url('/fonts/brandon-grotesque-black.otf') format('opentype');
-    font-weight: 900;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Brandon Grotesque';
-    src: url('/fonts/brandon-grotesque-medium-italic.otf') format('opentype');
-    font-weight: 500;
-    font-style: italic;
-  }
-  
-  @font-face {
-    font-family: 'Brandon Grotesque Condensed';
-    src: url('/fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
-    font-weight: normal;
-  }
-  
-  @font-face {
-    font-family: 'Brandon Grotesque Condensed';
-    src: url('/fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf') format('opentype');
-    font-weight: bold;
-    font-style: italic;
-  }
-  
-  @font-face {
-    font-family: 'Avenir Next Cyr';
-    src: url('/fonts/AvenirNextCyr-Bold.ttf') format('truetype');
-    font-weight: bold;
-  }
-  
-  @font-face {
-    font-family: 'Avenir Next Cyr';
-    src: url('/fonts/AvenirNextCyr-BoldItalic.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
-  }
+    let css = '';
 
-  #name {
-    font-family: 'The Bystander Collection';
-  }
-  
-  #version {
-    font-family: 'Brandon Grotesque Condensed';
-  }
-  
-  #ink-color-test {
-    font-family: 'Avenir Next Cyr';
-    font-style: italic;
-  }
-  
-  #classifications {
-    font-family: 'Brandon Grotesque Condensed';
-    font-style: italic;
-  }
-  
-  #artist {
-    font-family: 'Avenir Next Cyr';
-  }
-  
-  #card-and-set-text {
-    font-family: 'Avenir Next Cyr';
-    color: #737373;
-  }
-  
-  #card-text {
-    font-family: 'Brandon Grotesque Condensed';
-  }
-  `;
+    for (const font of fonts) {
+        try {
+            const dataURI = await fetchFontAsDataURI(font.path, font.mime);
+            css += `
+        @font-face {
+            font-family: '${font.family}';
+            src: url('${dataURI}') format('${font.format}');
+            font-weight: ${font.weight};
+            font-style: ${font.style};
+        }
+        `;
+        } catch (e) {
+            console.warn('Could not embed font:', font.path, e);
+        }
+    }
 
-  svg.prepend(style);
+    const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    style.textContent = css;
+    svg.prepend(style);
 }
 
 function inlinePageCSS(svg) {
