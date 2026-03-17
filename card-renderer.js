@@ -90,15 +90,14 @@ async function loadSymbols() {
 }
 
 async function ensureFontsLoaded() {
-    if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
-        await document.fonts.load('700 16px "Brandon Grotesque"');
-        await document.fonts.load('900 16px "Brandon Grotesque"');
-        await document.fonts.load('500 italic 16px "Brandon Grotesque"');
-        await document.fonts.load("10px Brandon Grotesque");
-        await document.fonts.load("10px Brandon Grotesque Condensed");
-        await document.fonts.load("10px 'The Bystander Collection'");
-    }
+    await document.fonts.ready;
+    await document.fonts.load('700 16px "Brandon Grotesque"');
+    await document.fonts.load('900 16px "Brandon Grotesque"');
+    await document.fonts.load('500 italic 16px "Brandon Grotesque"');
+    await document.fonts.load('10px "Brandon Grotesque"');
+    await document.fonts.load('10px "Brandon Grotesque Condensed"');
+    await document.fonts.load('10px "The Bystander Collection"');
+    await document.fonts.load('10px "Avenir Next Cyr"');
 }
 
 async function loadCard(cardData, svgRoot = document) {
