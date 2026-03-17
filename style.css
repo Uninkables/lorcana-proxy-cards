@@ -29,7 +29,7 @@
 @font-face {
   font-family: 'Brandon Grotesque Condensed';
   src: url('fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf') format('opentype');
-  font-weight: normal;
+  font-weight: 700;
 }
 
 @font-face {
