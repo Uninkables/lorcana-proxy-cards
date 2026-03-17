@@ -52,14 +52,6 @@
   font-style: italic;
 }
 
-h1 {
-  font-family: 'The Bystander Collection';
-}
-
-h2 {
-  font-family: 'Brandon Grotesque Condensed';
-}
-
 body {
   font-family: system-ui, sans-serif;
 }
@@ -248,16 +240,6 @@ pre {
   cursor: pointer;
   margin-bottom: 0.83em;
 }
-
-/*
-#name {
-  font-family: 'The Bystander Collection';
-}
-
-#version {
-  font-family: 'Brandon Grotesque Condensed';
-}
-*/
 
 #ink-color-text {
   font-family: 'Avenir Next Cyr';
