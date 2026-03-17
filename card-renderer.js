@@ -95,7 +95,7 @@ async function ensureFontsLoaded() {
     await document.fonts.load('900 16px "Brandon Grotesque"');
     await document.fonts.load('500 italic 16px "Brandon Grotesque"');
     await document.fonts.load('500 10px "Brandon Grotesque"');
-    await document.fonts.load('500 10px "Brandon Grotesque Condensed"');
+    await document.fonts.load('700 10px "Brandon Grotesque Condensed"');
     await document.fonts.load('700 10px "The Bystander Collection"');
     await document.fonts.load('10px "Avenir Next Cyr"');
 }
@@ -691,7 +691,7 @@ function renderCardName(svgRoot, card) {
         const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
         node.setAttribute("font-family", "'The Bystander Collection'");
-        node.setAttribute("font-weight", "normal");
+        node.setAttribute("font-weight", "700");
         node.setAttribute("font-size", size);
         node.setAttribute("text-anchor", "middle");
         node.setAttribute("fill", "#2e2e2e");
@@ -711,7 +711,7 @@ function renderCardName(svgRoot, card) {
         const node = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
         node.setAttribute("font-family", "'Brandon Grotesque Condensed'");
-        node.setAttribute("font-weight","bold");
+        node.setAttribute("font-weight","700");
         node.setAttribute("font-size", size);
         node.setAttribute("text-anchor", "middle");
         node.setAttribute("fill", "#2e2e2e");
