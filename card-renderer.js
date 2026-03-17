@@ -1035,11 +1035,9 @@ function renderCardText(svgRoot, card) {
             }
         }
     
-        const box = textGroup.getBBox();
-    
         return {
-            height: box.height,
-            top: box.y
+            height: totalHeight,
+            top: areaBox.y
         };
     }
 
@@ -1052,12 +1050,7 @@ function renderCardText(svgRoot, card) {
     }
 
     textGroup.removeAttribute("transform");
-
-    const bbox = textGroup.getBBox();
-    
-    const offset =
-      areaBox.y + (areaBox.height - bbox.height) / 2 - bbox.y;
-    
+    const offset = (areaBox.height - metrics.height) / 2;
     textGroup.setAttribute("transform", `translate(0, ${offset})`);
     
 }
