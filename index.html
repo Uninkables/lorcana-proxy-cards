@@ -79,14 +79,14 @@ async function fetchFontAsDataURI(path, mimeType) {
 async function embedFonts(svg) {
 
     const fonts = [
-        { family: 'The Bystander Collection', path: '/fonts/BystanderSans-Bold.ttf', mime: 'font/truetype',  format: 'truetype',  weight: '700', style: 'normal' },
-        { family: 'Brandon Grotesque', path: '/fonts/brandon-grotesque-bold.otf', mime: 'font/opentype',  format: 'opentype',  weight: '700', style: 'normal' },
-        { family: 'Brandon Grotesque', path: '/fonts/brandon-grotesque-black.otf', mime: 'font/opentype',  format: 'opentype',  weight: '900', style: 'normal' },
-        { family: 'Brandon Grotesque', path: '/fonts/brandon-grotesque-medium-italic.otf', mime: 'font/opentype',  format: 'opentype',  weight: '500', style: 'italic' },
-        { family: 'Brandon Grotesque Condensed', path: '/fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf', mime: 'font/opentype',  format: 'opentype',  weight: '700', style: 'normal' },
-        { family: 'Brandon Grotesque Condensed', path: '/fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf', mime: 'font/opentype', format: 'opentype', weight: 'bold', style: 'italic' },
-        { family: 'Avenir Next Cyr', path: '/fonts/AvenirNextCyr-Bold.ttf', mime: 'font/truetype',  format: 'truetype',  weight: 'bold',   style: 'normal' },
-        { family: 'Avenir Next Cyr', path: '/fonts/AvenirNextCyr-BoldItalic.ttf', mime: 'font/truetype',  format: 'truetype',  weight: 'bold',   style: 'italic' },
+        { family: 'The Bystander Collection', path: 'fonts/BystanderSans-Bold.ttf', mime: 'font/truetype',  format: 'truetype',  weight: '700', style: 'normal' },
+        { family: 'Brandon Grotesque', path: 'fonts/brandon-grotesque-bold.otf', mime: 'font/opentype',  format: 'opentype',  weight: '700', style: 'normal' },
+        { family: 'Brandon Grotesque', path: 'fonts/brandon-grotesque-black.otf', mime: 'font/opentype',  format: 'opentype',  weight: '900', style: 'normal' },
+        { family: 'Brandon Grotesque', path: 'fonts/brandon-grotesque-medium-italic.otf', mime: 'font/opentype',  format: 'opentype',  weight: '500', style: 'italic' },
+        { family: 'Brandon Grotesque Condensed', path: 'fonts/HvDTrial_BrandonGrotesqueCond-Bold.otf', mime: 'font/opentype',  format: 'opentype',  weight: '700', style: 'normal' },
+        { family: 'Brandon Grotesque Condensed', path: 'fonts/HvDTrial_BrandonGrotesqueCond-BoldItalic.otf', mime: 'font/opentype', format: 'opentype', weight: 'bold', style: 'italic' },
+        { family: 'Avenir Next Cyr', path: 'fonts/AvenirNextCyr-Bold.ttf', mime: 'font/truetype',  format: 'truetype',  weight: 'bold',   style: 'normal' },
+        { family: 'Avenir Next Cyr', path: 'fonts/AvenirNextCyr-BoldItalic.ttf', mime: 'font/truetype',  format: 'truetype',  weight: 'bold',   style: 'italic' },
     ];
 
     let css = '';
