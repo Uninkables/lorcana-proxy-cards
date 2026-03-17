@@ -94,9 +94,9 @@ async function ensureFontsLoaded() {
     await document.fonts.load('700 16px "Brandon Grotesque"');
     await document.fonts.load('900 16px "Brandon Grotesque"');
     await document.fonts.load('500 italic 16px "Brandon Grotesque"');
-    await document.fonts.load('10px "Brandon Grotesque"');
-    await document.fonts.load('10px "Brandon Grotesque Condensed"');
-    await document.fonts.load('10px "The Bystander Collection"');
+    await document.fonts.load('500 10px "Brandon Grotesque"');
+    await document.fonts.load('500 10px "Brandon Grotesque Condensed"');
+    await document.fonts.load('700 10px "The Bystander Collection"');
     await document.fonts.load('10px "Avenir Next Cyr"');
 }
 
