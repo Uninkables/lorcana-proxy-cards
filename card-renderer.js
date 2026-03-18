@@ -56,6 +56,7 @@ const TYPO = {
     SYMBOL_SPACING: 0.18,
     ABILITY_SPACING: 0.8,
     SYMBOL_PAD: 0.08,
+    TEXT_START_Y_OFFSET: 1,
 
     // Name shrink step
     NAME_SHRINK_STEP: 0.2,
@@ -974,7 +975,7 @@ function renderCardText(svgRoot, card) {
             (flavorLines.length > 0 ? flavorLineHeight * TYPO.RULE_FLAVOR_GAP : 0);
         
         // Center the block within the text area
-        const startY = areaBox.y + (areaBox.height - totalHeight) / 2;
+        const startY = areaBox.y + TYPO.TEXT_START_Y_OFFSET + (areaBox.height - totalHeight) / 2;
         let currentY = areaBox.y;
     
         // -------- RULES --------
