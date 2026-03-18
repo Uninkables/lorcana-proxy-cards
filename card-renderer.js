@@ -1007,7 +1007,7 @@ function renderCardText(svgRoot, card) {
             (flavorLines.length * flavorLineHeight) +
             (flavorLines.length > 0 ? flavorLineHeight * TYPO.RULE_FLAVOR_GAP : 0);
         
-        let currentY = startY;
+        let currentY = areaBox.y;
     
         // -------- RULES --------
         const state = {
