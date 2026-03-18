@@ -1007,8 +1007,6 @@ function renderCardText(svgRoot, card) {
             (flavorLines.length * flavorLineHeight) +
             (flavorLines.length > 0 ? flavorLineHeight * TYPO.RULE_FLAVOR_GAP : 0);
         
-        // Center the block within the text area
-        const startY = areaBox.y + (areaBox.height - totalHeight) / 2;
         let currentY = startY;
     
         // -------- RULES --------
@@ -1090,6 +1088,12 @@ function renderCardText(svgRoot, card) {
 
     textGroup.removeAttribute("transform");
     
+    const visualBox = textGroup.getBBox();
+    const areaCenterY  = areaBox.y + areaBox.height / 2;
+    const visualCenterY = visualBox.y + visualBox.height / 2;
+    const dy = areaCenterY - visualCenterY;
+    
+    textGroup.setAttribute("transform", `translate(0, ${dy})`);
 }
 
 window.loadCard = loadCard;
