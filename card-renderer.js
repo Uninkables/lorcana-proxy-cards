@@ -975,7 +975,7 @@ function renderCardText(svgRoot, card) {
         
         // Center the block within the text area
         const startY = areaBox.y + (areaBox.height - totalHeight) / 2;
-        let currentY = area.y;
+        let currentY = areaBox.y;
     
         // -------- RULES --------
         const state = {
