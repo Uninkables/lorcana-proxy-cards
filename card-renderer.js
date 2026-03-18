@@ -975,7 +975,7 @@ function renderCardText(svgRoot, card) {
         
         // Center the block within the text area
         const startY = areaBox.y + (areaBox.height - totalHeight) / 2;
-        let currentY = startY;
+        let currentY = area.y;
     
         // -------- RULES --------
         const state = {
@@ -1054,76 +1054,10 @@ function renderCardText(svgRoot, card) {
         metrics = renderAtSize(fontSize);
     }
 
+    textGroup.removeAttribute("transform");
     const offset = (areaBox.height - metrics.height) / 2;
     textGroup.setAttribute("transform", `translate(0, ${offset})`);
     
 }
-
-// -----------------------------
-// TEST DATA
-// -----------------------------
-
-const testCard = {
-    "id": "crd_1784510055ec43e49b13b2837192c1d1",
-    "name": "Robin's Bow",
-    "layout": "normal",
-    "released_at": "2024-02-23",
-    "image_uris": {
-      "digital": {
-        "small": "https://cards.lorcast.io/card/digital/small/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
-        "normal": "https://cards.lorcast.io/card/digital/normal/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747",
-        "large": "https://cards.lorcast.io/card/digital/large/crd_1784510055ec43e49b13b2837192c1d1.avif?1709690747"
-      }
-    },
-    "cost": 3,
-    "inkwell": false,
-    "ink": "Emerald",
-    "inks": null,
-    "type": [
-      "Item"
-    ],
-    "classifications": null,
-    "text": "FOREST'S GIFT {E} — Deal 1 damage to chosen damaged character or location.\nA BIT OF A LARK Whenever a character of yours named Robin Hood quests, you may ready this item.",
-    "keywords": [],
-    "move_cost": null,
-    "strength": null,
-    "willpower": null,
-    "lore": null,
-    "rarity": "Uncommon",
-    "illustrators": [
-      "McKay Anderson"
-    ],
-    "collector_number": "98",
-    "lang": "en",
-    "flavor_text": "\"The forest always provides just what you need.\"\n—Robin Hood",
-    "tcgplayer_id": 537827,
-    "legalities": {
-      "core": "legal"
-    },
-    "set": {
-      "id": "set_10a1db03fe66417c9912494b94463e8e",
-      "code": "3",
-      "name": "Into the Inklands"
-    },
-    "prices": {
-      "usd": "0.07",
-      "usd_foil": "0.24"
-    }
-  };
-
-/*
-initCard(testCard);
-
-async function initCard(cardData) {
-    await document.fonts.ready;
-    await document.fonts.load('700 16px "Brandon Grotesque"');
-    await document.fonts.load('900 16px "Brandon Grotesque"');
-    await document.fonts.load('500 italic 16px "Brandon Grotesque"');
-    await document.fonts.load("10px Brandon Grotesque");
-    await document.fonts.load("10px Brandon Grotesque Condensed");
-    await document.fonts.load("10px 'The Bystander Collection'");
-    await loadCard(cardData);
-}
-*/
 
 window.loadCard = loadCard;
