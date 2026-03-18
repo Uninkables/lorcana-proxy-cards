@@ -972,8 +972,10 @@ function renderCardText(svgRoot, card) {
             (ruleLines.length * lineHeight) +
             (flavorLines.length * flavorLineHeight) +
             (flavorLines.length > 0 ? flavorLineHeight * TYPO.RULE_FLAVOR_GAP : 0);
-    
-        let currentY = areaBox.y;
+        
+        // Center the block within the text area
+        const startY = areaBox.y + (areaBox.height - totalHeight) / 2;
+        let currentY = startY;
     
         // -------- RULES --------
         const state = {
@@ -1052,7 +1054,6 @@ function renderCardText(svgRoot, card) {
         metrics = renderAtSize(fontSize);
     }
 
-    textGroup.removeAttribute("transform");
     const offset = (areaBox.height - metrics.height) / 2;
     textGroup.setAttribute("transform", `translate(0, ${offset})`);
     
