@@ -975,8 +975,8 @@ function renderCardText(svgRoot, card) {
             (flavorLines.length > 0 ? flavorLineHeight * TYPO.RULE_FLAVOR_GAP : 0);
         
         // Center the block within the text area
-        const startY = areaBox.y + TYPO.TEXT_START_Y_OFFSET + (areaBox.height - totalHeight) / 2;
-        let currentY = areaBox.y;
+        const startY = areaBox.y + (areaBox.height - totalHeight) / 2;
+        let currentY = startY;
     
         // -------- RULES --------
         const state = {
