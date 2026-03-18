@@ -650,7 +650,7 @@ function renderRuleLineExact(
 
         node.setAttribute(
             "style",
-            `transform: scale(1, ${scale}); transform-origin: left top;`
+            `transform: scale(1, ${scale})`
         );
 
         return node;
