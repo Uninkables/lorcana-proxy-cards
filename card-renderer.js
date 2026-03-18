@@ -905,10 +905,44 @@ function renderCardText(svgRoot, card) {
         return;
     }
 
-    cardText.innerHTML = "";
+        cardText.innerHTML = "";
 
-    const areaBox = textArea.getBBox();
+    const rawBox = textArea.getBBox();
+
+    let areaBox = rawBox;
+    try {
+        const fromCTM = textArea.getCTM();
+        const toCTM   = cardText.getCTM();
+        if (fromCTM && toCTM) {
+            const transform = toCTM.inverse().multiply(fromCTM);
+
+            const p1 = svgRoot.createSVGPoint();
+            p1.x = rawBox.x;
+            p1.y = rawBox.y;
+            const tp1 = p1.matrixTransform(transform);
+
+            const p2 = svgRoot.createSVGPoint();
+            p2.x = rawBox.x + rawBox.width;
+            p2.y = rawBox.y + rawBox.height;
+            const tp2 = p2.matrixTransform(transform);
+
+            areaBox = {
+                x: tp1.x,
+                y: tp1.y,
+                width:  Math.abs(tp2.x - tp1.x),
+                height: Math.abs(tp2.y - tp1.y)
+            };
+        }
+    } catch (e) {
+        console.warn("CTM transform failed, falling back to raw getBBox:", e);
+    }
+
     const maxWidth = areaBox.width;
+
+    if (areaBox.width === 0 || areaBox.height === 0) {
+        console.warn("card-text-area bbox invalid ", areaBox);
+        return;
+    }
 
     if (areaBox.width === 0 || areaBox.height ===0) {
         console.warn("card-text-area bbox invalid ", areaBox);
