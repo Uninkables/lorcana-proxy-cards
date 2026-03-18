@@ -56,7 +56,7 @@ const TYPO = {
     SYMBOL_SPACING: 0.18,
     ABILITY_SPACING: 0.8,
     SYMBOL_PAD: 0.08,
-    TEXT_START_Y_OFFSET: 1,
+    TEXT_START_Y_OFFSET: 5,
 
     // Name shrink step
     NAME_SHRINK_STEP: 0.2,
