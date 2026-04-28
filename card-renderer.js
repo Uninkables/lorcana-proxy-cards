@@ -649,10 +649,7 @@ function renderRuleLineExact(
         node.setAttribute("font-family", "'Brandon Grotesque'");
         node.setAttribute("fill", "#2e2e2e");
 
-        node.setAttribute(
-            "style",
-            `transform: scale(1, ${scale})`
-        );
+        node.setAttribute("transform", `scale(1, ${scale})`);
 
         return node;
     }
