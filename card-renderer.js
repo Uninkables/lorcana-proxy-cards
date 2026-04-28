@@ -632,10 +632,11 @@ function renderRuleLineExact(
         }
     }
 
-    // Remove empty text nodes — they report bbox (0,0,0,0) and poison parent getBBox()
+    // Remove empty/whitespace-only text nodes — they report bbox (0,0,0,0) and poison parent getBBox()
     lineGroup.querySelectorAll("text").forEach(t => {
-        if (!t.firstChild) t.remove();
+        if (!t.textContent || t.textContent.trim() === "") t.remove();
     });
+    
     state.reminderActive = reminderActive;
 
     function createTextNode(x, y, size, scale) {
