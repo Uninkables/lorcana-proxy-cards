@@ -1084,6 +1084,15 @@ function renderCardText(svgRoot, card) {
         metrics = renderAtSize(fontSize);
     }
 
+    // DIAGNOSTIC
+    console.log("textGroup children bboxes:");
+    textGroup.querySelectorAll("text, g, line").forEach((el, i) => {
+        const b = el.getBBox();
+        console.log(`  ${i} <${el.tagName}>`, 
+            `text="${(el.textContent || "").slice(0,20)}"`,
+            `bbox=(${b.x.toFixed(2)}, ${b.y.toFixed(2)}, ${b.width.toFixed(2)}x${b.height.toFixed(2)})`);
+    });
+
     textGroup.removeAttribute("transform");
     
     const visualBox = textGroup.getBBox();
