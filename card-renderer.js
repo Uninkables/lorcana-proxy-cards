@@ -231,6 +231,7 @@ function applyCharacterFields(svgRoot, card) {
         card.classifications?.join(" · ") || "";
 
     // Strength
+    const strength = card.strength ?? 0;
     for (let i = 0; i <= 10; i++) {
         const el = svgRoot.querySelector(`#strength-${i}`);
         if (el) el.style.display = i === card.strength ? "inline" : "none";
