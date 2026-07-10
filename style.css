@@ -241,6 +241,30 @@ pre {
   margin-bottom: 0.83em;
 }
 
+.btnPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#generateProgress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.83em;
+}
+
+#generateStatus {
+  font-size: 14px;
+  color: #555;
+  min-width: 220px;
+}
+
+#generateBar {
+  width: 200px;
+  height: 10px;
+  accent-color: #4a90d9;
+}
+
 #ink-color-text {
   font-family: 'Avenir Next Cyr';
   font-style: italic;

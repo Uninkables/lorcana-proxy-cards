@@ -19,6 +19,10 @@
 <h2>Selected Cards</h2>
 <button class="btnPrimary" id="printSheetBtn">Generate Sheet</button>
 <!--<button onclick="previewPrintSheet()">Preview Sheet (Debug)</button>-->
+<div id="generateProgress" hidden>
+  <span id="generateStatus"></span>
+  <progress id="generateBar" value="0" max="100"></progress>
+</div>
 <div id="selectedCards"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -408,6 +412,8 @@ async function previewPrintSheet() {
   }
 
   if (expandedCards.length === 0) {
+    btn.disabled = false;
+    progressEl.hidden = true;
     alert("No cards selected.");
     return;
   }
@@ -498,6 +504,16 @@ async function previewPrintSheet() {
 
 async function generatePrintSheet() {
 
+  const btn = document.getElementById("printSheetBtn");
+  const progressEl = document.getElementById("generateProgress");
+  const statusEl = document.getElementById("generateStatus");
+  const barEl = document.getElementById("generateBar");
+
+  btn.disabled = true;
+  progressEl.hidden = false;
+  statusEl.textContent = "Loading fonts…";
+  barEl.value = 0;
+
   await ensureFontsLoaded();
   await document.fonts.ready;
 
@@ -560,6 +576,9 @@ async function generatePrintSheet() {
 
         try {
 
+          statusEl.textContent = `Rendering card ${cardIndex + 1} of ${expandedCards.length}…`;
+          barEl.value = Math.round((cardIndex / expandedCards.length) * 100);
+
           const imgData = await renderCardToImage(card);
 
           doc.addImage(
@@ -592,7 +611,12 @@ async function generatePrintSheet() {
     }
   }
 
+  statusEl.textContent = "Saving PDF…";
+  barEl.value = 100;
   doc.save("card-sheet.pdf");
+
+  statusEl.textContent = `Done — ${expandedCards.length} card${expandedCards.length !== 1 ? "s" : ""} rendered.`;
+  btn.disabled = false;
 }
 
 async function loadImageAsDataURL(url) {
