@@ -224,9 +224,17 @@ function applyCommonFields(svgRoot, card) {
             stop1.setAttribute("stop-color", inkColors[inks[0]]);
             grad.appendChild(stop1);
             const stop2 = document.createElementNS(svgNS, "stop");
-            stop2.setAttribute("offset", "100%");
-            stop2.setAttribute("stop-color", inkColors[inks[1]]);
+            stop2.setAttribute("offset", "25%");
+            stop2.setAttribute("stop-color", inkColors[inks[0]]);
             grad.appendChild(stop2);
+            const stop3 = document.createElementNS(svgNS, "stop");
+            stop3.setAttribute("offset", "75%");
+            stop3.setAttribute("stop-color", inkColors[inks[1]]);
+            grad.appendChild(stop3);
+            const stop4 = document.createElementNS(svgNS, "stop");
+            stop4.setAttribute("offset", "100%");
+            stop4.setAttribute("stop-color", inkColors[inks[1]]);
+            grad.appendChild(stop4);
 
             inkBar.setAttribute("fill", `url(#${gradId})`);
         } else if (inks.length === 1 && inkColors[inks[0]]) {
