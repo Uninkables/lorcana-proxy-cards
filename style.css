@@ -246,7 +246,7 @@ pre {
   cursor: not-allowed;
 }
 
-#generateProgress {
+#generateProgress:not([hidden]) {
   display: flex;
   align-items: center;
   gap: 12px;
