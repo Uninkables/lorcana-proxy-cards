@@ -178,8 +178,15 @@ function getPrimaryType(card) {
 
 function applyCommonFields(svgRoot, card) {
 
-    svgRoot.querySelector("#ink-color-text").textContent =
-        card.ink || "";
+    // Resolve effective ink list: prefer card.inks array, fall back to card.ink string
+    const inks = (card.inks && card.inks.length > 0)
+        ? card.inks
+        : (card.ink ? [card.ink] : []);
+
+    const inkLabelEl = svgRoot.querySelector("#ink-color-text");
+    if (inkLabelEl) {
+        inkLabelEl.textContent = inks.join(" · ");
+    }
 
     svgRoot.querySelector("#artist").textContent =
         card.illustrators?.join(", ") || "";
@@ -187,10 +194,44 @@ function applyCommonFields(svgRoot, card) {
     svgRoot.querySelector("#card-and-set-text").textContent =
         `${card.collector_number || ""} / 204 · ${card.lang?.toUpperCase() || ""} · ${card.set?.code || ""}`;
 
-    // Ink Bar
+    // Ink Bar — solid for single-ink, linear gradient for dual-ink
     const inkBar = svgRoot.querySelector("#ink-color-bar");
-    if (inkBar && inkColors[card.ink]) {
-        inkBar.setAttribute("fill", inkColors[card.ink]);
+    if (inkBar) {
+        if (inks.length >= 2 && inkColors[inks[0]] && inkColors[inks[1]]) {
+            // Inject (or update) a linearGradient into the SVG defs
+            const svgNS = "http://www.w3.org/2000/svg";
+            let defs = svgRoot.querySelector("defs");
+            if (!defs) {
+                defs = document.createElementNS(svgNS, "defs");
+                svgRoot.insertBefore(defs, svgRoot.firstChild);
+            }
+            const gradId = "dual-ink-gradient";
+            let grad = defs.querySelector(`#${gradId}`);
+            if (!grad) {
+                grad = document.createElementNS(svgNS, "linearGradient");
+                grad.setAttribute("id", gradId);
+                grad.setAttribute("x1", "0");
+                grad.setAttribute("y1", "0");
+                grad.setAttribute("x2", "1");
+                grad.setAttribute("y2", "0");
+                grad.setAttribute("gradientUnits", "objectBoundingBox");
+                defs.appendChild(grad);
+            }
+            // Always refresh stops so re-rendering a different card updates them
+            grad.innerHTML = "";
+            const stop1 = document.createElementNS(svgNS, "stop");
+            stop1.setAttribute("offset", "0%");
+            stop1.setAttribute("stop-color", inkColors[inks[0]]);
+            grad.appendChild(stop1);
+            const stop2 = document.createElementNS(svgNS, "stop");
+            stop2.setAttribute("offset", "100%");
+            stop2.setAttribute("stop-color", inkColors[inks[1]]);
+            grad.appendChild(stop2);
+
+            inkBar.setAttribute("fill", `url(#${gradId})`);
+        } else if (inks.length === 1 && inkColors[inks[0]]) {
+            inkBar.setAttribute("fill", inkColors[inks[0]]);
+        }
     }
 
     // Ink Cost
